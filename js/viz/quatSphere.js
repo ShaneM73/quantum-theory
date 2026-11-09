@@ -2,7 +2,7 @@
 // then stereographically projected from −1.
 import * as THREE from 'three';
 import { qmul, qconj, qFromAngle, stereo, toThree } from '../qmath.js';
-import { DynLines, axesLines, labelSprite, COLORS } from '../three-kit.js';
+import { DynLines, axesLines, labelSprite, COLORS, LIGHT_MODE, CYCLIC, ramp } from '../three-kit.js';
 import { L } from '../lang.js';
 
 const CAP = 28, JUMP = 6;
@@ -55,7 +55,10 @@ export function createQuatSphere({ labels = true, axisLength = 8 } = {}) {
     const ph = -Math.PI/2 + v/SV*Math.PI, t = u/SU*2*Math.PI;
     const x = Math.cos(ph)*Math.cos(t), y = Math.cos(ph)*Math.sin(t), z = Math.sin(ph);
     orig.push([0, x, y, z]);
-    const c = new THREE.Color().setHSL(((Math.atan2(y, x)/(2*Math.PI)) + 1) % 1, 0.62, 0.5 + 0.16*z);
+    const hue = ((Math.atan2(y, x)/(2*Math.PI)) + 1) % 1;
+    // light theme: curated cyclic palette, a little lighter toward +k and deeper toward −k
+    const c = LIGHT_MODE ? ramp(CYCLIC, hue).lerp(new THREE.Color(z > 0 ? '#ffffff' : '#1b2233'), Math.abs(z) * (z > 0 ? 0.3 : 0.18))
+                         : new THREE.Color().setHSL(hue, 0.62, 0.5 + 0.16*z);
     const o = orig.length*3 - 3; col[o]=c.r; col[o+1]=c.g; col[o+2]=c.b;
   }
   const sgeo = new THREE.BufferGeometry();
@@ -63,7 +66,9 @@ export function createQuatSphere({ labels = true, axisLength = 8 } = {}) {
   sgeo.setAttribute('color', new THREE.BufferAttribute(col, 3));
   const idx = new Uint32Array(SU*SV*6);
   sgeo.setIndex(new THREE.BufferAttribute(idx, 1));
-  const surface = new THREE.Mesh(sgeo, new THREE.MeshBasicMaterial({ vertexColors: true, transparent: true, opacity: 0.26, side: THREE.DoubleSide, depthWrite: false }));
+  const surface = new THREE.Mesh(sgeo, LIGHT_MODE
+    ? new THREE.MeshStandardMaterial({ vertexColors: true, transparent: true, opacity: 0.5, roughness: 0.45, metalness: 0, side: THREE.DoubleSide, depthWrite: false })
+    : new THREE.MeshBasicMaterial({ vertexColors: true, transparent: true, opacity: 0.26, side: THREE.DoubleSide, depthWrite: false }));
   surface.frustumCulled = false;
   group.add(surface);
 
@@ -110,6 +115,7 @@ export function createQuatSphere({ labels = true, axisLength = 8 } = {}) {
       }
     }
     sgeo.setDrawRange(0, n);
+    if (LIGHT_MODE) { idx.fill(0, n); sgeo.computeVertexNormals(); }   // shaded surface needs normals
     sgeo.attributes.position.needsUpdate = true;
     sgeo.index.needsUpdate = true;
   }

@@ -29,6 +29,25 @@ const LIGHT = {
 export const COLORS = THEME === 'light' ? LIGHT : DARK;
 // how much meshes glow in their own colour: strong on black, low on white so colours stay saturated
 export const GLOW = THEME === 'light' ? 0.08 : 0.4;
+export const LIGHT_MODE = THEME === 'light';
+
+// ---- colour maps used by the light (figure) theme ----
+// Cyclic: for angles and phases (longitude, φ, phase of an amplitude). Ends where it starts.
+export const CYCLIC = ['#3b6fd8', '#6f5bd6', '#b24fb6', '#e0577a', '#ef8445', '#e6b532', '#78b85a', '#2c9f9a', '#3b6fd8'];
+// Diverging: for the Bloch sphere's latitude, |1⟩ (coral) → equator (near white) → |0⟩ (blue).
+export const DIVERGING = ['#e4663f', '#f2a27c', '#f6ddcf', '#eef0f6', '#cfdcf3', '#8fb2ea', '#3d74d6'];
+// Sample a list of colour stops at t in [0, 1].
+export function ramp(stops, t) {
+  const n = stops.length - 1, x = Math.min(Math.max(t, 0), 1) * n, i = Math.min(Math.floor(x), n - 1);
+  return new THREE.Color(stops[i]).lerp(new THREE.Color(stops[i + 1]), x - i);
+}
+// Solid material: matte with a self-glow on black; softly glossy and shaded on white.
+export function solidMaterial(color, glow = 1) {
+  const c = new THREE.Color(color);
+  return LIGHT_MODE
+    ? new THREE.MeshStandardMaterial({ color: c, roughness: 0.38, metalness: 0.05 })
+    : new THREE.MeshLambertMaterial({ color: c, emissive: c.clone().multiplyScalar(0.4 * glow) });
+}
 
 export const MATH_FONT = 'Newsreader, Georgia, "Times New Roman", serif';
 export const UI_FONT = document.documentElement.getAttribute('data-lang') === 'ja'
@@ -119,7 +138,7 @@ export class DynLines {
 // An arrow made of meshes (lines are 1px in WebGL, too thin for VR).
 export function makeArrow(color, { shaft = 0.018, head = 0.055, headLen = 0.14 } = {}) {
   const group = new THREE.Group();
-  const mat = new THREE.MeshLambertMaterial({ color, emissive: new THREE.Color(color).multiplyScalar(GLOW * 1.1) });
+  const mat = solidMaterial(color, 1.1);
   const cyl = new THREE.Mesh(new THREE.CylinderGeometry(shaft, shaft, 1, 12), mat);
   const cone = new THREE.Mesh(new THREE.ConeGeometry(head, headLen, 20), mat);
   const ball = new THREE.Mesh(new THREE.SphereGeometry(head * 0.8, 16, 12), mat);
@@ -136,14 +155,20 @@ export function makeArrow(color, { shaft = 0.018, head = 0.055, headLen = 0.14 }
     cone.position.set(0, L - headLen/2, 0);
     ball.position.set(0, 0, 0);
   };
-  group.userData.setColor = (c) => { mat.color.set(c); mat.emissive.set(c).multiplyScalar(GLOW * 1.1); };
+  group.userData.setColor = (c) => { mat.color.set(c); if (mat.emissive && !LIGHT_MODE) mat.emissive.set(c).multiplyScalar(0.44); };
   return group;
 }
 
 export function addLights(scene) {
-  const light = THEME === 'light';
-  scene.add(new THREE.AmbientLight(0xffffff, light ? 0.9 : 1.2));
-  const d = new THREE.DirectionalLight(0xffffff, light ? 1.1 : 1.6);
+  if (THEME === 'light') {
+    // studio lighting for figures: soft sky/ground fill, a warm key light and a cool rim light
+    scene.add(new THREE.HemisphereLight(0xffffff, 0xd9dee8, 1.6));
+    const key = new THREE.DirectionalLight(0xfff4e8, 1.9); key.position.set(3, 5, 4); scene.add(key);
+    const rim = new THREE.DirectionalLight(0xdfe9ff, 0.8); rim.position.set(-4, 2, -3); scene.add(rim);
+    return;
+  }
+  scene.add(new THREE.AmbientLight(0xffffff, 1.2));
+  const d = new THREE.DirectionalLight(0xffffff, 1.6);
   d.position.set(3, 5, 4); scene.add(d);
 }
 

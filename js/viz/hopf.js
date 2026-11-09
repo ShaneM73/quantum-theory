@@ -1,7 +1,7 @@
 // Hopf fibration: each Bloch-sphere state is a whole circle (global phase) on S³.
 import * as THREE from 'three';
 import { stereo, toThree, stateFromAngles, cexpi, cmul, r4OfState } from '../qmath.js';
-import { axesLines, labelSprite, COLORS, THEME, GLOW } from '../three-kit.js';
+import { axesLines, labelSprite, COLORS, THEME, solidMaterial, CYCLIC, ramp } from '../three-kit.js';
 import { createBlochSphere } from './bloch.js';
 
 const CAP = 24, JUMP = 5, NF = 240;
@@ -15,7 +15,12 @@ export function r4(th, ph, ga) {
 export function stateColor(th, ph) {
   const hue = (((ph/(2*Math.PI)) % 1) + 1) % 1;
   // darker, more saturated on a white background so fibers stay visible in figures
-  return THEME === 'light' ? new THREE.Color().setHSL(hue, 0.85, 0.36 + 0.1*Math.cos(th)) : new THREE.Color().setHSL(hue, 0.78, 0.42 + 0.22*Math.cos(th));
+  if (THEME === 'light') {
+    // cyclic palette by φ; a touch lighter near |0⟩ and deeper near |1⟩
+    const c = ramp(CYCLIC, hue), t = Math.cos(th);
+    return t > 0 ? c.lerp(new THREE.Color('#ffffff'), 0.18 * t) : c.lerp(new THREE.Color('#141a26'), -0.25 * t);
+  }
+  return new THREE.Color().setHSL(hue, 0.78, 0.42 + 0.22*Math.cos(th));
 }
 const P = q => { const v = stereo(q); return v && toThree(v); };
 const blochPos = (th, ph) => new THREE.Vector3(...toThree([Math.sin(th)*Math.cos(ph), Math.sin(th)*Math.sin(ph), Math.cos(th)]));
@@ -53,7 +58,7 @@ export function createHopf({ labels = true, tubeScale = 1 } = {}) {
       const v = P(r4(th, ph, k/NF*2*Math.PI));
       pts.push(v && v.every(c => Math.abs(c) < CAP) ? new THREE.Vector3(...v) : null);
     }
-    const mat = new THREE.MeshLambertMaterial({ color, emissive: color.clone().multiplyScalar(GLOW * 0.9) });
+    const mat = solidMaterial(color, 0.9);
     const out = [];
     const bad = pts.findIndex(p => !p);
     let start = bad;

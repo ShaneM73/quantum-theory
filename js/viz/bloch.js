@@ -1,7 +1,7 @@
 // A Bloch sphere: shell, grid, axis labels, a state arrow, an optional rotation axis and a trail.
 import * as THREE from 'three';
 import { toThree } from '../qmath.js';
-import { labelSprite, makeArrow, COLORS, UI_FONT } from '../three-kit.js';
+import { labelSprite, makeArrow, COLORS, UI_FONT, LIGHT_MODE, DIVERGING, ramp } from '../three-kit.js';
 
 const B = (v) => new THREE.Vector3(...toThree(v));
 
@@ -9,8 +9,21 @@ export function createBlochSphere({ radius = 1, labels = true, color = COLORS.ac
   const group = new THREE.Group();
   group.scale.setScalar(radius);
 
-  const shell = new THREE.Mesh(new THREE.SphereGeometry(1, 64, 32),
-    new THREE.MeshLambertMaterial({ color: COLORS.shell, transparent: true, opacity: 0.2, depthWrite: false, side: THREE.DoubleSide }));
+  let shell;
+  if (LIGHT_MODE) {
+    // shaded glass sphere coloured by latitude: blue near |0⟩, near white on the equator, coral near |1⟩,
+    // so the colour under the arrow reads as P(0) = (1 + z)/2
+    const geo = new THREE.SphereGeometry(1, 96, 48);
+    const p = geo.attributes.position, col = new Float32Array(p.count * 3);
+    for (let n = 0; n < p.count; n++) { const c = ramp(DIVERGING, (p.getY(n) + 1) / 2); col[n*3] = c.r; col[n*3+1] = c.g; col[n*3+2] = c.b; }
+    geo.setAttribute('color', new THREE.BufferAttribute(col, 3));
+    shell = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ vertexColors: true, transparent: true, opacity: 0.42, roughness: 0.3, metalness: 0, depthWrite: false }));
+    // faint back face so the far side still reads as part of the sphere
+    group.add(new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ vertexColors: true, transparent: true, opacity: 0.12, side: THREE.BackSide, depthWrite: false })));
+  } else {
+    shell = new THREE.Mesh(new THREE.SphereGeometry(1, 64, 32),
+      new THREE.MeshLambertMaterial({ color: COLORS.shell, transparent: true, opacity: 0.2, depthWrite: false, side: THREE.DoubleSide }));
+  }
   group.add(shell);
 
   // grid

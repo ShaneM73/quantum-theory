@@ -2,7 +2,7 @@
 // a link that glows with the amount of entanglement, and amplitude bars for |00>,|01>,|10>,|11>.
 import * as THREE from 'three';
 import { reducedBloch, concurrence, cabs2, carg, toThree } from '../qmath.js';
-import { labelSprite, COLORS, UI_FONT } from '../three-kit.js';
+import { labelSprite, COLORS, UI_FONT, LIGHT_MODE, CYCLIC, ramp, solidMaterial } from '../three-kit.js';
 import { createBlochSphere } from './bloch.js';
 import { L } from '../lang.js';
 
@@ -51,7 +51,7 @@ export function createEntangle({ spacing = 1.55, bars = true } = {}) {
     base.position.set(0, -2.0, 0); group.add(base);
     ['|00⟩','|01⟩','|10⟩','|11⟩'].forEach((t, n) => {
       const x = -0.9 + n*0.6;
-      const mat = new THREE.MeshLambertMaterial({ color: COLORS.accent });
+      const mat = LIGHT_MODE ? solidMaterial(COLORS.accent) : new THREE.MeshLambertMaterial({ color: COLORS.accent });
       const m = new THREE.Mesh(new THREE.BoxGeometry(0.34, 1, 0.34), mat);
       m.position.set(x, -1.99, 0); group.add(m); barMeshes.push(m);
       const s = labelSprite(t, COLORS.fg, 0.2, { italic: false, font: UI_FONT }); s.position.set(x, -2.2, 0.2); group.add(s);
@@ -70,7 +70,8 @@ export function createEntangle({ spacing = 1.55, bars = true } = {}) {
       m.scale.y = h; m.position.y = -1.99 + h/2;
       m.visible = p > 0.0005;
       const ph = carg(z);
-      m.material.color.setHSL(((ph/(2*Math.PI)) + 1) % 1, 0.75, 0.6);
+      const f = ((ph/(2*Math.PI)) + 1) % 1;
+      if (LIGHT_MODE) m.material.color.copy(ramp(CYCLIC, f)); else m.material.color.setHSL(f, 0.75, 0.6);
     });
     return { ra, rb, C };
   }
