@@ -4,7 +4,7 @@
 import * as THREE from 'three';
 import { VRButton } from 'three/addons/webxr/VRButton.js';
 import { XRControllerModelFactory } from 'three/addons/webxr/XRControllerModelFactory.js';
-import { addLights, fontsReady, COLORS } from './three-kit.js';
+import { addLights, fontsReady, COLORS, LIGHT_MODE } from './three-kit.js';
 import { createQuatSphere } from './viz/quatSphere.js';
 import { createHopf } from './viz/hopf.js';
 import { createBlochSphere } from './viz/bloch.js';
@@ -33,6 +33,18 @@ document.body.appendChild(vrButton);
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(COLORS.stage);
 scene.fog = new THREE.Fog(COLORS.stage, 8, 18);
+if (LIGHT_MODE) {
+  // graduated gray sky: light overhead, mid gray at the horizon, darker below
+  const sky = new THREE.SphereGeometry(40, 48, 24), p = sky.attributes.position, col = new Float32Array(p.count * 3);
+  const top = new THREE.Color('#f5f6f8'), mid = new THREE.Color('#dde1e7'), low = new THREE.Color('#c3c9d3');
+  for (let n = 0; n < p.count; n++) {
+    const y = p.getY(n) / 40, c = y > 0 ? mid.clone().lerp(top, Math.pow(y, 0.6)) : mid.clone().lerp(low, Math.min(1, -y * 2));
+    col[n*3] = c.r; col[n*3+1] = c.g; col[n*3+2] = c.b;
+  }
+  sky.setAttribute('color', new THREE.BufferAttribute(col, 3));
+  scene.add(new THREE.Mesh(sky, new THREE.MeshBasicMaterial({ vertexColors: true, side: THREE.BackSide, fog: false, depthWrite: false })));
+  scene.fog = new THREE.Fog('#dde1e7', 9, 30);
+}
 addLights(scene);
 
 const camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.02, 100);
@@ -271,9 +283,10 @@ function stationGates() {
     B.setVector(blochOf(psi));
     B.setAxis(g.alpha > 0.01 ? g.axis : null);
     B.setGhost(g.alpha > 0.01 ? v0 : null);
-    B.clearTrail();
     const steps = Math.ceil(g.alpha / (2 * D2R));
-    for (let n = 0; n <= steps; n++) B.pushTrail(rotate3(v0, g.axis, g.alpha * n / Math.max(steps, 1)));
+    const trail = [];
+    for (let n = 0; n <= steps; n++) trail.push(rotate3(v0, g.axis, g.alpha * n / Math.max(steps, 1)));
+    B.setTrail(trail, g.alpha);
     const q = quatOfSU2(su2(g.axis, g.alpha));
     const ov = cadd(cmul(cconj(g.base[0]), psi[0]), cmul(cconj(g.base[1]), psi[1]));
     const ad = g.alpha / D2R, a0 = ad.toFixed(0), a2 = (ad / 2).toFixed(0);

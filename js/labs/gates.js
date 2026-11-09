@@ -68,9 +68,10 @@ function render() {
   bloch.setVector(v);
   bloch.setGhost(st.alpha > 0.01 ? v0 : null);
   bloch.setAxis(st.alpha > 0.01 || st.anim ? st.axis : null);
-  bloch.clearTrail();
   const steps = Math.ceil(st.alpha / (1.5*D2R));
-  for (let n = 0; n <= steps; n++) bloch.pushTrail(rotate3(v0, st.axis, st.alpha * n / Math.max(steps, 1)));
+  const trail = [];
+  for (let n = 0; n <= steps; n++) trail.push(rotate3(v0, st.axis, st.alpha * n / Math.max(steps, 1)));
+  bloch.setTrail(trail, st.alpha);
 
   const q = qOf(st.axis, st.alpha);
   $('qnow').innerHTML = 'q = ' + qhtml(q);

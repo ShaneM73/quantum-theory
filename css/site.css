@@ -28,11 +28,12 @@ html[lang="ja"] { --font-ui: var(--font-ui-ja); }
 
 /* Light background, for screenshots and printed figures. Chosen from the Background menu (data-theme="light"). */
 html[data-theme="light"] {
-  --bg: #f4f5f8;
-  --stage: #ffffff;
-  --panel: #ffffff;
-  --raise: #eef1f5;
-  --line: #dde2ea;
+  --bg: #e7eaef;
+  --stage: #e3e7ec;
+  --stage-grad: radial-gradient(120% 95% at 50% 32%, #f7f8fa 0%, #e6e9ee 52%, #cdd3dc 100%);
+  --panel: #f6f7f9;
+  --raise: #e9edf2;
+  --line: #d3d9e2;
   --fg: #161b26;
   --muted: #5b6474;
   --accent: #c79200;
@@ -45,6 +46,8 @@ html[data-theme="light"] {
   color-scheme: light;
 }
 a { color: var(--accent); }
+/* light theme: graduated gray behind every 3D view (the WebGL canvas is transparent there) */
+html[data-theme="light"] .view, html[data-theme="light"] #heroView { background: var(--stage-grad); }
 button { font: inherit; }
 button:focus-visible, input:focus-visible, a:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .math { font-family: var(--font-math); font-style: italic; }

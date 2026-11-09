@@ -17,13 +17,13 @@ const DARK = {
   dialRing: '#3a4558', dialAxis: '#262e3b',
 };
 const LIGHT = {
-  stage: '#ffffff', fg: '#161b26', muted: '#5b6474', accent: '#c79200', pink: '#d6249f',
+  stage: '#e3e7ec', fg: '#161b26', muted: '#5b6474', accent: '#c79200', pink: '#d6249f',
   i: '#1f9d3a', j: '#e0622a', k: '#1f7fd1', axis: '#7a8496',
   labelStroke: 'rgba(255,255,255,0.95)',
   grid: '#3b4658', line: '#161b26', soft: '#4a5568', shell: '#b9c6db', ghost: '#8a94a6', base: '#dfe4ec',
   panel: 'rgba(255,255,255,0.95)', panelText: '#2a3140', panelBorder: '#d5dbe5',
   btn: '#eef1f6', btnHover: '#e2e8f1', btnActive: '#fbefc4', btnBorder: '#c3cbd8', btnPressedText: '#ffffff', plate: '#e6eaf0',
-  floorA: '#c8cfda', floorB: '#e3e7ee',
+  floorA: '#b7bfcc', floorB: '#d3d8e0',
   dialRing: '#b9c2cf', dialAxis: '#dde2ea',
 };
 export const COLORS = THEME === 'light' ? LIGHT : DARK;
@@ -174,9 +174,10 @@ export function addLights(scene) {
 
 // A full-size renderer + camera + orbit controls inside a container element (lab pages).
 export function createStage(el, { camPos = [3.4, 2.4, 5.6], target = [0, 0, 0], fov = 42, minDist = 1.2, maxDist = 60 } = {}) {
-  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  // light theme: transparent canvas over the CSS gray gradient (screenshots capture both)
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: LIGHT_MODE, preserveDrawingBuffer: LIGHT_MODE });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-  renderer.setClearColor(new THREE.Color(COLORS.stage));
+  if (LIGHT_MODE) renderer.setClearColor(0x000000, 0); else renderer.setClearColor(new THREE.Color(COLORS.stage));
   el.prepend(renderer.domElement);
   const scene = new THREE.Scene();
   addLights(scene);
