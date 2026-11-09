@@ -8,7 +8,9 @@ import { L } from '../lang.js';
 
 const D2R = Math.PI / 180, R2 = Math.SQRT1_2;
 const AXES = { x: [1,0,0], y: [0,1,0], z: [0,0,1], h: [R2,0,R2] };
-const AXIS_NAME = L({ x: 'the x axis', y: 'the y axis', z: 'the z axis', h: 'the (x+z)/√2 axis' }, { x: 'x 轴', y: 'y 轴', z: 'z 轴', h: '(x+z)/√2 轴' });
+const AXIS_NAME = L({ x: 'the x axis', y: 'the y axis', z: 'the z axis', h: 'the (x+z)/√2 axis' }, { x: 'x 轴', y: 'y 轴', z: 'z 轴', h: '(x+z)/√2 轴' },
+  { x: 'el eje x', y: 'el eje y', z: 'el eje z', h: 'el eje (x+z)/√2' },
+  { x: 'x 軸', y: 'y 軸', z: 'z 軸', h: '(x+z)/√2 軸' });
 const INITS = {
   '0': [0, 0], '1': [Math.PI, 0], '+': [Math.PI/2, 0], '-': [Math.PI/2, Math.PI], '+i': [Math.PI/2, Math.PI/2],
 };
@@ -72,7 +74,7 @@ function render() {
 
   const q = qOf(st.axis, st.alpha);
   $('qnow').innerHTML = 'q = ' + qhtml(q);
-  $('qtot').innerHTML = L('q<sub>total</sub> = ', 'q<sub>总</sub> = ') + qhtml(qmul(q, st.qtot));
+  $('qtot').innerHTML = L('q<sub>total</sub> = ', 'q<sub>总</sub> = ', 'q<sub>total</sub> = ', 'q<sub>合計</sub> = ') + qhtml(qmul(q, st.qtot));
   $('alphaOut').textContent = deg((st.alpha / D2R).toFixed(0));
   $('alpha').value = Math.round(st.alpha / D2R);
   drawDials(psi);
@@ -81,15 +83,15 @@ function render() {
   const ad = st.alpha / D2R;
   const p0 = cabs2(psi[0]);
   let s;
-  if (st.anim && st.anim.gate) s = L(`<b>${st.anim.gate}</b>: ${GATES[st.anim.gate].note.en} (the real ${st.anim.gate} gate = this rotation × a global phase).`, `<b>${st.anim.gate}</b>：${GATES[st.anim.gate].note.zh}（真正的 ${st.anim.gate} 门 = 这个旋转 × 整体相位）。`);
-  else if (Math.abs(ad - 360) < 1) s = L('<b>Turned 360°</b>: the arrow is back where it started, but q = −1 and both a and b have flipped sign.', '<b>转了 360°</b>：箭头回到原处，但 q = −1，a 和 b 都变成了原来的相反数。');
-  else if (Math.abs(ad - 720) < 1) s = L('<b>Turned 720°</b>: q is back to +1. This time everything is truly restored.', '<b>转了 720°</b>：q 回到 +1，这次真正复原。');
-  else if (ad < 0.5) s = L('Pick a gate, or drag the α slider, and watch the arrow turn.', '选一个门，或者拖动 α 滑块，看箭头怎么转。');
-  else s = L(`Rotating α = ${ad.toFixed(0)}° about ${AXIS_NAME[st.axisKey]}. The quaternion uses α/2 = ${(ad/2).toFixed(0)}°.`, `绕${AXIS_NAME[st.axisKey]}转 α = ${ad.toFixed(0)}°，四元数里写的是 α/2 = ${(ad/2).toFixed(0)}°。`);
-  $('status').innerHTML = `${s}<br>${L(`P(measure 0) = ${p0.toFixed(2)}, P(measure 1) = ${(1 - p0).toFixed(2)}.`, `测到 0 的概率 ${p0.toFixed(2)}，测到 1 的概率 ${(1 - p0).toFixed(2)}。`)}`;
-  $('sign').innerHTML = L('Compared with before: ⟨ψ<sub>before</sub>|ψ<sub>now</sub>⟩ = ', '和转之前比：⟨ψ<sub>前</sub>|ψ<sub>现在</sub>⟩ = ') + `<span class="mono" style="color:var(--fg)">${cfmt(ov)}</span>` +
-    (Math.abs(ov[0] + 1) < 0.01 ? ` <b style="color:var(--pink)">${L('an extra minus sign', '多了一个负号')}</b>` : '');
-  $('hist').innerHTML = st.hist.length ? st.hist.map(h => `<span>${h}</span>`).join('') : '<span class="muted" style="background:none;border:0;padding:0">' + L('none yet', '还没有') + '</span>';
+  if (st.anim && st.anim.gate) { const g = st.anim.gate, n = GATES[g].note; s = `<b>${g}</b>: ` + L(`${n.en} (the real ${g} gate = this rotation × a global phase).`, `${n.zh}（真正的 ${g} 门 = 这个旋转 × 整体相位）。`, `${n.es} (la puerta ${g} real = esta rotación × una fase global).`, `${n.ja}（実際の ${g} ゲート = この回転 × グローバル位相）。`); }
+  else if (Math.abs(ad - 360) < 1) s = L('<b>Turned 360°</b>: the arrow is back where it started, but q = −1 and both a and b have flipped sign.', '<b>转了 360°</b>：箭头回到原处，但 q = −1，a 和 b 都变成了原来的相反数。', '<b>Giro de 360°</b>: la flecha vuelve a su sitio, pero q = −1 y tanto a como b han cambiado de signo.', '<b>360° 回転</b>：矢印は元の位置に戻りましたが、q = −1 で、a と b の符号が両方反転しています。');
+  else if (Math.abs(ad - 720) < 1) s = L('<b>Turned 720°</b>: q is back to +1. This time everything is truly restored.', '<b>转了 720°</b>：q 回到 +1，这次真正复原。', '<b>Giro de 720°</b>: q vuelve a +1. Esta vez todo se recupera de verdad.', '<b>720° 回転</b>：q は +1 に戻りました。今度こそ本当に元通りです。');
+  else if (ad < 0.5) s = L('Pick a gate, or drag the α slider, and watch the arrow turn.', '选一个门，或者拖动 α 滑块，看箭头怎么转。', 'Elige una puerta o mueve el control α y mira cómo gira la flecha.', 'ゲートを選ぶか α スライダーを動かして、矢印の回り方を見てください。');
+  else s = L(`Rotating α = ${ad.toFixed(0)}° about ${AXIS_NAME[st.axisKey]}. The quaternion uses α/2 = ${(ad/2).toFixed(0)}°.`, `绕${AXIS_NAME[st.axisKey]}转 α = ${ad.toFixed(0)}°，四元数里写的是 α/2 = ${(ad/2).toFixed(0)}°。`, `Girando α = ${ad.toFixed(0)}° alrededor de ${AXIS_NAME[st.axisKey]}. El cuaternión usa α/2 = ${(ad/2).toFixed(0)}°.`, `${AXIS_NAME[st.axisKey]}のまわりに α = ${ad.toFixed(0)}° 回転中。四元数では α/2 = ${(ad/2).toFixed(0)}° を使います。`);
+  $('status').innerHTML = `${s}<br>${L(`P(measure 0) = ${p0.toFixed(2)}, P(measure 1) = ${(1 - p0).toFixed(2)}.`, `测到 0 的概率 ${p0.toFixed(2)}，测到 1 的概率 ${(1 - p0).toFixed(2)}。`, `P(medir 0) = ${p0.toFixed(2)}, P(medir 1) = ${(1 - p0).toFixed(2)}.`, `0 を測定する確率 ${p0.toFixed(2)}、1 を測定する確率 ${(1 - p0).toFixed(2)}。`)}`;
+  $('sign').innerHTML = L('Compared with before: ⟨ψ<sub>before</sub>|ψ<sub>now</sub>⟩ = ', '和转之前比：⟨ψ<sub>前</sub>|ψ<sub>现在</sub>⟩ = ', 'Comparado con antes: ⟨ψ<sub>antes</sub>|ψ<sub>ahora</sub>⟩ = ', '回転前との比較：⟨ψ<sub>前</sub>|ψ<sub>今</sub>⟩ = ') + `<span class="mono" style="color:var(--fg)">${cfmt(ov)}</span>` +
+    (Math.abs(ov[0] + 1) < 0.01 ? ` <b style="color:var(--pink)">${L('an extra minus sign', '多了一个负号', 'un signo menos de más', 'マイナス符号が 1 つ増えた')}</b>` : '');
+  $('hist').innerHTML = st.hist.length ? st.hist.map(h => `<span>${h}</span>`).join('') : '<span class="muted" style="background:none;border:0;padding:0">' + L('none yet', '还没有', 'ninguna todavía', 'まだありません') + '</span>';
 }
 
 function commit(label) {

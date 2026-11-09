@@ -16,7 +16,7 @@ export function createEntangle({ spacing = 1.55, bars = true } = {}) {
   group.add(A.group, B.group);
 
   const tag = (t, c, x) => { const s = labelSprite(t, c, 0.32, { italic: false, font: UI_FONT }); s.position.set(x, 1.62, 0); group.add(s); };
-  tag(L('Qubit A', '比特 A'), QCOLORS.A, -spacing); tag(L('Qubit B', '比特 B'), QCOLORS.B, spacing);
+  tag(L('Qubit A', '比特 A', 'Cúbit A', '量子ビット A'), QCOLORS.A, -spacing); tag(L('Qubit B', '比特 B', 'Cúbit B', '量子ビット B'), QCOLORS.B, spacing);
 
   // entanglement link
   const linkLen = Math.max(2*spacing - 2.1, 0.2);

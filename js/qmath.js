@@ -89,12 +89,12 @@ export const matMul = (A, B) => [0, 1].map(i => [0, 1].map(j => cadd(cmul(A[i][0
 const R2 = Math.SQRT1_2;
 // Named gates as rotations (axis on the Bloch sphere, angle). Each equals the textbook gate up to a global phase.
 export const GATES = {
-  X: { axis: [1,0,0], angle: Math.PI,   phase: '−i', note: { en: 'X = rotate 180° about x', zh: 'X = 绕 x 轴转 180°' } },
-  Y: { axis: [0,1,0], angle: Math.PI,   phase: '−i', note: { en: 'Y = rotate 180° about y', zh: 'Y = 绕 y 轴转 180°' } },
-  Z: { axis: [0,0,1], angle: Math.PI,   phase: '−i', note: { en: 'Z = rotate 180° about z', zh: 'Z = 绕 z 轴转 180°' } },
-  H: { axis: [R2,0,R2], angle: Math.PI, phase: '−i', note: { en: 'H = rotate 180° about (x+z)/√2', zh: 'H = 绕 (x+z)/√2 轴转 180°' } },
-  S: { axis: [0,0,1], angle: Math.PI/2, phase: 'e^{−iπ/4}', note: { en: 'S = rotate 90° about z', zh: 'S = 绕 z 轴转 90°' } },
-  T: { axis: [0,0,1], angle: Math.PI/4, phase: 'e^{−iπ/8}', note: { en: 'T = rotate 45° about z', zh: 'T = 绕 z 轴转 45°' } },
+  X: { axis: [1,0,0], angle: Math.PI,   phase: '−i', note: { en: 'X = rotate 180° about x', zh: 'X = 绕 x 轴转 180°' , es: 'X = girar 180° alrededor de x', ja: 'X = x 軸のまわりに 180° 回転' } },
+  Y: { axis: [0,1,0], angle: Math.PI,   phase: '−i', note: { en: 'Y = rotate 180° about y', zh: 'Y = 绕 y 轴转 180°' , es: 'Y = girar 180° alrededor de y', ja: 'Y = y 軸のまわりに 180° 回転' } },
+  Z: { axis: [0,0,1], angle: Math.PI,   phase: '−i', note: { en: 'Z = rotate 180° about z', zh: 'Z = 绕 z 轴转 180°' , es: 'Z = girar 180° alrededor de z', ja: 'Z = z 軸のまわりに 180° 回転' } },
+  H: { axis: [R2,0,R2], angle: Math.PI, phase: '−i', note: { en: 'H = rotate 180° about (x+z)/√2', zh: 'H = 绕 (x+z)/√2 轴转 180°' , es: 'H = girar 180° alrededor de (x+z)/√2', ja: 'H = (x+z)/√2 軸のまわりに 180° 回転' } },
+  S: { axis: [0,0,1], angle: Math.PI/2, phase: 'e^{−iπ/4}', note: { en: 'S = rotate 90° about z', zh: 'S = 绕 z 轴转 90°' , es: 'S = girar 90° alrededor de z', ja: 'S = z 軸のまわりに 90° 回転' } },
+  T: { axis: [0,0,1], angle: Math.PI/4, phase: 'e^{−iπ/8}', note: { en: 'T = rotate 45° about z', zh: 'T = 绕 z 轴转 45°' , es: 'T = girar 45° alrededor de z', ja: 'T = z 軸のまわりに 45° 回転' } },
 };
 
 // Eigenstates of n·σ for a measurement direction given by Bloch angles.

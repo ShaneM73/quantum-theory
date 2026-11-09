@@ -5,7 +5,7 @@ Interactive 3D labs that go from quaternions to quantum entanglement, plus a Web
 
 **Live site:** https://shanem73.github.io/quantum-theory/
 
-English by default. Every page has a **中文** button in the top bar; the choice is remembered across pages. Link straight to Chinese with `?lang=zh` (e.g. `index.html?lang=zh`).
+Languages: **English** (default), **中文**, **Español**, **日本語**, from the language menu in the top bar of every page. The choice is remembered across pages. Link straight to a language with `?lang=zh`, `?lang=es` or `?lang=ja`.
 
 ## Labs
 
@@ -16,6 +16,23 @@ English by default. Every page has a **中文** button in the top bar; the choic
 | [`gates.html`](gates.html) | 量子门 · Gates as rotations | X, Y, Z, H, S, T animated as Bloch-sphere rotations, each shown as its unit quaternion cos(α/2) + n sin(α/2). Free rotation up to 720°: at 360° the arrow is back but q = −1 and both amplitudes flip sign. |
 | [`entanglement.html`](entanglement.html) | 量子纠缠 · Entanglement | Step-by-step H + CNOT into a Bell state; reduced Bloch vectors shrink to the centre as entanglement grows (slider β). Measure along chosen directions, collect statistics, and run a CHSH test (S ≈ 2√2 > 2). |
 | [`vr.html`](vr.html) | VR | All four labs as stations in a ring around you, operated with controller rays and 3D buttons. Works with mouse on desktop. |
+
+## VR controls
+
+The station you face is the active one (yellow ring on the floor). Each station can be brought closer or pushed away, moved, and its 3D model rotated, panned and zoomed.
+
+| | Keyboard | Mouse | VR controllers |
+| --- | --- | --- | --- |
+| Closer / farther | `W` / `S` | `Shift` + wheel | right stick ↑ / ↓ |
+| Move station | `A` `D` (left/right), `R` `F` (up/down) | | left stick |
+| Rotate model | arrow keys | right-drag or `Shift`+drag | right stick ← / →, or grip and turn your hand |
+| Pan model | `I` `J` `K` `L` | middle-drag or `Ctrl`+drag | grip and move your hand |
+| Zoom model | `+` / `−` | wheel | `A` / `B`, or grip with both hands and pull apart |
+| Look around | `Q` / `E`, `1`–`4` to face a station | left-drag | turn your head |
+| Reset | `0` (this station), `Shift`+`0` (all) | "Reset all stations" button | `X` |
+| Help | `H` | | `Y` toggles the card on the left controller |
+
+Pressing 3D buttons: click them, or point the controller ray and pull the trigger.
 
 ## Run locally
 
@@ -36,7 +53,7 @@ quaternion.html  hopf.html  gates.html  entanglement.html  vr.html
 css/site.css          shared styles
 js/qmath.js           quaternions, complex numbers, SU(2), one- and two-qubit math
 js/entangleModel.js   Bell-state path, measurement sampling, CHSH
-js/i18n.js, js/lang.js language switch (HTML uses data-zh attributes; scripts use L(en, zh))
+js/i18n.js, js/lang.js language switch (HTML uses data-zh / data-es / data-ja; scripts use L(en, zh, es, ja))
 js/three-kit.js       three.js helpers (stage, labels, arrows, dynamic lines)
 js/viz/               reusable 3D scenes: quatSphere, hopf, bloch, entangle
 js/labs/              page controllers for the desktop labs

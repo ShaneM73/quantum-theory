@@ -30,7 +30,7 @@ fontsReady().then(() => {
   Object.entries(tog).forEach(([id, key]) => $(id).addEventListener('change', e => set({ [key]: e.target.checked })));
   $('tSlice').addEventListener('change', e => { $('sliceGroup').hidden = !e.target.checked; set({ showSlice: e.target.checked }); });
   $('w').addEventListener('input', e => { $('wOut').textContent = (+e.target.value).toFixed(2); set({ w: +e.target.value }); });
-  $('play').addEventListener('click', () => { playing = !playing; $('play').textContent = playing ? L('Pause', '暂停') : L('Play', '播放'); });
+  $('play').addEventListener('click', () => { playing = !playing; $('play').textContent = playing ? L('Pause', '暂停', 'Pausa', '一時停止') : L('Play', '播放', 'Reproducir', '再生'); });
 
   // drag the pink point (image of 1) along the axis: its projection sits at tan(θ/2)
   const cv = stage.renderer.domElement;
@@ -39,7 +39,7 @@ fontsReady().then(() => {
     if (qs.params.mode === 'conj') return;
     const ray = stage.aim(e);
     if (qs.hit.visible && ray.intersectObject(qs.hit).length) {
-      dragging = true; stage.controls.enabled = false; playing = false; $('play').textContent = L('Play', '播放');
+      dragging = true; stage.controls.enabled = false; playing = false; $('play').textContent = L('Play', '播放', 'Reproducir', '再生');
       cv.classList.add('dragging'); cv.setPointerCapture(e.pointerId);
     }
   });

@@ -6,6 +6,8 @@
 <title>Quantum Theory Labs</title>
 <meta name="description" content="From quaternions to quantum entanglement: hands-on 3D labs you can rotate, drag and measure, plus a WebXR VR version.">
 <meta name="title-zh" content="Quantum Theory Labs · 量子理论实验室">
+<meta name="title-es" content="Quantum Theory Labs · Laboratorios de teoría cuántica">
+<meta name="title-ja" content="Quantum Theory Labs · 量子論ラボ">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -52,57 +54,59 @@ footer { border-top: 1px solid var(--line); padding-block: 20px 32px; color: var
 </head>
 <body>
 <main class="wrap">
-  <div class="toprow"><button class="langbtn" data-lang-toggle>中文</button></div>
+  <div class="toprow"><select class="langsel" data-lang-select aria-label="Language">
+      <option value="en">English</option><option value="zh">中文</option><option value="es">Español</option><option value="ja">日本語</option>
+    </select></div>
   <section class="hero">
     <div>
       <h1>Quantum Theory Labs</h1>
-      <p class="zh" data-zh="从四元数到量子纠缠">From quaternions to quantum entanglement</p>
-      <p data-zh="一条从 3Blue1Brown 的四元数视频出发的路线：先看<b>四维的数</b>怎么投影到三维，再发现<b>量子比特</b>就住在同一个超球面上，<b>量子门</b>就是四元数旋转，最后用两个比特看<b>纠缠</b>和贝尔不等式。每一步都可以动手拖、转、测量。">A path that starts from 3Blue1Brown's quaternion video. First see how <b>four-dimensional numbers</b> are projected into 3D, then find that a <b>qubit</b> lives on the same hypersphere, that <b>quantum gates</b> are quaternion rotations, and finally use two qubits to explore <b>entanglement</b> and Bell's inequality. Every step is hands-on: drag, rotate, measure.</p>
+      <p class="zh" data-zh="从四元数到量子纠缠" data-es="De los cuaterniones al entrelazamiento cuántico" data-ja="四元数から量子もつれへ">From quaternions to quantum entanglement</p>
+      <p data-zh="一条从 3Blue1Brown 的四元数视频出发的路线：先看<b>四维的数</b>怎么投影到三维，再发现<b>量子比特</b>就住在同一个超球面上，<b>量子门</b>就是四元数旋转，最后用两个比特看<b>纠缠</b>和贝尔不等式。每一步都可以动手拖、转、测量。" data-es="Un recorrido que parte del video de 3Blue1Brown sobre cuaterniones. Primero ves cómo los <b>números de cuatro dimensiones</b> se proyectan en 3D, luego descubres que un <b>cúbit</b> vive en la misma hiperesfera, que las <b>puertas cuánticas</b> son rotaciones de cuaterniones y, por último, usas dos cúbits para explorar el <b>entrelazamiento</b> y la desigualdad de Bell. Cada paso es práctico: arrastra, gira y mide." data-ja="3Blue1Brown の四元数の動画から始まる学習ルートです。まず<b>4 次元の数</b>が 3 次元にどう投影されるかを見て、<b>量子ビット</b>が同じ超球面上にあること、<b>量子ゲート</b>が四元数の回転であることを確かめ、最後に 2 つの量子ビットで<b>もつれ</b>とベルの不等式を体験します。どのステップも、ドラッグ・回転・測定で手を動かして学べます。">A path that starts from 3Blue1Brown's quaternion video. First see how <b>four-dimensional numbers</b> are projected into 3D, then find that a <b>qubit</b> lives on the same hypersphere, that <b>quantum gates</b> are quaternion rotations, and finally use two qubits to explore <b>entanglement</b> and Bell's inequality. Every step is hands-on: drag, rotate, measure.</p>
       <div class="cta">
-        <a class="btn" href="quaternion.html" data-zh="从第 1 步开始">Start with step 1</a>
-        <a class="btn ghost" href="vr.html" data-zh="进入 VR 版本">Open the VR version</a>
+        <a class="btn" href="quaternion.html" data-zh="从第 1 步开始" data-es="Empieza por el paso 1" data-ja="ステップ 1 から始める">Start with step 1</a>
+        <a class="btn ghost" href="vr.html" data-zh="进入 VR 版本" data-es="Abrir la versión VR" data-ja="VR 版を開く">Open the VR version</a>
       </div>
     </div>
-    <div id="heroView"><div class="tag" data-zh="霍普夫纤维：布洛赫球上每个点，都是超球面上的一个圆">Hopf fibers: every point of the Bloch sphere is a circle on the hypersphere</div></div>
+    <div id="heroView"><div class="tag" data-zh="霍普夫纤维：布洛赫球上每个点，都是超球面上的一个圆" data-es="Fibras de Hopf: cada punto de la esfera de Bloch es un círculo en la hiperesfera" data-ja="ホップファイバー：ブロッホ球の各点は、超球面上の 1 つの円">Hopf fibers: every point of the Bloch sphere is a circle on the hypersphere</div></div>
   </section>
 
   <section class="path">
-    <h2 data-zh="学习路线">LEARNING PATH</h2>
+    <h2 data-zh="学习路线" data-es="RUTA DE APRENDIZAJE" data-ja="学習ルート">LEARNING PATH</h2>
     <div class="steps">
       <a class="step" href="quaternion.html">
         <span class="n">1</span>
-        <h3><span data-zh="四元数球">Quaternion sphere</span><small>Quaternions · stereographic projection</small></h3>
-        <p data-zh="把单位球乘以 <b>q</b>，看它变大、变成平面、再翻回来。理解 <b>180° 和 360°</b> 的区别，以及 q p q⁻¹ 为什么转 <b>2θ</b>。">Multiply the unit sphere by <b>q</b> and watch it grow, flatten into a plane and turn back. See the difference between <b>180° and 360°</b>, and why q p q⁻¹ rotates by <b>2θ</b>.</p>
-        <span class="go" data-zh="打开">Open</span>
+        <h3><span data-zh="四元数球" data-es="Esfera de cuaterniones" data-ja="四元数の球">Quaternion sphere</span><small>Quaternions · stereographic projection</small></h3>
+        <p data-zh="把单位球乘以 <b>q</b>，看它变大、变成平面、再翻回来。理解 <b>180° 和 360°</b> 的区别，以及 q p q⁻¹ 为什么转 <b>2θ</b>。" data-es="Multiplica la esfera unidad por <b>q</b> y mira cómo crece, se aplana en un plano y vuelve. Entiende la diferencia entre <b>180° y 360°</b>, y por qué q p q⁻¹ gira <b>2θ</b>." data-ja="単位球に <b>q</b> を掛けて、球が大きくなり、平面になり、また戻る様子を見ます。<b>180° と 360°</b> の違いと、q p q⁻¹ が <b>2θ</b> 回転する理由を理解します。">Multiply the unit sphere by <b>q</b> and watch it grow, flatten into a plane and turn back. See the difference between <b>180° and 360°</b>, and why q p q⁻¹ rotates by <b>2θ</b>.</p>
+        <span class="go" data-zh="打开" data-es="Abrir" data-ja="開く">Open</span>
       </a>
       <a class="step" href="hopf.html">
         <span class="n">2</span>
-        <h3><span data-zh="霍普夫纤维与布洛赫球">Hopf fibers and the Bloch sphere</span><small>Hopf fibration · Bloch sphere</small></h3>
-        <p data-zh="量子比特 (a, b) 是四维单位球上的点。<b>整体相位</b>让它转一圈，这一圈在布洛赫球上只是<b>一个点</b>：3 − 1 = 2 维。">A qubit (a, b) is a point on the unit sphere in 4D. The <b>global phase</b> moves it around a loop, and that whole loop is <b>a single point</b> on the Bloch sphere: 3 − 1 = 2 dimensions.</p>
-        <span class="go" data-zh="打开">Open</span>
+        <h3><span data-zh="霍普夫纤维与布洛赫球" data-es="Fibras de Hopf y la esfera de Bloch" data-ja="ホップファイバーとブロッホ球">Hopf fibers and the Bloch sphere</span><small>Hopf fibration · Bloch sphere</small></h3>
+        <p data-zh="量子比特 (a, b) 是四维单位球上的点。<b>整体相位</b>让它转一圈，这一圈在布洛赫球上只是<b>一个点</b>：3 − 1 = 2 维。" data-es="Un cúbit (a, b) es un punto de la esfera unidad en 4D. La <b>fase global</b> lo hace recorrer un círculo, y todo ese círculo es <b>un solo punto</b> en la esfera de Bloch: 3 − 1 = 2 dimensiones." data-ja="量子ビット (a, b) は 4 次元の単位球上の点です。<b>グローバル位相</b>で 1 周させると、その円はブロッホ球上では<b>たった 1 点</b>になります：3 − 1 = 2 次元。">A qubit (a, b) is a point on the unit sphere in 4D. The <b>global phase</b> moves it around a loop, and that whole loop is <b>a single point</b> on the Bloch sphere: 3 − 1 = 2 dimensions.</p>
+        <span class="go" data-zh="打开" data-es="Abrir" data-ja="開く">Open</span>
       </a>
       <a class="step" href="gates.html">
         <span class="n">3</span>
-        <h3><span data-zh="量子门 = 旋转">Gates are rotations</span><small>Gates · SU(2) · spin-½</small></h3>
-        <p data-zh="X、Y、Z、H、S、T 都是布洛赫球上的旋转，每个都对应一个单位四元数。拉到 <b>360°</b> 看负号，<b>720°</b> 才真正复原。">X, Y, Z, H, S and T are all rotations of the Bloch sphere, each matching a unit quaternion. Turn to <b>360°</b> to see the minus sign; only <b>720°</b> truly restores the state.</p>
-        <span class="go" data-zh="打开">Open</span>
+        <h3><span data-zh="量子门 = 旋转" data-es="Las puertas son rotaciones" data-ja="量子ゲート = 回転">Gates are rotations</span><small>Gates · SU(2) · spin-½</small></h3>
+        <p data-zh="X、Y、Z、H、S、T 都是布洛赫球上的旋转，每个都对应一个单位四元数。拉到 <b>360°</b> 看负号，<b>720°</b> 才真正复原。" data-es="X, Y, Z, H, S y T son rotaciones de la esfera de Bloch, y cada una corresponde a un cuaternión unitario. Gira hasta <b>360°</b> para ver el signo menos; solo a <b>720°</b> se recupera de verdad el estado." data-ja="X、Y、Z、H、S、T はすべてブロッホ球の回転で、それぞれ単位四元数に対応します。<b>360°</b> まで回すとマイナス符号が現れ、<b>720°</b> で初めて本当に元に戻ります。">X, Y, Z, H, S and T are all rotations of the Bloch sphere, each matching a unit quaternion. Turn to <b>360°</b> to see the minus sign; only <b>720°</b> truly restores the state.</p>
+        <span class="go" data-zh="打开" data-es="Abrir" data-ja="開く">Open</span>
       </a>
       <a class="step" href="entanglement.html">
         <span class="n">4</span>
-        <h3><span data-zh="量子纠缠">Entanglement</span><small>H + CNOT · measurement · CHSH</small></h3>
-        <p data-zh="一步一步做出贝尔态，看两个箭头<b>缩进球心</b>。选方向测量，统计关联，再自己验证 <b>S = 2√2 &gt; 2</b>。">Build a Bell state step by step and watch both arrows <b>shrink into the centre</b>. Choose measurement directions, collect correlations, and check <b>S = 2√2 &gt; 2</b> yourself.</p>
-        <span class="go" data-zh="打开">Open</span>
+        <h3><span data-zh="量子纠缠" data-es="Entrelazamiento" data-ja="量子もつれ">Entanglement</span><small>H + CNOT · measurement · CHSH</small></h3>
+        <p data-zh="一步一步做出贝尔态，看两个箭头<b>缩进球心</b>。选方向测量，统计关联，再自己验证 <b>S = 2√2 &gt; 2</b>。" data-es="Construye un estado de Bell paso a paso y mira cómo las dos flechas <b>se encogen hacia el centro</b>. Elige direcciones de medida, recoge correlaciones y comprueba tú mismo que <b>S = 2√2 &gt; 2</b>." data-ja="ベル状態を一歩ずつ作り、2 本の矢印が<b>球の中心へ縮む</b>様子を見ます。測定方向を選んで相関を集計し、<b>S = 2√2 &gt; 2</b> を自分で確かめます。">Build a Bell state step by step and watch both arrows <b>shrink into the centre</b>. Choose measurement directions, collect correlations, and check <b>S = 2√2 &gt; 2</b> yourself.</p>
+        <span class="go" data-zh="打开" data-es="Abrir" data-ja="開く">Open</span>
       </a>
     </div>
     <div class="vrband">
       <div>
-        <h3 data-zh="VR 版本">VR version</h3>
-        <p data-zh="四个实验摆成一圈围着你：转过身就换一个站点，用手柄射线按 3D 按钮。支持 WebXR 的头显（Quest 浏览器等）里点“ENTER VR”；电脑上也能用鼠标看和点。">The four labs stand in a ring around you: turn to change station and press 3D buttons with the controller ray. In a WebXR headset (Quest Browser and others) press "ENTER VR"; on a computer you can look around and click with the mouse.</p>
+        <h3 data-zh="VR 版本" data-es="Versión VR" data-ja="VR 版">VR version</h3>
+        <p data-zh="四个实验摆成一圈围着你：转过身就换一个站点，用手柄射线按 3D 按钮。支持 WebXR 的头显（Quest 浏览器等）里点“ENTER VR”；电脑上也能用鼠标看和点。" data-es="Los cuatro laboratorios forman un anillo a tu alrededor: gírate para cambiar de estación y pulsa los botones 3D con el rayo del mando. En un visor con WebXR (Quest Browser y otros) pulsa «ENTER VR»; en el ordenador también puedes mirar y hacer clic con el ratón." data-ja="4 つの実験があなたを囲むように並びます。振り向いてステーションを切り替え、コントローラーのレイで 3D ボタンを押します。WebXR 対応ヘッドセット（Quest ブラウザなど）では「ENTER VR」を押してください。パソコンでもマウスで見回してクリックできます。">The four labs stand in a ring around you: turn to change station and press 3D buttons with the controller ray. In a WebXR headset (Quest Browser and others) press "ENTER VR"; on a computer you can look around and click with the mouse.</p>
       </div>
-      <a class="btn" href="vr.html" style="text-decoration:none" data-zh="打开 VR">Open VR</a>
+      <a class="btn" href="vr.html" style="text-decoration:none" data-zh="打开 VR" data-es="Abrir VR" data-ja="VR を開く">Open VR</a>
     </div>
   </section>
-  <footer><span data-zh="Three.js + WebXR · 所有计算都在浏览器里实时完成">Three.js + WebXR · everything is computed live in your browser</span> · <a href="https://www.youtube.com/watch?v=d4EgbgTm0Bg">3Blue1Brown: Visualizing quaternions</a></footer>
+  <footer><span data-zh="Three.js + WebXR · 所有计算都在浏览器里实时完成" data-es="Three.js + WebXR · todo se calcula en vivo en tu navegador" data-ja="Three.js + WebXR · すべての計算はブラウザ内でリアルタイムに行われます">Three.js + WebXR · everything is computed live in your browser</span> · <a href="https://www.youtube.com/watch?v=d4EgbgTm0Bg">3Blue1Brown: Visualizing quaternions</a></footer>
 </main>
 <script type="module">
 import { createStage, fontsReady, prefersReducedMotion } from './js/three-kit.js';

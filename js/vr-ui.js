@@ -2,16 +2,16 @@
 import * as THREE from 'three';
 import { UI_FONT, MATH_FONT, COLORS } from './three-kit.js';
 
-const PX = 700; // canvas pixels per metre
+const PX_DEFAULT = 700; // canvas pixels per metre
 
-function canvasPlane(w, h) {
+function canvasPlane(w, h, px = PX_DEFAULT) {
   const cv = document.createElement('canvas');
-  cv.width = Math.round(w * PX); cv.height = Math.round(h * PX);
+  cv.width = Math.round(w * px); cv.height = Math.round(h * px);
   const tex = new THREE.CanvasTexture(cv);
   tex.colorSpace = THREE.SRGBColorSpace;
   tex.anisotropy = 4;
   const mesh = new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshBasicMaterial({ map: tex, transparent: true }));
-  return { cv, g: cv.getContext('2d'), tex, mesh };
+  return { cv, g: cv.getContext('2d'), tex, mesh, px };
 }
 function roundRect(g, x, y, w, h, r) {
   g.beginPath(); g.moveTo(x + r, y); g.arcTo(x + w, y, x + w, y + h, r); g.arcTo(x + w, y + h, x, y + h, r);
@@ -102,15 +102,15 @@ function wrap(g, text, maxW) {
 }
 
 export class TextPanel {
-  constructor(w, h, { title = '', titleColor = COLORS.accent, bg = 'rgba(16,20,28,0.88)', size = 0.036, titleSize = 0.06, mathTitle = true } = {}) {
-    Object.assign(this, canvasPlane(w, h));
+  constructor(w, h, { title = '', titleColor = COLORS.accent, bg = 'rgba(16,20,28,0.88)', size = 0.036, titleSize = 0.06, mathTitle = true, px = PX_DEFAULT } = {}) {
+    Object.assign(this, canvasPlane(w, h, px));
     this.opts = { titleColor, bg, size, titleSize, mathTitle };
     this.title = title; this.body = ''; this.big = '';
   }
   set({ title = this.title, body = this.body, big = this.big } = {}) {
     if (title === this.title && body === this.body && big === this.big && this.drawn) return;
     this.title = title; this.body = body; this.big = big; this.drawn = true;
-    const { g, cv } = this, W = cv.width, H = cv.height, o = this.opts, pad = 0.035 * PX;
+    const { g, cv } = this, PX = this.px, W = cv.width, H = cv.height, o = this.opts, pad = 0.035 * PX;
     g.clearRect(0, 0, W, H);
     roundRect(g, 3, 3, W - 6, H - 6, 0.03 * PX); g.fillStyle = o.bg; g.fill();
     g.lineWidth = 3; g.strokeStyle = '#262e3b'; g.stroke();
