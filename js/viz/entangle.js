@@ -6,7 +6,7 @@ import { labelSprite, COLORS, UI_FONT } from '../three-kit.js';
 import { createBlochSphere } from './bloch.js';
 import { L } from '../lang.js';
 
-export const QCOLORS = { A: '#6fc3ff', B: '#ff9b6b' };
+export const QCOLORS = { A: COLORS.k, B: COLORS.j };
 
 export function createEntangle({ spacing = 1.55, bars = true } = {}) {
   const group = new THREE.Group();
@@ -33,7 +33,7 @@ export function createEntangle({ spacing = 1.55, bars = true } = {}) {
   const measLine = (g) => {
     const geo = new THREE.BufferGeometry();
     geo.setAttribute('position', new THREE.Float32BufferAttribute([0,0,0,0,0,0], 3));
-    const l = new THREE.LineSegments(geo, new THREE.LineDashedMaterial({ color: 0xffffff, dashSize: 0.07, gapSize: 0.05, transparent: true, opacity: 0.85 }));
+    const l = new THREE.LineSegments(geo, new THREE.LineDashedMaterial({ color: COLORS.line, dashSize: 0.07, gapSize: 0.05, transparent: true, opacity: 0.85 }));
     l.visible = false; g.add(l); return l;
   };
   const mA = measLine(A.group), mB = measLine(B.group);
@@ -47,7 +47,7 @@ export function createEntangle({ spacing = 1.55, bars = true } = {}) {
   // amplitude bars
   const barMeshes = [];
   if (bars) {
-    const base = new THREE.Mesh(new THREE.BoxGeometry(2.6, 0.02, 0.5), new THREE.MeshLambertMaterial({ color: 0x1b2230 }));
+    const base = new THREE.Mesh(new THREE.BoxGeometry(2.6, 0.02, 0.5), new THREE.MeshLambertMaterial({ color: COLORS.base }));
     base.position.set(0, -2.0, 0); group.add(base);
     ['|00⟩','|01⟩','|10⟩','|11⟩'].forEach((t, n) => {
       const x = -0.9 + n*0.6;

@@ -2,17 +2,33 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
-export const COLORS = {
-  stage: '#07090d',
-  fg: '#e7ebf2',
-  muted: '#8d97a8',
-  accent: '#f0d24a',
-  pink: '#ff6fd8',
-  i: '#7ee08a',
-  j: '#ff9b6b',
-  k: '#6fc3ff',
-  axis: '#8a94a6',
+// Theme is set on <html data-theme> by js/i18n.js before modules run: 'dark' (default) or 'light'.
+export const THEME = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+const DARK = {
+  stage: '#07090d', fg: '#e7ebf2', muted: '#8d97a8', accent: '#f0d24a', pink: '#ff6fd8',
+  i: '#7ee08a', j: '#ff9b6b', k: '#6fc3ff', axis: '#8a94a6',
+  labelStroke: 'rgba(7,9,13,0.9)',
+  grid: '#dfe7f2', line: '#ffffff', soft: '#c9d3e2', shell: '#3a4a63', ghost: '#9aa4b5', base: '#1b2230',
+  // VR panels and buttons
+  panel: 'rgba(16,20,28,0.88)', panelText: '#c3cad6', panelBorder: '#262e3b',
+  btn: '#1b2230', btnHover: '#2a3445', btnActive: '#3a3420', btnBorder: '#3a4558', btnPressedText: '#0d1016', plate: '#10141c',
+  floorA: '#2a3242', floorB: '#1b2230',
+  // gates dials
+  dialRing: '#3a4558', dialAxis: '#262e3b',
 };
+const LIGHT = {
+  stage: '#ffffff', fg: '#161b26', muted: '#5b6474', accent: '#c79200', pink: '#d6249f',
+  i: '#1f9d3a', j: '#e0622a', k: '#1f7fd1', axis: '#7a8496',
+  labelStroke: 'rgba(255,255,255,0.95)',
+  grid: '#3b4658', line: '#161b26', soft: '#4a5568', shell: '#b9c6db', ghost: '#8a94a6', base: '#dfe4ec',
+  panel: 'rgba(255,255,255,0.95)', panelText: '#2a3140', panelBorder: '#d5dbe5',
+  btn: '#eef1f6', btnHover: '#e2e8f1', btnActive: '#fbefc4', btnBorder: '#c3cbd8', btnPressedText: '#ffffff', plate: '#e6eaf0',
+  floorA: '#c8cfda', floorB: '#e3e7ee',
+  dialRing: '#b9c2cf', dialAxis: '#dde2ea',
+};
+export const COLORS = THEME === 'light' ? LIGHT : DARK;
+// how much meshes glow in their own colour: strong on black, low on white so colours stay saturated
+export const GLOW = THEME === 'light' ? 0.08 : 0.4;
 
 export const MATH_FONT = 'Newsreader, Georgia, "Times New Roman", serif';
 export const UI_FONT = document.documentElement.getAttribute('data-lang') === 'ja'
@@ -32,7 +48,7 @@ export function labelSprite(text, color = COLORS.fg, height = 0.3, { italic = tr
   const w = Math.ceil(g.measureText(text).width) + 40;
   cv.width = w; cv.height = 128;
   g.font = f; g.textAlign = 'center'; g.textBaseline = 'middle';
-  g.lineWidth = 10; g.strokeStyle = 'rgba(7,9,13,0.9)'; g.strokeText(text, w/2, 66);
+  g.lineWidth = 10; g.strokeStyle = COLORS.labelStroke; g.strokeText(text, w/2, 66);
   g.fillStyle = color; g.fillText(text, w/2, 66);
   const tex = new THREE.CanvasTexture(cv);
   tex.colorSpace = THREE.SRGBColorSpace;
@@ -103,7 +119,7 @@ export class DynLines {
 // An arrow made of meshes (lines are 1px in WebGL, too thin for VR).
 export function makeArrow(color, { shaft = 0.018, head = 0.055, headLen = 0.14 } = {}) {
   const group = new THREE.Group();
-  const mat = new THREE.MeshLambertMaterial({ color, emissive: new THREE.Color(color).multiplyScalar(0.45) });
+  const mat = new THREE.MeshLambertMaterial({ color, emissive: new THREE.Color(color).multiplyScalar(GLOW * 1.1) });
   const cyl = new THREE.Mesh(new THREE.CylinderGeometry(shaft, shaft, 1, 12), mat);
   const cone = new THREE.Mesh(new THREE.ConeGeometry(head, headLen, 20), mat);
   const ball = new THREE.Mesh(new THREE.SphereGeometry(head * 0.8, 16, 12), mat);
@@ -120,13 +136,14 @@ export function makeArrow(color, { shaft = 0.018, head = 0.055, headLen = 0.14 }
     cone.position.set(0, L - headLen/2, 0);
     ball.position.set(0, 0, 0);
   };
-  group.userData.setColor = (c) => { mat.color.set(c); mat.emissive.set(c).multiplyScalar(0.45); };
+  group.userData.setColor = (c) => { mat.color.set(c); mat.emissive.set(c).multiplyScalar(GLOW * 1.1); };
   return group;
 }
 
 export function addLights(scene) {
-  scene.add(new THREE.AmbientLight(0xffffff, 1.2));
-  const d = new THREE.DirectionalLight(0xffffff, 1.6);
+  const light = THEME === 'light';
+  scene.add(new THREE.AmbientLight(0xffffff, light ? 0.9 : 1.2));
+  const d = new THREE.DirectionalLight(0xffffff, light ? 1.1 : 1.6);
   d.position.set(3, 5, 4); scene.add(d);
 }
 

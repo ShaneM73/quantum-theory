@@ -41,10 +41,10 @@ export function createQuatSphere({ labels = true, axisLength = 8 } = {}) {
 
   group.add(axesLines(axisLength, { ticks: true, opacity: 0.5 }));
 
-  const grid = new DynLines(6000, 0xdfe7f2, 0.32);
-  const slice = new DynLines(6000, 0xffffff, 0.75);
+  const grid = new DynLines(6000, COLORS.grid, 0.32);
+  const slice = new DynLines(6000, COLORS.line, 0.75);
   const circle = new DynLines(800, COLORS.accent);
-  const perp = new DynLines(800, 0xffffff);
+  const perp = new DynLines(800, COLORS.line);
   group.add(grid.obj, slice.obj, circle.obj, perp.obj);
   const unitGrid = sphereGrid(0, 1);
 

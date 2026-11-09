@@ -24,16 +24,18 @@ html, body { height: 100%; overflow: hidden; }
   display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap;
 }
 .hud > * { pointer-events: auto; }
-.hud .box { background: rgba(20, 25, 34, 0.9); border: 1px solid var(--line); border-radius: 12px; padding: 10px 14px; max-width: 440px; max-height: calc(100svh - 120px); overflow-y: auto; }
+.hud .box { background: var(--hud); border: 1px solid var(--line); border-radius: 12px; padding: 10px 14px; max-width: 440px; max-height: calc(100svh - 120px); overflow-y: auto; }
 .hud h1 { font: italic 400 22px var(--font-math); margin: 2px 0; }
 .hud p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.5; }
 .hud a.back { color: var(--muted); font-size: 13px; text-decoration: none; }
 .hud a.back:hover { color: var(--fg); }
-.hud .top { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
-.hud .langsel { margin-left: 0; }
+.hud .top { display: flex; justify-content: space-between; align-items: center; gap: 8px 10px; flex-wrap: wrap; }
+.hud .prefs { flex-wrap: nowrap; }
+html[data-theme="light"] .vrbtn { color: #161b26 !important; border-color: #161b26 !important; background: rgba(255, 255, 255, 0.85) !important; }
+.hud .prefs { margin-left: 0; }
 .right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
 .turn { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
-.turn button, .ghostbtn { background: rgba(20, 25, 34, 0.9); color: var(--fg); border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px; cursor: pointer; font-size: 13px; }
+.turn button, .ghostbtn { background: var(--hud); color: var(--fg); border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px; cursor: pointer; font-size: 13px; }
 .turn button:hover, .ghostbtn:hover { border-color: var(--accent); }
 .nosupport { color: var(--accent) !important; }
 details.help { margin-top: 8px; border-top: 1px solid var(--line); padding-top: 8px; }
@@ -48,9 +50,12 @@ kbd { font: 500 11.5px var(--font-mono); color: var(--fg); background: var(--rai
 <div class="hud">
   <div class="box">
     <div class="top"><a class="back" href="index.html">← Quantum Theory Labs</a>
-      <select class="langsel" data-lang-select aria-label="Language">
+      <div class="prefs"><select class="langsel" data-theme-select aria-label="Background" data-zh-aria="背景" data-es-aria="Fondo" data-ja-aria="背景">
+      <option value="dark" data-zh="深色背景" data-es="Fondo oscuro" data-ja="暗い背景">Dark background</option><option value="light" data-zh="浅色背景" data-es="Fondo claro" data-ja="明るい背景">Light background</option>
+    </select>
+    <select class="langsel" data-lang-select aria-label="Language">
         <option value="en">English</option><option value="zh">中文</option><option value="es">Español</option><option value="ja">日本語</option>
-      </select>
+      </select></div>
     </div>
     <h1 data-zh="量子理论 VR" data-es="Teoría cuántica en VR" data-ja="量子論 VR">Quantum Theory VR</h1>
     <p data-zh="四个站点围成一圈。戴上头显点下方 <b>ENTER VR</b>，转身换站点。你面对的站点是当前站点（地上的黄色圆环），可以把它拉近、移动，旋转、平移、缩放它的模型。"

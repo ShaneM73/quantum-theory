@@ -10,7 +10,7 @@ export function createBlochSphere({ radius = 1, labels = true, color = COLORS.ac
   group.scale.setScalar(radius);
 
   const shell = new THREE.Mesh(new THREE.SphereGeometry(1, 64, 32),
-    new THREE.MeshLambertMaterial({ color: 0x3a4a63, transparent: true, opacity: 0.2, depthWrite: false, side: THREE.DoubleSide }));
+    new THREE.MeshLambertMaterial({ color: COLORS.shell, transparent: true, opacity: 0.2, depthWrite: false, side: THREE.DoubleSide }));
   group.add(shell);
 
   // grid
@@ -21,12 +21,12 @@ export function createBlochSphere({ radius = 1, labels = true, color = COLORS.ac
   for (let m = 0; m < 12; m++) { const p = m/12*2*Math.PI;
     for (let s = 0; s < 48; s++) pts.push(...sph(s/48*Math.PI, p), ...sph((s+1)/48*Math.PI, p)); }
   const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(pts, 3));
-  group.add(new THREE.LineSegments(g, new THREE.LineBasicMaterial({ color: 0xc9d3e2, transparent: true, opacity: 0.14 })));
+  group.add(new THREE.LineSegments(g, new THREE.LineBasicMaterial({ color: COLORS.soft, transparent: true, opacity: 0.14 })));
   // equator a little stronger
   const eq = [];
   for (let s = 0; s < 128; s++) eq.push(...sph(Math.PI/2, s/128*2*Math.PI), ...sph(Math.PI/2, (s+1)/128*2*Math.PI));
   const eg = new THREE.BufferGeometry(); eg.setAttribute('position', new THREE.Float32BufferAttribute(eq, 3));
-  group.add(new THREE.LineSegments(eg, new THREE.LineBasicMaterial({ color: 0xc9d3e2, transparent: true, opacity: 0.35 })));
+  group.add(new THREE.LineSegments(eg, new THREE.LineBasicMaterial({ color: COLORS.soft, transparent: true, opacity: 0.35 })));
   // axes
   const ax = [];
   [[1,0,0],[0,1,0],[0,0,1]].forEach(d => ax.push(...toThree(d.map(x => -1.3*x)), ...toThree(d.map(x => 1.3*x))));
@@ -37,15 +37,15 @@ export function createBlochSphere({ radius = 1, labels = true, color = COLORS.ac
     const h = small ? 0.17 : 0.2, opt = { italic: false, font: UI_FONT };
     const add = (t, p, c = COLORS.fg, hh = h) => { const s = labelSprite(t, c, hh, opt); s.position.copy(B(p)); group.add(s); };
     add('|0⟩', [0, 0, 1.22]); add('|1⟩', [0, 0, -1.22]);
-    add('|+⟩', [1.28, 0, 0], '#c9d3e2', h*0.85); add('|−⟩', [-1.28, 0, 0], '#c9d3e2', h*0.85);
-    add('|+i⟩', [0, 1.3, 0], '#c9d3e2', h*0.85);
+    add('|+⟩', [1.28, 0, 0], COLORS.soft, h*0.85); add('|−⟩', [-1.28, 0, 0], COLORS.soft, h*0.85);
+    add('|+i⟩', [0, 1.3, 0], COLORS.soft, h*0.85);
   }
 
   // state arrow
   const arrow = makeArrow(color);
   group.add(arrow);
   // ghost arrow (e.g. state before a gate)
-  const ghost = makeArrow(0x9aa4b5, { shaft: 0.01, head: 0.035, headLen: 0.09 });
+  const ghost = makeArrow(COLORS.ghost, { shaft: 0.01, head: 0.035, headLen: 0.09 });
   ghost.traverse(o => { if (o.material) { o.material.transparent = true; o.material.opacity = 0.45; } });
   ghost.visible = false;
   group.add(ghost);

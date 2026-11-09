@@ -35,9 +35,9 @@ const NS = 'http://www.w3.org/2000/svg';
 function svgEl(tag, attrs) { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); return e; }
 function dialFrame(svg) {
   svg.innerHTML = '';
-  svg.append(svgEl('circle', { cx: 0, cy: 0, r: 50, fill: 'none', stroke: '#3a4558', 'stroke-width': 1.5 }));
-  svg.append(svgEl('line', { x1: -56, y1: 0, x2: 56, y2: 0, stroke: '#262e3b' }));
-  svg.append(svgEl('line', { x1: 0, y1: -56, x2: 0, y2: 56, stroke: '#262e3b' }));
+  svg.append(svgEl('circle', { cx: 0, cy: 0, r: 50, fill: 'none', stroke: COLORS.dialRing, 'stroke-width': 1.5 }));
+  svg.append(svgEl('line', { x1: -56, y1: 0, x2: 56, y2: 0, stroke: COLORS.dialAxis }));
+  svg.append(svgEl('line', { x1: 0, y1: -56, x2: 0, y2: 56, stroke: COLORS.dialAxis }));
 }
 function hand(svg, x, y, color, { dashed = false, width = 3 } = {}) {
   svg.append(svgEl('line', { x1: 0, y1: 0, x2: x, y2: -y, stroke: color, 'stroke-width': width, 'stroke-linecap': 'round', ...(dashed ? { 'stroke-dasharray': '4 4', opacity: 0.6 } : {}) }));
@@ -52,7 +52,7 @@ function drawDials(psi) {
   hand(dA, ...H(a/2, 32), COLORS.pink);
   const amp = (svg, z, z0, color) => {
     dialFrame(svg);
-    hand(svg, z0[0]*50, z0[1]*50, '#9aa4b5', { dashed: true, width: 2 });
+    hand(svg, z0[0]*50, z0[1]*50, COLORS.ghost, { dashed: true, width: 2 });
     hand(svg, z[0]*50, z[1]*50, color);
   };
   amp($('dA'), psi[0], st.base[0], COLORS.k);

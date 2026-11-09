@@ -54,9 +54,12 @@ footer { border-top: 1px solid var(--line); padding-block: 20px 32px; color: var
 </head>
 <body>
 <main class="wrap">
-  <div class="toprow"><select class="langsel" data-lang-select aria-label="Language">
+  <div class="toprow"><div class="prefs"><select class="langsel" data-theme-select aria-label="Background" data-zh-aria="背景" data-es-aria="Fondo" data-ja-aria="背景">
+      <option value="dark" data-zh="深色背景" data-es="Fondo oscuro" data-ja="暗い背景">Dark background</option><option value="light" data-zh="浅色背景" data-es="Fondo claro" data-ja="明るい背景">Light background</option>
+    </select>
+    <select class="langsel" data-lang-select aria-label="Language">
       <option value="en">English</option><option value="zh">中文</option><option value="es">Español</option><option value="ja">日本語</option>
-    </select></div>
+    </select></div></div>
   <section class="hero">
     <div>
       <h1>Quantum Theory Labs</h1>

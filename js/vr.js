@@ -26,7 +26,9 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.xr.enabled = true;
 renderer.localClippingEnabled = true;
 container.appendChild(renderer.domElement);
-document.body.appendChild(VRButton.createButton(renderer, { optionalFeatures: ['local-floor', 'bounded-floor', 'hand-tracking'] }));
+const vrButton = VRButton.createButton(renderer, { optionalFeatures: ['local-floor', 'bounded-floor', 'hand-tracking'] });
+vrButton.classList.add('vrbtn');   // a <button>, or an <a> message when VR is unavailable
+document.body.appendChild(vrButton);
 
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(COLORS.stage);
@@ -45,8 +47,8 @@ window.addEventListener('resize', () => {
 });
 
 // floor
-scene.add(new THREE.PolarGridHelper(4.2, 16, 8, 64, 0x2a3242, 0x1b2230));
-const disc = new THREE.Mesh(new THREE.CircleGeometry(0.35, 48), new THREE.MeshBasicMaterial({ color: 0x1b2230 }));
+scene.add(new THREE.PolarGridHelper(4.2, 16, 8, 64, COLORS.floorA, COLORS.floorB));
+const disc = new THREE.Mesh(new THREE.CircleGeometry(0.35, 48), new THREE.MeshBasicMaterial({ color: COLORS.floorB }));
 disc.rotation.x = -Math.PI / 2; disc.position.y = 0.002; scene.add(disc);
 
 if (navigator.xr && navigator.xr.isSessionSupported) {
@@ -85,7 +87,7 @@ function makeStation(angleDeg, modelPos, modelScale = 1) {
   S.add(model);
   // floor marker that lights up when this station is the active one
   const marker = new THREE.Mesh(new THREE.RingGeometry(0.42, 0.47, 64),
-    new THREE.MeshBasicMaterial({ color: 0x2a3242, transparent: true, opacity: 0.9, side: THREE.DoubleSide }));
+    new THREE.MeshBasicMaterial({ color: COLORS.floorA, transparent: true, opacity: 0.9, side: THREE.DoubleSide }));
   marker.rotation.x = -Math.PI / 2; marker.position.set(modelPos[0], 0.004, 0);
   S.add(marker);
   const st = {
@@ -378,7 +380,7 @@ function updateActive() {
   }
   if (best !== active) {
     active = best;
-    stations.forEach(s => { s.marker.material.color.set(s === active ? COLORS.accent : 0x2a3242); });
+    stations.forEach(s => { s.marker.material.color.set(s === active ? COLORS.accent : COLORS.floorA); });
   }
 }
 

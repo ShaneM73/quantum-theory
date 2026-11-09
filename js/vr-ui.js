@@ -36,10 +36,10 @@ export class Button3D {
     g.clearRect(0, 0, W, H);
     const pressed = this.flash > 0;
     roundRect(g, 4, 4, W - 8, H - 8, H * 0.22);
-    g.fillStyle = pressed ? COLORS.accent : this.active ? '#3a3420' : this.hover ? '#2a3445' : '#1b2230';
+    g.fillStyle = pressed ? COLORS.accent : this.active ? COLORS.btnActive : this.hover ? COLORS.btnHover : COLORS.btn;
     g.fill();
-    g.lineWidth = 5; g.strokeStyle = this.hover || this.active ? COLORS.accent : '#3a4558'; g.stroke();
-    g.fillStyle = pressed ? '#0d1016' : COLORS.fg;
+    g.lineWidth = 5; g.strokeStyle = this.hover || this.active ? COLORS.accent : COLORS.btnBorder; g.stroke();
+    g.fillStyle = pressed ? COLORS.btnPressedText : COLORS.fg;
     g.textAlign = 'center'; g.textBaseline = 'middle';
     const hasSub = !!this.sub;
     let size = H * (hasSub ? 0.38 : 0.44);
@@ -47,7 +47,7 @@ export class Button3D {
     while (g.measureText(this.label).width > W * 0.88 && size > 10) { size -= 2; g.font = `600 ${size}px ${UI_FONT}`; }
     g.fillText(this.label, W/2, hasSub ? H * 0.4 : H * 0.53);
     if (hasSub) {
-      g.font = `400 ${H * 0.2}px ${UI_FONT}`; g.fillStyle = pressed ? '#0d1016' : COLORS.muted;
+      g.font = `400 ${H * 0.2}px ${UI_FONT}`; g.fillStyle = pressed ? COLORS.btnPressedText : COLORS.muted;
       g.fillText(this.sub, W/2, H * 0.74);
     }
     this.tex.needsUpdate = true;
@@ -73,7 +73,7 @@ export function buttonConsole(rows, { gap = 0.018, tilt = -0.55 } = {}) {
   });
   // backing plate
   const plateH = -y + gap, plateW = Math.max(...rows.map(r => r.reduce((s, b) => s + b.mesh.geometry.parameters.width, 0) + gap * (r.length + 1)));
-  const plate = new THREE.Mesh(new THREE.PlaneGeometry(plateW, plateH), new THREE.MeshBasicMaterial({ color: 0x10141c, transparent: true, opacity: 0.85 }));
+  const plate = new THREE.Mesh(new THREE.PlaneGeometry(plateW, plateH), new THREE.MeshBasicMaterial({ color: COLORS.plate, transparent: true, opacity: 0.85 }));
   plate.position.set(0, y/2 + gap/2, -0.004);
   group.add(plate);
   group.rotation.x = tilt;
@@ -102,7 +102,7 @@ function wrap(g, text, maxW) {
 }
 
 export class TextPanel {
-  constructor(w, h, { title = '', titleColor = COLORS.accent, bg = 'rgba(16,20,28,0.88)', size = 0.036, titleSize = 0.06, mathTitle = true, px = PX_DEFAULT } = {}) {
+  constructor(w, h, { title = '', titleColor = COLORS.accent, bg = COLORS.panel, size = 0.036, titleSize = 0.06, mathTitle = true, px = PX_DEFAULT } = {}) {
     Object.assign(this, canvasPlane(w, h, px));
     this.opts = { titleColor, bg, size, titleSize, mathTitle };
     this.title = title; this.body = ''; this.big = '';
@@ -113,7 +113,7 @@ export class TextPanel {
     const { g, cv } = this, PX = this.px, W = cv.width, H = cv.height, o = this.opts, pad = 0.035 * PX;
     g.clearRect(0, 0, W, H);
     roundRect(g, 3, 3, W - 6, H - 6, 0.03 * PX); g.fillStyle = o.bg; g.fill();
-    g.lineWidth = 3; g.strokeStyle = '#262e3b'; g.stroke();
+    g.lineWidth = 3; g.strokeStyle = COLORS.panelBorder; g.stroke();
     let y = pad;
     g.textBaseline = 'top'; g.textAlign = 'left';
     if (this.title) {
@@ -124,7 +124,7 @@ export class TextPanel {
       g.font = `italic 400 ${o.size * 1.45 * PX}px ${MATH_FONT}`;
       g.fillStyle = COLORS.fg; g.fillText(this.big, pad, y); y += o.size * 1.45 * PX * 1.35;
     }
-    g.font = `400 ${o.size * PX}px ${UI_FONT}`; g.fillStyle = '#c3cad6';
+    g.font = `400 ${o.size * PX}px ${UI_FONT}`; g.fillStyle = COLORS.panelText;
     for (const line of wrap(g, this.body, W - 2*pad)) {
       if (y + o.size * PX > H - pad * 0.5) break;
       g.fillText(line, pad, y); y += o.size * PX * 1.45;
