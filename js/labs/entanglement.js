@@ -1,0 +1,114 @@
+import { createStage, fontsReady, prefersReducedMotion } from '../three-kit.js';
+import { createEntangle } from '../viz/entangle.js';
+import { concurrence, reducedBloch } from '../qmath.js';
+import {
+  Hm, Xm, applyOne, cnot, ket00, betaState, bellPath, bellCaption, ketString, dirXZ, measureOnce, measureMany, chsh,
+} from '../entangleModel.js';
+import { $, deg, loop } from './ui.js';
+
+const D2R = Math.PI / 180;
+const stage = createStage($('view'), { camPos: [0, 1.2, 7.0], target: [0, -0.35, 0] });
+let E;
+const st = { psi: ket00(), saved: null, anim: null, measured: false };
+
+const len = v => Math.hypot(...v);
+function render() {
+  E.set(st.psi);
+  const ta = +$('ta').value * D2R, tb = +$('tb').value * D2R;
+  E.setMeasure(dirXZ(ta), dirXZ(tb));
+  $('ket').textContent = ketString(st.psi);
+  const C = Math.min(1, concurrence(st.psi));
+  $('conc').textContent = C.toFixed(2);
+  $('lenA').textContent = len(reducedBloch(st.psi, 0)).toFixed(2);
+  $('lenB').textContent = len(reducedBloch(st.psi, 1)).toFixed(2);
+  $('status').innerHTML = st.measured
+    ? '<b>测量之后</b>：两个箭头跳到了测量方向上（向上或向下），重新顶在球面上。纠缠被测量“用掉”了。'
+    : C > 0.98 ? '<b>最大纠缠</b>：两个箭头都缩成了球心的点。整体完全确定，单看每个比特完全随机。'
+    : C > 0.02 ? `<b>部分纠缠</b>（C = ${C.toFixed(2)}）：箭头缩短了一些。`
+    : '<b>没有纠缠</b>：两个箭头都顶在球面上，每个比特各有确定的状态。';
+  $('restore').disabled = !st.saved;
+}
+function setPsi(psi, { keepSaved = false } = {}) {
+  st.psi = psi;
+  if (!keepSaved) { st.saved = null; st.measured = false; $('result').textContent = ''; }
+  render();
+}
+
+fontsReady().then(() => {
+  E = createEntangle();
+  stage.scene.add(E.group);
+  render();
+
+  $('reset').addEventListener('click', () => { st.anim = null; $('beta').value = 0; $('betaOut').textContent = '0°'; $('stepText').textContent = bellCaption(0); setPsi(ket00()); });
+  $('bell').addEventListener('click', () => {
+    $('beta').value = 0;
+    if (prefersReducedMotion()) { setPsi(bellPath(2)); $('stepText').textContent = bellCaption(2); return; }
+    st.anim = { u: 0, pause: 0 }; setPsi(ket00()); $('stepText').textContent = bellCaption(0);
+  });
+  $('beta').addEventListener('input', e => {
+    st.anim = null;
+    $('betaOut').textContent = deg(e.target.value);
+    setPsi(betaState(+e.target.value * D2R));
+    $('stepText').textContent = '用 β 控制纠缠多少。';
+  });
+  $('betaOut').textContent = '0°';
+  $('gates').addEventListener('click', e => {
+    const b = e.target.closest('[data-g]'); if (!b) return;
+    st.anim = null;
+    const g = b.dataset.g;
+    const psi = g === 'HA' ? applyOne(st.psi, Hm, 0) : g === 'XA' ? applyOne(st.psi, Xm, 0)
+      : g === 'HB' ? applyOne(st.psi, Hm, 1) : g === 'XB' ? applyOne(st.psi, Xm, 1) : cnot(st.psi);
+    setPsi(psi);
+  });
+  const angleOut = () => { $('taOut').textContent = deg($('ta').value); $('tbOut').textContent = deg($('tb').value); };
+  angleOut();
+  ['ta', 'tb'].forEach(id => $(id).addEventListener('input', () => { angleOut(); render(); }));
+
+  $('once').addEventListener('click', () => {
+    const base = st.saved || st.psi;
+    const m = measureOnce(base, +$('ta').value * D2R, +$('tb').value * D2R);
+    st.saved = base; st.measured = true;
+    const s = i => (i === 0 ? '+' : '−');
+    $('result').innerHTML = `结果：<span class="qa">A ${s(m.ia)}</span>　<span class="qb">B ${s(m.ib)}</span>　${m.ia === m.ib ? '（相同）' : '（不同）'}`;
+    setPsi(m.psi, { keepSaved: true });
+  });
+  $('restore').addEventListener('click', () => { if (st.saved) setPsi(st.saved); });
+  $('many').addEventListener('click', () => {
+    const base = st.saved || st.psi;
+    const ta = +$('ta').value, tb = +$('tb').value;
+    const r = measureMany(base, ta * D2R, tb * D2R, 1000);
+    $('stats').hidden = false;
+    const row = document.createElement('tr');
+    row.innerHTML = `<td>θA ${ta}° θB ${tb}°</td><td>${r.counts[0][0]}</td><td>${r.counts[0][1]}</td><td>${r.counts[1][0]}</td><td>${r.counts[1][1]}</td><td>${r.E.toFixed(2)}</td>`;
+    $('statsBody').prepend(row);
+    while ($('statsBody').children.length > 6) $('statsBody').lastChild.remove();
+  });
+  $('chsh').addEventListener('click', () => {
+    const base = st.saved || st.psi;
+    const r = chsh(base, 1000);
+    $('chshOut').hidden = false;
+    $('chshBar').style.width = Math.min(100, Math.max(0, Math.abs(r.S) / 4 * 100)) + '%';
+    const verdict = Math.abs(r.S) > 2.05 ? '超过了经典上限 2：不能用“事先写好的答案”解释。' : '没有超过 2。试试先做贝尔态。';
+    $('chshText').innerHTML = `S = <b>${r.S.toFixed(2)}</b>（A 用 0°/90°，B 用 45°/135°）。${verdict}<br>` +
+      r.rows.map(x => `E(${x.a}°, ${x.b}°) = ${x.E.toFixed(2)}`).join('，');
+  });
+});
+
+loop(dt => {
+  if (E) {
+    if (st.anim) {
+      const a = st.anim;
+      if (a.pause > 0) a.pause -= dt;
+      else {
+        const before = a.u;
+        a.u = Math.min(2, a.u + dt * 0.6);
+        if (before < 1 && a.u >= 1) { a.u = 1; a.pause = 1.2; }
+        setPsi(bellPath(a.u));
+        $('stepText').textContent = bellCaption(a.u);
+        if (a.u >= 2) st.anim = null;
+      }
+    }
+    E.tick(dt);
+  }
+  stage.render();
+});

@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>量子纠缠 · Entanglement</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="css/site.css">
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<style>
+.ket { font: 20px var(--font-math); line-height: 1.35; word-break: break-word; }
+.stats { width: 100%; border-collapse: collapse; font: 12px var(--font-mono); font-variant-numeric: tabular-nums; }
+.stats th, .stats td { padding: 4px 6px; border-bottom: 1px solid var(--line); text-align: right; }
+.stats th:first-child, .stats td:first-child { text-align: left; color: var(--muted); font-family: var(--font-ui); }
+.stats th { color: var(--muted); font-weight: 500; }
+.chsh { position: relative; height: 34px; border-radius: 6px; background: #1b2230; overflow: hidden; }
+.chsh i { position: absolute; left: 0; top: 0; bottom: 0; background: var(--pink); opacity: .75; }
+.chsh .mark { position: absolute; top: 0; bottom: 0; width: 2px; background: var(--fg); }
+.chsh .mark span { position: absolute; top: 2px; left: 4px; font: 11px var(--font-mono); color: var(--fg); white-space: nowrap; }
+.qa { color: var(--qa); } .qb { color: var(--qb); }
+.result { font: 500 16px var(--font-mono); }
+</style>
+</head>
+<body>
+<div class="lab">
+  <header class="topbar">
+    <a class="brand" href="index.html">Quantum Theory Labs</a>
+    <nav class="nav">
+      <a href="quaternion.html">1 四元数</a>
+      <a href="hopf.html">2 霍普夫纤维</a>
+      <a href="gates.html">3 量子门</a>
+      <a href="entanglement.html" aria-current="page">4 纠缠</a>
+      <a class="vr" href="vr.html">VR</a>
+    </nav>
+  </header>
+  <div class="body">
+    <div class="view" id="view">
+      <div class="cap">
+        <h2>两个比特，两个布洛赫球</h2>
+        <div class="sub" id="status"></div>
+      </div>
+      <div class="foot">箭头长度 = 这个比特自己有多“确定”。纠缠越强，箭头越往球心缩。下面的柱子是 |00⟩…|11⟩ 的概率，颜色是相位。</div>
+    </div>
+    <aside class="panel">
+      <div>
+        <h1>量子纠缠</h1>
+        <p class="lede">两个比特要 4 个复数。纠缠态不能拆成“A 的状态 × B 的状态”，所以每个球上的箭头只剩一部分长度。</p>
+      </div>
+      <div class="card">
+        <div class="label">现在的状态</div>
+        <div class="ket" id="ket"></div>
+        <div class="row mono" style="font-size:12px">
+          <span>纠缠度 C = <b id="conc" style="color:var(--pink)"></b></span>
+          <span class="qa">|r<sub>A</sub>| = <span id="lenA"></span></span>
+          <span class="qb">|r<sub>B</sub>| = <span id="lenB"></span></span>
+        </div>
+      </div>
+      <div class="group">
+        <div class="label">一步一步做贝尔态</div>
+        <div class="row">
+          <button class="btn" id="bell">H 然后 CNOT</button>
+          <button class="btn ghost" id="reset">回到 |00⟩</button>
+        </div>
+        <div class="statusline" id="stepText">从 |00⟩ 开始。</div>
+      </div>
+      <div class="group">
+        <div class="label">纠缠程度：先把 A 转 β，再 CNOT <output id="betaOut"></output></div>
+        <input type="range" id="beta" min="0" max="180" step="1" value="0" aria-label="β">
+        <div class="statusline">得到 cos(β/2)|00⟩ + sin(β/2)|11⟩。β = 90° 时纠缠最强。</div>
+      </div>
+      <div class="group">
+        <div class="label">单独的门</div>
+        <div class="gates" id="gates" style="grid-template-columns:repeat(5,minmax(0,1fr))">
+          <button class="gate" data-g="HA">H<small class="qa">A</small></button>
+          <button class="gate" data-g="XA">X<small class="qa">A</small></button>
+          <button class="gate" data-g="HB">H<small class="qb">B</small></button>
+          <button class="gate" data-g="XB">X<small class="qb">B</small></button>
+          <button class="gate" data-g="CX">CX<small>A→B</small></button>
+        </div>
+      </div>
+      <div class="group">
+        <div class="label"><span>测量方向（在 x–z 平面里）</span></div>
+        <div class="label"><span class="qa">A 的方向 θ<sub>A</sub></span><output id="taOut"></output></div>
+        <input type="range" id="ta" min="0" max="180" step="1" value="0" aria-label="θA">
+        <div class="label"><span class="qb">B 的方向 θ<sub>B</sub></span><output id="tbOut"></output></div>
+        <input type="range" id="tb" min="0" max="180" step="1" value="0" aria-label="θB">
+        <div class="row">
+          <button class="btn" id="once">测一次</button>
+          <button class="btn ghost" id="many">测 1000 次</button>
+          <button class="btn ghost" id="restore" disabled>恢复测量前</button>
+        </div>
+        <div class="result" id="result"></div>
+        <table class="stats" id="stats" hidden>
+          <thead><tr><th>结果</th><th>++</th><th>+−</th><th>−+</th><th>−−</th><th>关联 E</th></tr></thead>
+          <tbody id="statsBody"></tbody>
+        </table>
+      </div>
+      <div class="group">
+        <div class="label">贝尔不等式（CHSH）小游戏</div>
+        <button class="btn ghost" id="chsh">自动做 4 组 × 1000 次</button>
+        <div id="chshOut" hidden>
+          <div class="chsh" aria-label="S 值"><i id="chshBar"></i>
+            <div class="mark" style="left:50%"><span>经典上限 2</span></div>
+            <div class="mark" style="left:70.7%"><span>量子 2√2</span></div>
+          </div>
+          <div class="statusline" id="chshText"></div>
+        </div>
+      </div>
+      <div class="notes">
+        <div class="note"><h3><span>1</span>H 和 CNOT 为什么能纠缠</h3><p>|00⟩ 经过 H<sub>A</sub> 变成 (|00⟩ + |10⟩)/√2，B 还一直是 0，没有纠缠。CNOT 分别作用在每一项：|00⟩ 不变，|10⟩ 变 |11⟩。结果 (|00⟩ + |11⟩)/√2。CNOT 把 A 的值“抄”给了 B，而 A 本身是 0 和 1 都有。</p></div>
+        <div class="note"><h3><span>2</span>箭头为什么缩短</h3><p>贝尔态整体完全确定，但单看 A 或 B，测 0 和 1 各一半，没有偏向任何方向，所以箭头缩成球心的一个点。拉 β 滑块看它慢慢缩进去。</p></div>
+        <div class="note"><h3><span>3</span>测量的关联</h3><p>两边方向一样时，贝尔态的结果永远相同。方向差 Δ 时，关联 E = cos Δ。测一次后两个箭头立刻跳到确定的位置，纠缠没了。</p></div>
+        <div class="note"><h3><span>4</span>贝尔不等式</h3><p>如果结果是事先“写好”的（局部隐变量），S = E(a,b) − E(a,b′) + E(a′,b) + E(a′,b′) 不超过 2。量子力学能到 2√2 ≈ 2.83。</p></div>
+      </div>
+    </aside>
+  </div>
+</div>
+<script type="module" src="js/labs/entanglement.js"></script>
+</body>
+</html>

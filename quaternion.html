@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>四元数球 · Quaternion Sphere</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="css/site.css">
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+</head>
+<body>
+<div class="lab">
+  <header class="topbar">
+    <a class="brand" href="index.html">Quantum Theory Labs</a>
+    <nav class="nav">
+      <a href="quaternion.html" aria-current="page">1 四元数</a>
+      <a href="hopf.html">2 霍普夫纤维</a>
+      <a href="gates.html">3 量子门</a>
+      <a href="entanglement.html">4 纠缠</a>
+      <a class="vr" href="vr.html">VR</a>
+    </nav>
+  </header>
+  <div class="body">
+    <div class="view" id="view">
+      <div class="cap">
+        <div class="qline" id="qline"></div>
+        <div class="sub" id="status"></div>
+      </div>
+      <div class="foot">拖动画面旋转 · 滚轮缩放 · 抓住<b style="color:var(--pink)">粉色的点</b>沿轴拖动 q</div>
+    </div>
+    <aside class="panel">
+      <div>
+        <h1>四元数球</h1>
+        <p class="lede">纯虚四元数 <span class="math">xi + yj + zk</span> 组成的单位球，乘以 <span class="math">q</span>，再从 −1 立体投影到三维。和 3Blue1Brown 视频里的演示一样。</p>
+      </div>
+      <div class="group">
+        <div class="label">转轴 u</div>
+        <div class="seg" id="axisSeg">
+          <button class="m" data-v="i" aria-pressed="true">i</button>
+          <button class="m" data-v="j" aria-pressed="false">j</button>
+          <button class="m" data-v="k" aria-pressed="false">k</button>
+          <button class="m" data-v="d" aria-pressed="false" title="(i + j + k)/√3">i+j+k</button>
+        </div>
+      </div>
+      <div class="group">
+        <div class="label">q 的角度 θ <output id="thetaOut"></output></div>
+        <input type="range" id="theta" min="0" max="360" step="0.5" value="45" aria-label="θ">
+        <div class="row">
+          <div class="chips" id="presets">
+            <button class="chip" data-t="0">0°</button><button class="chip" data-t="45">45°</button>
+            <button class="chip" data-t="90">90°</button><button class="chip" data-t="135">135°</button>
+            <button class="chip" data-t="180">180°</button><button class="chip" data-t="270">270°</button>
+          </div>
+          <button class="btn" id="play">播放</button>
+        </div>
+        <div class="muted">q = cos θ + u sin θ</div>
+      </div>
+      <div class="group">
+        <div class="label">运算</div>
+        <div class="seg" id="modeSeg">
+          <button data-v="left" aria-pressed="true">q · p</button>
+          <button data-v="right" aria-pressed="false">p · q</button>
+          <button data-v="conj" aria-pressed="false">q p q⁻¹</button>
+        </div>
+      </div>
+      <div class="group">
+        <div class="label">显示</div>
+        <div class="toggles">
+          <label><input type="checkbox" id="tSurf" checked> 球面</label>
+          <label><input type="checkbox" id="tGrid" checked> 球面网格</label>
+          <label><input type="checkbox" id="tCircle" checked><span class="swatch" style="background:var(--accent)"></span> 经过 1 和 u 的圆（黄线）</label>
+          <label><input type="checkbox" id="tPerp" checked><span class="swatch" style="background:linear-gradient(90deg,var(--cj) 50%,var(--ck) 50%)"></span> 垂直于 u 的圆</label>
+          <label><input type="checkbox" id="tImgs" checked> i、j、k 被送到哪里</label>
+          <label><input type="checkbox" id="tSlice"> 实部 w 固定的切片（洋葱层）</label>
+        </div>
+      </div>
+      <div class="group" id="sliceGroup" hidden>
+        <div class="label">切片 w <output id="wOut">0.50</output></div>
+        <input type="range" id="w" min="-0.98" max="0.99" step="0.01" value="0.5" aria-label="w">
+        <div class="muted">实部为 w 的单位四元数组成半径 √(1−w²) 的球。投影后（乘之前）半径是 √((1−w)/(1+w))。</div>
+      </div>
+      <div class="notes">
+        <div class="note"><h3><span>1</span>投影</h3><p>单位四元数 <em>w + xi + yj + zk</em> 落在 (x, y, z)/(1 + w)。1 在原点，−1 在无穷远，w = 0 的点正好在单位球面上。</p></div>
+        <div class="note"><h3><span>2</span>变成平面</h3><p>q · p 模式下，θ = 90° 时 q = i，球上的 i 被乘成 i·i = −1，飞到无穷远，球就被撑成一张平面。</p></div>
+        <div class="note"><h3><span>3</span>180° 和 360°</h3><p>θ = 180° 时 q = −1，球的形状复原，但每个点都到了正对面，粉色的 1 在无穷远。360° 才真正回家。</p></div>
+        <div class="note"><h3><span>4</span>三维旋转</h3><p>切到 q p q⁻¹：左乘让两个平面一起转，右乘 q⁻¹ 把 1–u 平面转回去，另一个平面再多转一次。结果是绕 u 转 <b>2θ</b>，这就是角度减半的来历。</p></div>
+      </div>
+    </aside>
+  </div>
+</div>
+<script type="module" src="js/labs/quaternion.js"></script>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>量子门 · Gates as Rotations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="css/site.css">
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<style>
+.dials { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.dial { display: grid; gap: 4px; justify-items: center; text-align: center; }
+.dial svg { width: 100%; max-width: 104px; height: auto; }
+.dial .t { font-size: 12px; color: var(--muted); }
+.dial .v { font: 12px var(--font-mono); color: var(--fg); font-variant-numeric: tabular-nums; }
+.hist { display: flex; flex-wrap: wrap; gap: 4px; min-height: 26px; align-items: center; }
+.hist span { font: 500 12px var(--font-mono); padding: 2px 8px; border-radius: 6px; background: var(--raise); border: 1px solid var(--line); }
+.big-q { font: italic 22px var(--font-math); font-variant-numeric: tabular-nums; line-height: 1.2; }
+.big-q .w { color: var(--accent); } .big-q .i { color: var(--ci); } .big-q .j { color: var(--cj); } .big-q .k { color: var(--ck); }
+</style>
+</head>
+<body>
+<div class="lab">
+  <header class="topbar">
+    <a class="brand" href="index.html">Quantum Theory Labs</a>
+    <nav class="nav">
+      <a href="quaternion.html">1 四元数</a>
+      <a href="hopf.html">2 霍普夫纤维</a>
+      <a href="gates.html" aria-current="page">3 量子门</a>
+      <a href="entanglement.html">4 纠缠</a>
+      <a class="vr" href="vr.html">VR</a>
+    </nav>
+  </header>
+  <div class="body">
+    <div class="view" id="view">
+      <div class="cap">
+        <h2>量子门 = 布洛赫球上的旋转</h2>
+        <div class="sub" id="status"></div>
+      </div>
+      <div class="foot">拖动画面旋转 · <span style="color:var(--pink)">粉色虚线</span>是转轴，粉色曲线是箭头走过的路</div>
+    </div>
+    <aside class="panel">
+      <div>
+        <h1>量子门与四元数</h1>
+        <p class="lede">每个单比特门（去掉整体相位后）都是一个单位四元数 <span class="math">q = cos(α/2) + n sin(α/2)</span>，作用是让布洛赫球绕 n 转 α。</p>
+      </div>
+      <div class="group">
+        <div class="label">初态</div>
+        <div class="chips" id="inits">
+          <button class="chip" data-s="0">|0⟩</button><button class="chip" data-s="1">|1⟩</button>
+          <button class="chip" data-s="+">|+⟩</button><button class="chip" data-s="-">|−⟩</button>
+          <button class="chip" data-s="+i">|+i⟩</button>
+        </div>
+      </div>
+      <div class="group">
+        <div class="label">点一个门（动画演示旋转）</div>
+        <div class="gates" id="gates">
+          <button class="gate" data-g="X">X<small>x 180°</small></button>
+          <button class="gate" data-g="Y">Y<small>y 180°</small></button>
+          <button class="gate" data-g="Z">Z<small>z 180°</small></button>
+          <button class="gate" data-g="H">H<small>x+z 180°</small></button>
+          <button class="gate" data-g="S">S<small>z 90°</small></button>
+          <button class="gate" data-g="T">T<small>z 45°</small></button>
+        </div>
+        <div class="label" style="margin-top:4px">已用的门（从左到右）</div>
+        <div class="hist" id="hist"></div>
+      </div>
+      <div class="group">
+        <div class="label">自由旋转：转轴</div>
+        <div class="seg" id="axisSeg">
+          <button data-v="x" aria-pressed="false">x</button>
+          <button data-v="y" aria-pressed="false">y</button>
+          <button data-v="z" aria-pressed="true">z</button>
+          <button data-v="h" aria-pressed="false">(x+z)/√2</button>
+        </div>
+        <div class="label">布洛赫球上转的角度 α <output id="alphaOut"></output></div>
+        <input type="range" id="alpha" min="0" max="720" step="1" value="0" aria-label="α">
+        <div class="row">
+          <div class="chips">
+            <button class="chip" data-a="180">180°</button><button class="chip" data-a="360">360°</button><button class="chip" data-a="720">720°</button>
+          </div>
+          <div class="row" style="gap:6px">
+            <button class="btn ghost" id="spin">从 0 转到 720°</button>
+            <button class="btn" id="commit">应用</button>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="label">这次旋转的四元数</div>
+        <div class="big-q" id="qnow"></div>
+        <div class="dials">
+          <div class="dial"><svg id="dAngle" viewBox="-60 -60 120 120" aria-label="角度对照"></svg><div class="t">球上转 α（黄）<br>四元数里 α/2（粉）</div></div>
+          <div class="dial"><svg id="dA" viewBox="-60 -60 120 120" aria-label="振幅 a"></svg><div class="t">振幅 a</div><div class="v" id="aV"></div></div>
+          <div class="dial"><svg id="dB" viewBox="-60 -60 120 120" aria-label="振幅 b"></svg><div class="t">振幅 b</div><div class="v" id="bV"></div></div>
+        </div>
+        <div class="statusline" id="sign"></div>
+      </div>
+      <div class="card">
+        <div class="label">所有门合起来的四元数 q<sub>总</sub> = q<sub>n</sub> ⋯ q<sub>2</sub> q<sub>1</sub></div>
+        <div class="big-q" id="qtot"></div>
+        <div class="statusline">连续做两个门，就是把两个四元数乘起来。</div>
+      </div>
+      <div class="notes">
+        <div class="note"><h3><span>1</span>门是旋转</h3><p>X 把 |0⟩ 转到 |1⟩，像经典的“非”。H 把 |0⟩ 转到赤道上的 |+⟩，0 和 1 各一半。S、T 只绕 z 轴转，改变的是相对相位（经度）。</p></div>
+        <div class="note"><h3><span>2</span>为什么写 α/2</h3><p>转三维向量用的是 <em>q p q⁻¹</em>：左乘一次、右乘 q⁻¹ 一次，垂直于轴的平面转了两次。所以想让球上转 α，q 里只能写 α/2。</p></div>
+        <div class="note"><h3><span>3</span>360° 多一个负号</h3><p>把 α 拉到 360°。箭头回到原处，但 q = −1，a 和 b 都变号（看上面两个表盘）。拉到 720° q 才回到 1。q 转一圈 = 球转两圈。电子自旋就是这样。</p></div>
+        <div class="note"><h3><span>4</span>负号看不见吗？</h3><p>单独一个比特，整体的 −1 测不出来。但如果只让叠加态的一半转 360°，那一半的负号会和另一半干涉，就能被测到。中子干涉实验真的测到过。</p></div>
+      </div>
+    </aside>
+  </div>
+</div>
+<script type="module" src="js/labs/gates.js"></script>
+</body>
+</html>
