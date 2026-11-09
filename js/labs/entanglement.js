@@ -5,6 +5,7 @@ import {
   Hm, Xm, applyOne, cnot, ket00, betaState, bellPath, bellCaption, ketString, dirXZ, measureOnce, measureMany, chsh,
 } from '../entangleModel.js';
 import { $, deg, loop } from './ui.js';
+import { L } from '../lang.js';
 
 const D2R = Math.PI / 180;
 const stage = createStage($('view'), { camPos: [0, 1.2, 7.0], target: [0, -0.35, 0] });
@@ -22,10 +23,10 @@ function render() {
   $('lenA').textContent = len(reducedBloch(st.psi, 0)).toFixed(2);
   $('lenB').textContent = len(reducedBloch(st.psi, 1)).toFixed(2);
   $('status').innerHTML = st.measured
-    ? '<b>测量之后</b>：两个箭头跳到了测量方向上（向上或向下），重新顶在球面上。纠缠被测量“用掉”了。'
-    : C > 0.98 ? '<b>最大纠缠</b>：两个箭头都缩成了球心的点。整体完全确定，单看每个比特完全随机。'
-    : C > 0.02 ? `<b>部分纠缠</b>（C = ${C.toFixed(2)}）：箭头缩短了一些。`
-    : '<b>没有纠缠</b>：两个箭头都顶在球面上，每个比特各有确定的状态。';
+    ? L('<b>After measuring</b>: both arrows jumped onto their measurement directions (up or down) and are back on the sphere. The measurement used up the entanglement.', '<b>测量之后</b>：两个箭头跳到了测量方向上（向上或向下），重新顶在球面上。纠缠被测量“用掉”了。')
+    : C > 0.98 ? L('<b>Maximally entangled</b>: both arrows have shrunk to the centre. The pair is completely definite, each qubit alone is completely random.', '<b>最大纠缠</b>：两个箭头都缩成了球心的点。整体完全确定，单看每个比特完全随机。')
+    : C > 0.02 ? L(`<b>Partly entangled</b> (C = ${C.toFixed(2)}): the arrows are shorter.`, `<b>部分纠缠</b>（C = ${C.toFixed(2)}）：箭头缩短了一些。`)
+    : L('<b>Not entangled</b>: both arrows reach the sphere. Each qubit has its own definite state.', '<b>没有纠缠</b>：两个箭头都顶在球面上，每个比特各有确定的状态。');
   $('restore').disabled = !st.saved;
 }
 function setPsi(psi, { keepSaved = false } = {}) {
@@ -49,7 +50,7 @@ fontsReady().then(() => {
     st.anim = null;
     $('betaOut').textContent = deg(e.target.value);
     setPsi(betaState(+e.target.value * D2R));
-    $('stepText').textContent = '用 β 控制纠缠多少。';
+    $('stepText').textContent = L('β controls how much entanglement there is.', '用 β 控制纠缠多少。');
   });
   $('betaOut').textContent = '0°';
   $('gates').addEventListener('click', e => {
@@ -69,7 +70,7 @@ fontsReady().then(() => {
     const m = measureOnce(base, +$('ta').value * D2R, +$('tb').value * D2R);
     st.saved = base; st.measured = true;
     const s = i => (i === 0 ? '+' : '−');
-    $('result').innerHTML = `结果：<span class="qa">A ${s(m.ia)}</span>　<span class="qb">B ${s(m.ib)}</span>　${m.ia === m.ib ? '（相同）' : '（不同）'}`;
+    $('result').innerHTML = `${L('Result:', '结果：')} <span class="qa">A ${s(m.ia)}</span>　<span class="qb">B ${s(m.ib)}</span>　${m.ia === m.ib ? L('(same)', '（相同）') : L('(different)', '（不同）')}`;
     setPsi(m.psi, { keepSaved: true });
   });
   $('restore').addEventListener('click', () => { if (st.saved) setPsi(st.saved); });
@@ -88,9 +89,9 @@ fontsReady().then(() => {
     const r = chsh(base, 1000);
     $('chshOut').hidden = false;
     $('chshBar').style.width = Math.min(100, Math.max(0, Math.abs(r.S) / 4 * 100)) + '%';
-    const verdict = Math.abs(r.S) > 2.05 ? '超过了经典上限 2：不能用“事先写好的答案”解释。' : '没有超过 2。试试先做贝尔态。';
-    $('chshText').innerHTML = `S = <b>${r.S.toFixed(2)}</b>（A 用 0°/90°，B 用 45°/135°）。${verdict}<br>` +
-      r.rows.map(x => `E(${x.a}°, ${x.b}°) = ${x.E.toFixed(2)}`).join('，');
+    const verdict = Math.abs(r.S) > 2.05 ? L('Above the classical limit of 2: answers written down in advance cannot explain this.', '超过了经典上限 2：不能用“事先写好的答案”解释。') : L('Not above 2. Try making a Bell state first.', '没有超过 2。试试先做贝尔态。');
+    $('chshText').innerHTML = `S = <b>${r.S.toFixed(2)}</b> ${L('(A uses 0°/90°, B uses 45°/135°).', '（A 用 0°/90°，B 用 45°/135°）。')} ${verdict}<br>` +
+      r.rows.map(x => `E(${x.a}°, ${x.b}°) = ${x.E.toFixed(2)}`).join(L(', ', '，'));
   });
 });
 

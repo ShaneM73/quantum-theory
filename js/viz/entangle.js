@@ -4,6 +4,7 @@ import * as THREE from 'three';
 import { reducedBloch, concurrence, cabs2, carg, toThree } from '../qmath.js';
 import { labelSprite, COLORS, UI_FONT } from '../three-kit.js';
 import { createBlochSphere } from './bloch.js';
+import { L } from '../lang.js';
 
 export const QCOLORS = { A: '#6fc3ff', B: '#ff9b6b' };
 
@@ -15,7 +16,7 @@ export function createEntangle({ spacing = 1.55, bars = true } = {}) {
   group.add(A.group, B.group);
 
   const tag = (t, c, x) => { const s = labelSprite(t, c, 0.32, { italic: false, font: UI_FONT }); s.position.set(x, 1.62, 0); group.add(s); };
-  tag('比特 A', QCOLORS.A, -spacing); tag('比特 B', QCOLORS.B, spacing);
+  tag(L('Qubit A', '比特 A'), QCOLORS.A, -spacing); tag(L('Qubit B', '比特 B'), QCOLORS.B, spacing);
 
   // entanglement link
   const linkLen = Math.max(2*spacing - 2.1, 0.2);

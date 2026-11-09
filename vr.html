@@ -1,13 +1,15 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>量子理论 VR · Quantum Theory VR</title>
+<title>Quantum Theory VR</title>
+<meta name="title-zh" content="量子理论 VR · Quantum Theory VR">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="css/site.css">
+<script defer src="js/i18n.js"></script>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
 <style>
 html, body { height: 100%; overflow: hidden; }
@@ -25,6 +27,8 @@ html, body { height: 100%; overflow: hidden; }
 .hud p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.5; }
 .hud a.back { color: var(--muted); font-size: 13px; text-decoration: none; }
 .hud a.back:hover { color: var(--fg); }
+.hud .top { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.hud .langbtn { margin-left: 0; background: rgba(20, 25, 34, 0.86); }
 .turn { display: flex; gap: 6px; flex-wrap: wrap; }
 .turn button { background: rgba(20, 25, 34, 0.86); color: var(--fg); border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px; cursor: pointer; font-size: 13px; }
 .turn button:hover { border-color: var(--accent); }
@@ -35,16 +39,16 @@ html, body { height: 100%; overflow: hidden; }
 <div id="xr"></div>
 <div class="hud">
   <div class="box">
-    <a class="back" href="index.html">← Quantum Theory Labs</a>
-    <h1>量子理论 VR</h1>
-    <p>四个站点围成一圈。戴上头显点下方 <b>ENTER VR</b>，转身换站点，用手柄射线对准按钮按扳机。在电脑上：拖动画面环视，点击 3D 按钮。</p>
+    <div class="top"><a class="back" href="index.html">← Quantum Theory Labs</a><button class="langbtn" data-lang-toggle>中文</button></div>
+    <h1 data-zh="量子理论 VR">Quantum Theory VR</h1>
+    <p data-zh="四个站点围成一圈。戴上头显点下方 <b>ENTER VR</b>，转身换站点，用手柄射线对准按钮按扳机。在电脑上：拖动画面环视，点击 3D 按钮。">Four stations stand in a ring around you. In a headset, press <b>ENTER VR</b> below, turn around to change station, and point the controller ray at a button and pull the trigger. On a computer, drag to look around and click the 3D buttons.</p>
     <p id="xrNote"></p>
   </div>
-  <div class="turn" id="turn" aria-label="转向站点">
-    <button data-a="0">1 四元数</button>
-    <button data-a="90">2 霍普夫</button>
-    <button data-a="180">3 量子门</button>
-    <button data-a="270">4 纠缠</button>
+  <div class="turn" id="turn" aria-label="Face a station" data-zh-aria="转向站点">
+    <button data-a="0" data-zh="1 四元数">1 Quaternions</button>
+    <button data-a="90" data-zh="2 霍普夫">2 Hopf</button>
+    <button data-a="180" data-zh="3 量子门">3 Gates</button>
+    <button data-a="270" data-zh="4 纠缠">4 Entanglement</button>
   </div>
 </div>
 <script type="module" src="js/vr.js"></script>

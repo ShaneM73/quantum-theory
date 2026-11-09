@@ -2,6 +2,7 @@ import { createStage, fontsReady } from '../three-kit.js';
 import { createHopf } from '../viz/hopf.js';
 import { cfmt, cabs2, r4OfState, fromThree, anglesOfBloch } from '../qmath.js';
 import { $, segmented, deg, loop } from './ui.js';
+import { L as tr } from '../lang.js';
 
 const L = createStage($('left'), { camPos: [3.6, 2.6, 6.2] });
 const R = createStage($('right'), { camPos: [2.2, 1.5, 3.0] });
@@ -14,7 +15,7 @@ function readout() {
   const pa = cabs2(s[0]), pb = cabs2(s[1]);
   $('aP').textContent = pa.toFixed(3); $('bP').textContent = pb.toFixed(3);
   $('aBar').style.width = pa*100 + '%'; $('bBar').style.width = pb*100 + '%';
-  $('r4').textContent = '四维坐标 (w, x, y, z) = (' + r4OfState(s).map(x => (Math.abs(x) < 0.005 ? 0 : x).toFixed(2)).join(', ') + ')';
+  $('r4').textContent = tr('4D point (w, x, y, z) = (', '四维坐标 (w, x, y, z) = (') + r4OfState(s).map(x => (Math.abs(x) < 0.005 ? 0 : x).toFixed(2)).join(', ') + ')';
   $('thOut').textContent = deg(H.params.th); $('phOut').textContent = deg(H.params.ph); $('gaOut').textContent = deg(H.params.ga);
 }
 function set(p) {
@@ -28,7 +29,7 @@ fontsReady().then(() => {
   L.scene.add(H.s3); R.scene.add(H.bloch.group);
   readout();
   ['th', 'ph', 'ga'].forEach(k => $(k).addEventListener('input', e => set({ [k]: +e.target.value })));
-  $('play').addEventListener('click', () => { playing = !playing; $('play').textContent = playing ? '暂停' : '播放'; });
+  $('play').addEventListener('click', () => { playing = !playing; $('play').textContent = playing ? tr('Pause', '暂停') : tr('Play', '播放'); });
   setFam = segmented('famSeg', v => set({ fam: v }));
   const fam = v => { setFam(v); set({ fam: v }); };
   $('goRing').addEventListener('click', () => fam('ring'));

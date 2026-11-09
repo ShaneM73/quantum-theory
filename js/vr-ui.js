@@ -86,7 +86,8 @@ function wrap(g, text, maxW) {
   const lines = [];
   for (const para of String(text).split('\n')) {
     let line = '';
-    const tokens = para.match(/[A-Za-z0-9.,:;()+\-−=/'"|⟩⟨°√·²³⁻¹ ]+|./gu) || [''];
+    // a Latin word with its trailing spaces, or a single CJK character / punctuation mark
+    const tokens = para.match(/[^\s\u2E80-\u9FFF\uF900-\uFAFF\uFF00-\uFFEF\u3000-\u303F]+\s*|\s+|./gu) || [''];
     for (const tok of tokens) {
       const test = line + tok;
       if (g.measureText(test).width <= maxW || (/^[，。：；、！？）」』,.;:!?)]$/.test(tok) && line)) { line = test; continue; }

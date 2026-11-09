@@ -1,19 +1,22 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Quantum Theory Labs</title>
-<meta name="description" content="从四元数到量子纠缠：一组可以动手转、拖、测量的 3D 交互实验，以及一个 WebXR 虚拟现实版本。">
+<meta name="description" content="From quaternions to quantum entanglement: hands-on 3D labs you can rotate, drag and measure, plus a WebXR VR version.">
+<meta name="title-zh" content="Quantum Theory Labs · 量子理论实验室">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="css/site.css">
+<script defer src="js/i18n.js"></script>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
 <style>
 html, body { height: auto; }
 .wrap { max-width: 1120px; margin: 0 auto; padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); }
-.hero { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 32px; align-items: center; padding-block: 48px 24px; }
+.toprow { display: flex; justify-content: flex-end; padding-top: calc(14px + env(safe-area-inset-top, 0px)); }
+.hero { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 32px; align-items: center; padding-block: 24px 24px; }
 .hero h1 { font: italic 400 clamp(40px, 6vw, 72px)/1 var(--font-math); margin: 0 0 6px; letter-spacing: -0.01em; }
 .hero .zh { font-size: 20px; color: var(--muted); margin: 0 0 18px; }
 .hero p { color: var(--muted); font-size: 16px; line-height: 1.7; max-width: 52ch; margin: 0 0 22px; }
@@ -49,56 +52,57 @@ footer { border-top: 1px solid var(--line); padding-block: 20px 32px; color: var
 </head>
 <body>
 <main class="wrap">
+  <div class="toprow"><button class="langbtn" data-lang-toggle>中文</button></div>
   <section class="hero">
     <div>
       <h1>Quantum Theory Labs</h1>
-      <p class="zh">从四元数到量子纠缠</p>
-      <p>一条从 3Blue1Brown 的四元数视频出发的路线：先看<b>四维的数</b>怎么投影到三维，再发现<b>量子比特</b>就住在同一个超球面上，<b>量子门</b>就是四元数旋转，最后用两个比特看<b>纠缠</b>和贝尔不等式。每一步都可以动手拖、转、测量。</p>
+      <p class="zh" data-zh="从四元数到量子纠缠">From quaternions to quantum entanglement</p>
+      <p data-zh="一条从 3Blue1Brown 的四元数视频出发的路线：先看<b>四维的数</b>怎么投影到三维，再发现<b>量子比特</b>就住在同一个超球面上，<b>量子门</b>就是四元数旋转，最后用两个比特看<b>纠缠</b>和贝尔不等式。每一步都可以动手拖、转、测量。">A path that starts from 3Blue1Brown's quaternion video. First see how <b>four-dimensional numbers</b> are projected into 3D, then find that a <b>qubit</b> lives on the same hypersphere, that <b>quantum gates</b> are quaternion rotations, and finally use two qubits to explore <b>entanglement</b> and Bell's inequality. Every step is hands-on: drag, rotate, measure.</p>
       <div class="cta">
-        <a class="btn" href="quaternion.html">从第 1 步开始</a>
-        <a class="btn ghost" href="vr.html">进入 VR 版本</a>
+        <a class="btn" href="quaternion.html" data-zh="从第 1 步开始">Start with step 1</a>
+        <a class="btn ghost" href="vr.html" data-zh="进入 VR 版本">Open the VR version</a>
       </div>
     </div>
-    <div id="heroView"><div class="tag">霍普夫纤维：布洛赫球上每个点，都是超球面上的一个圆</div></div>
+    <div id="heroView"><div class="tag" data-zh="霍普夫纤维：布洛赫球上每个点，都是超球面上的一个圆">Hopf fibers: every point of the Bloch sphere is a circle on the hypersphere</div></div>
   </section>
 
   <section class="path">
-    <h2>学习路线</h2>
+    <h2 data-zh="学习路线">LEARNING PATH</h2>
     <div class="steps">
       <a class="step" href="quaternion.html">
         <span class="n">1</span>
-        <h3>四元数球<small>Quaternions · stereographic projection</small></h3>
-        <p>把单位球乘以 <b>q</b>，看它变大、变成平面、再翻回来。理解 <b>180° 和 360°</b> 的区别，以及 q p q⁻¹ 为什么转 <b>2θ</b>。</p>
-        <span class="go">打开</span>
+        <h3><span data-zh="四元数球">Quaternion sphere</span><small>Quaternions · stereographic projection</small></h3>
+        <p data-zh="把单位球乘以 <b>q</b>，看它变大、变成平面、再翻回来。理解 <b>180° 和 360°</b> 的区别，以及 q p q⁻¹ 为什么转 <b>2θ</b>。">Multiply the unit sphere by <b>q</b> and watch it grow, flatten into a plane and turn back. See the difference between <b>180° and 360°</b>, and why q p q⁻¹ rotates by <b>2θ</b>.</p>
+        <span class="go" data-zh="打开">Open</span>
       </a>
       <a class="step" href="hopf.html">
         <span class="n">2</span>
-        <h3>霍普夫纤维与布洛赫球<small>Hopf fibration · Bloch sphere</small></h3>
-        <p>量子比特 (a, b) 是四维单位球上的点。<b>整体相位</b>让它转一圈，这一圈在布洛赫球上只是<b>一个点</b>：3 − 1 = 2 维。</p>
-        <span class="go">打开</span>
+        <h3><span data-zh="霍普夫纤维与布洛赫球">Hopf fibers and the Bloch sphere</span><small>Hopf fibration · Bloch sphere</small></h3>
+        <p data-zh="量子比特 (a, b) 是四维单位球上的点。<b>整体相位</b>让它转一圈，这一圈在布洛赫球上只是<b>一个点</b>：3 − 1 = 2 维。">A qubit (a, b) is a point on the unit sphere in 4D. The <b>global phase</b> moves it around a loop, and that whole loop is <b>a single point</b> on the Bloch sphere: 3 − 1 = 2 dimensions.</p>
+        <span class="go" data-zh="打开">Open</span>
       </a>
       <a class="step" href="gates.html">
         <span class="n">3</span>
-        <h3>量子门 = 旋转<small>Gates · SU(2) · spin-½</small></h3>
-        <p>X、Y、Z、H、S、T 都是布洛赫球上的旋转，每个都对应一个单位四元数。拉到 <b>360°</b> 看负号，<b>720°</b> 才真正复原。</p>
-        <span class="go">打开</span>
+        <h3><span data-zh="量子门 = 旋转">Gates are rotations</span><small>Gates · SU(2) · spin-½</small></h3>
+        <p data-zh="X、Y、Z、H、S、T 都是布洛赫球上的旋转，每个都对应一个单位四元数。拉到 <b>360°</b> 看负号，<b>720°</b> 才真正复原。">X, Y, Z, H, S and T are all rotations of the Bloch sphere, each matching a unit quaternion. Turn to <b>360°</b> to see the minus sign; only <b>720°</b> truly restores the state.</p>
+        <span class="go" data-zh="打开">Open</span>
       </a>
       <a class="step" href="entanglement.html">
         <span class="n">4</span>
-        <h3>量子纠缠<small>H + CNOT · measurement · CHSH</small></h3>
-        <p>一步一步做出贝尔态，看两个箭头<b>缩进球心</b>。选方向测量，统计关联，再自己验证 <b>S = 2√2 &gt; 2</b>。</p>
-        <span class="go">打开</span>
+        <h3><span data-zh="量子纠缠">Entanglement</span><small>H + CNOT · measurement · CHSH</small></h3>
+        <p data-zh="一步一步做出贝尔态，看两个箭头<b>缩进球心</b>。选方向测量，统计关联，再自己验证 <b>S = 2√2 &gt; 2</b>。">Build a Bell state step by step and watch both arrows <b>shrink into the centre</b>. Choose measurement directions, collect correlations, and check <b>S = 2√2 &gt; 2</b> yourself.</p>
+        <span class="go" data-zh="打开">Open</span>
       </a>
     </div>
     <div class="vrband">
       <div>
-        <h3>VR 版本</h3>
-        <p>四个实验摆成一圈围着你：转过身就换一个站点，用手柄射线按 3D 按钮。支持 WebXR 的头显（Quest 浏览器等）里点“ENTER VR”；电脑上也能用鼠标看和点。</p>
+        <h3 data-zh="VR 版本">VR version</h3>
+        <p data-zh="四个实验摆成一圈围着你：转过身就换一个站点，用手柄射线按 3D 按钮。支持 WebXR 的头显（Quest 浏览器等）里点“ENTER VR”；电脑上也能用鼠标看和点。">The four labs stand in a ring around you: turn to change station and press 3D buttons with the controller ray. In a WebXR headset (Quest Browser and others) press "ENTER VR"; on a computer you can look around and click with the mouse.</p>
       </div>
-      <a class="btn" href="vr.html" style="text-decoration:none">打开 VR</a>
+      <a class="btn" href="vr.html" style="text-decoration:none" data-zh="打开 VR">Open VR</a>
     </div>
   </section>
-  <footer>Three.js + WebXR · 所有计算都在浏览器里实时完成 · <a href="https://www.youtube.com/watch?v=d4EgbgTm0Bg">3Blue1Brown: Visualizing quaternions</a></footer>
+  <footer><span data-zh="Three.js + WebXR · 所有计算都在浏览器里实时完成">Three.js + WebXR · everything is computed live in your browser</span> · <a href="https://www.youtube.com/watch?v=d4EgbgTm0Bg">3Blue1Brown: Visualizing quaternions</a></footer>
 </main>
 <script type="module">
 import { createStage, fontsReady, prefersReducedMotion } from './js/three-kit.js';

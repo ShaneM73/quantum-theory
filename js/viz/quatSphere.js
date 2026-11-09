@@ -3,6 +3,7 @@
 import * as THREE from 'three';
 import { qmul, qconj, qFromAngle, stereo, toThree } from '../qmath.js';
 import { DynLines, axesLines, labelSprite, COLORS } from '../three-kit.js';
+import { L } from '../lang.js';
 
 const CAP = 28, JUMP = 6;
 export const QS_AXES = {
@@ -155,15 +156,15 @@ export function createQuatSphere({ labels = true, axisLength = 8 } = {}) {
   function status() {
     const t = ((params.theta % 360) + 360) % 360, near = a => Math.abs(t - a) < 0.6;
     if (params.mode === 'conj')
-      return { key: 'conj', text: `q p q⁻¹ 让纯虚四元数保持纯虚，所以球一直是单位球，只是绕 u 转了 2θ = ${(2*t % 360).toFixed(0)}°。点 1 永远不动。` };
+      return { key: 'conj', text: L(`q p q⁻¹ keeps pure quaternions pure, so the sphere stays the unit sphere. It is rotated by 2θ = ${(2*t % 360).toFixed(0)}° about u. The point 1 never moves.`, `q p q⁻¹ 让纯虚四元数保持纯虚，所以球一直是单位球，只是绕 u 转了 2θ = ${(2*t % 360).toFixed(0)}°。点 1 永远不动。`) };
     if (near(90) || near(270))
-      return { key: 'plane', text: 'q 的实部为 0，球上有一个点被送到 −1（投影点），飞到无穷远，所以球看起来变成一个平面。' };
+      return { key: 'plane', text: L('q has real part 0, so one point of the sphere is sent to −1, the projection point. It goes to infinity and the sphere shows up as a flat plane.', 'q 的实部为 0，球上有一个点被送到 −1（投影点），飞到无穷远，所以球看起来变成一个平面。') };
     if (near(0) || near(360))
-      return { key: 'home', text: 'q = 1，什么都没变。' };
+      return { key: 'home', text: L('q = 1. Nothing has changed.', 'q = 1，什么都没变。') };
     if (near(180))
-      return { key: 'flip', text: 'q = −1。球的形状复原了，但每个点都跑到了正对面（p → −p），1 在无穷远。要到 360° 才真正回家。' };
+      return { key: 'flip', text: L('q = −1. The sphere has its shape back, but every point is on the opposite side (p → −p) and 1 is at infinity. Only at 360° is everything truly home.', 'q = −1。球的形状复原了，但每个点都跑到了正对面（p → −p），1 在无穷远。要到 360° 才真正回家。') };
     const st = Math.tan(t * Math.PI / 360);
-    return { key: 'move', text: `1 被送到 q，投影在 u 轴上 tan(θ/2) = ${Math.abs(st) > 99 ? '∞' : st.toFixed(2)} 的位置。球的一部分实部变负，被推到单位球外面，所以投影出来的球变大了。` };
+    return { key: 'move', text: L(`1 has moved to q, which projects to tan(θ/2) = ${Math.abs(st) > 99 ? '∞' : st.toFixed(2)} along the u axis. Part of the sphere now has negative real part, so it is pushed outside the unit ball and the projected sphere grows.`, `1 被送到 q，投影在 u 轴上 tan(θ/2) = ${Math.abs(st) > 99 ? '∞' : st.toFixed(2)} 的位置。球的一部分实部变负，被推到单位球外面，所以投影出来的球变大了。`) };
   }
 
   return {

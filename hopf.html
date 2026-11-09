@@ -1,13 +1,15 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>霍普夫纤维 · Hopf Fibers</title>
+<title>Hopf Fibers · Quantum Theory Labs</title>
+<meta name="title-zh" content="霍普夫纤维 · Quantum Theory Labs">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="css/site.css">
+<script defer src="js/i18n.js"></script>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
 </head>
 <body>
@@ -15,72 +17,73 @@
   <header class="topbar">
     <a class="brand" href="index.html">Quantum Theory Labs</a>
     <nav class="nav">
-      <a href="quaternion.html">1 四元数</a>
-      <a href="hopf.html" aria-current="page">2 霍普夫纤维</a>
-      <a href="gates.html">3 量子门</a>
-      <a href="entanglement.html">4 纠缠</a>
+      <a href="quaternion.html" data-zh="1 四元数">1 Quaternions</a>
+      <a href="hopf.html" aria-current="page" data-zh="2 霍普夫纤维">2 Hopf fibers</a>
+      <a href="gates.html" data-zh="3 量子门">3 Gates</a>
+      <a href="entanglement.html" data-zh="4 纠缠">4 Entanglement</a>
       <a class="vr" href="vr.html">VR</a>
     </nav>
+    <button class="langbtn" data-lang-toggle>中文</button>
   </header>
   <div class="body two">
     <div class="view" id="left">
       <div class="cap">
-        <h2>超球面 S³（从 −1 投影）</h2>
-        <div class="sub">每个 (a, b) 是这里的一个点。加上整体相位，它沿一个<b>圆</b>转动：这就是一根“纤维”。</div>
+        <h2 data-zh="超球面 S³（从 −1 投影）">The 3-sphere S³ (projected from −1)</h2>
+        <div class="sub" data-zh="每个 (a, b) 是这里的一个点。加上整体相位，它沿一个<b>圆</b>转动：这就是一根“纤维”。">Each (a, b) is a point here. Adding a global phase moves it around a <b>circle</b>: that circle is a "fiber".</div>
       </div>
-      <div class="foot"><span class="big">3</span>个数才能定位：<b>θ</b>、<b>φ</b>，再加整体相位 <b>γ</b></div>
+      <div class="foot" data-zh="<span class=big>3</span>个数才能定位：<b>θ</b>、<b>φ</b>，再加整体相位 <b>γ</b>"><span class="big">3</span> numbers to locate a point: <b>θ</b>, <b>φ</b>, plus the global phase <b>γ</b></div>
     </div>
     <div class="view" id="right">
       <div class="cap">
-        <h2>布洛赫球 S²</h2>
-        <div class="sub">左边整整一圈，在这里只是<b>一个点</b>。拖动彩色的点换一个量子态。</div>
+        <h2 data-zh="布洛赫球 S²">The Bloch sphere S²</h2>
+        <div class="sub" data-zh="左边整整一圈，在这里只是<b>一个点</b>。拖动彩色的点换一个量子态。">A whole loop on the left is just <b>one point</b> here. Drag the coloured point to pick another state.</div>
       </div>
-      <div class="foot"><span class="big">2</span>个数就够：<b>θ</b>（纬度）、<b>φ</b>（经度）</div>
+      <div class="foot" data-zh="<span class=big>2</span>个数就够：<b>θ</b>（纬度）、<b>φ</b>（经度）"><span class="big">2</span> numbers are enough: <b>θ</b> (latitude) and <b>φ</b> (longitude)</div>
     </div>
     <aside class="panel">
       <div>
-        <h1>霍普夫纤维与布洛赫球</h1>
-        <p class="lede">一个量子比特 a|0⟩ + b|1⟩，满足 |a|² + |b|² = 1。左边是它在四维里的样子，右边是物理上真正不同的状态。</p>
+        <h1 data-zh="霍普夫纤维与布洛赫球">Hopf fibers and the Bloch sphere</h1>
+        <p class="lede" data-zh="一个量子比特 a|0⟩ + b|1⟩，满足 |a|² + |b|² = 1。左边是它在四维里的样子，右边是物理上真正不同的状态。">A qubit a|0⟩ + b|1⟩ with |a|² + |b|² = 1. On the left is how it looks in four dimensions; on the right are the states that are physically different.</p>
       </div>
       <div class="group">
-        <div class="label">θ（离 |0⟩ 多远）<output id="thOut"></output></div>
+        <div class="label"><span data-zh="θ（离 |0⟩ 多远）">θ (how far from |0⟩)</span><output id="thOut"></output></div>
         <input type="range" id="th" min="0" max="180" step="0.5" value="60" aria-label="θ">
-        <div class="label">φ（相对相位）<output id="phOut"></output></div>
+        <div class="label"><span data-zh="φ（相对相位）">φ (relative phase)</span><output id="phOut"></output></div>
         <input type="range" id="ph" min="0" max="360" step="0.5" value="40" aria-label="φ">
       </div>
       <div class="group">
-        <div class="label">整体相位 γ（同时乘到 a 和 b 上）<output id="gaOut"></output></div>
+        <div class="label"><span data-zh="整体相位 γ（同时乘到 a 和 b 上）">Global phase γ (multiplies a and b together)</span><output id="gaOut"></output></div>
         <div class="row" style="flex-wrap:nowrap">
           <input type="range" id="ga" min="0" max="360" step="0.5" value="0" aria-label="γ">
-          <button class="btn" id="play">播放</button>
+          <button class="btn" id="play" data-zh="播放">Play</button>
         </div>
       </div>
       <div class="card" aria-live="polite">
         <div class="amp">
           <span class="nm">a</span><span id="aVal"></span>
           <span></span><span class="bar"><i id="aBar"></i></span>
-          <span></span><span class="muted" style="font-size:12px">测到 0 的概率 |a|² = <b id="aP" style="color:var(--accent);font-weight:500"></b></span>
+          <span></span><span class="muted" style="font-size:12px"><span data-zh="测到 0 的概率">Probability of measuring 0,</span> |a|² = <b id="aP" class="acc"></b></span>
           <span class="nm">b</span><span id="bVal"></span>
           <span></span><span class="bar"><i id="bBar"></i></span>
-          <span></span><span class="muted" style="font-size:12px">测到 1 的概率 |b|² = <b id="bP" style="color:var(--accent);font-weight:500"></b></span>
+          <span></span><span class="muted" style="font-size:12px"><span data-zh="测到 1 的概率">Probability of measuring 1,</span> |b|² = <b id="bP" class="acc"></b></span>
         </div>
         <div class="mono muted" style="font-size:12px" id="r4"></div>
       </div>
       <div class="group">
-        <div class="label">要画几根纤维</div>
+        <div class="label" data-zh="要画几根纤维">Fibers to draw</div>
         <div class="seg" id="famSeg">
-          <button data-v="one" aria-pressed="true">一个态</button>
-          <button data-v="ring" aria-pressed="false">一圈纬线</button>
-          <button data-v="scatter" aria-pressed="false">很多态</button>
+          <button data-v="one" aria-pressed="true" data-zh="一个态">One state</button>
+          <button data-v="ring" aria-pressed="false" data-zh="一圈纬线">Latitude ring</button>
+          <button data-v="scatter" aria-pressed="false" data-zh="很多态">Many states</button>
         </div>
       </div>
       <div class="notes">
-        <div class="note"><h3><span>1</span>“物理上同一个状态”</h3><p>按“播放”转动 γ。a 和 b 的数值一直在变，但 |a|² 和 |b|² 完全不动。测量只看得到概率，所以这些 (a, b) 是同一个物理状态，右边的点也不动。</p></div>
-        <div class="note"><h3><span>2</span>为什么连成一个圆</h3><p>γ 从 0° 走到 360°，左边粉色的点沿彩色圆圈走一圈回到原地。这一圈都是同一个物理状态。</p></div>
-        <div class="note"><h3><span>3</span>一圈缩成一个点</h3><p>右边每个点对应左边一个圆，颜色一一对应。看 <button class="link" id="goRing">一圈纬线</button>：右边一个圆，左边拼成一个甜甜圈，任意两个圆都套在一起。再看 <button class="link" id="goScatter">很多态</button>。</p></div>
-        <div class="note"><h3><span>4</span>球面为什么是二维的</h3><p>“几维”说的是定位一个点要几个数。布洛赫球上只要经度、纬度两个数；左边还要多一个 γ。每圈压成一点，少一个数：3 − 1 = 2。</p></div>
-        <div class="note"><h3><span>5</span>相对相位有意义</h3><p>只有 a、b 一起转的整体相位没意义。它们之间的相位差 φ 是经度：|0⟩ + |1⟩ 和 |0⟩ − |1⟩ 在赤道上的两个相对的点，是不同的状态。</p></div>
-        <div class="note"><h3><span>6</span>和视频的联系</h3><p>把 (a, b) 写成四元数 <em>a + b·j</em>，整体相位就是左乘 <em>cos γ + i sin γ</em>，正是视频里沿 i 轴拖动的乘法。视频里的黄线就是 <button class="link" id="goNorth">|0⟩ 的纤维</button>，j–k 圆就是 <button class="link" id="goSouth">|1⟩ 的纤维</button>。</p></div>
+        <div class="note"><h3><span>1</span><b data-zh="“物理上同一个状态”">"Physically the same state"</b></h3><p data-zh="按“播放”转动 γ。a 和 b 的数值一直在变，但 |a|² 和 |b|² 完全不动。测量只看得到概率，所以这些 (a, b) 是同一个物理状态，右边的点也不动。">Press Play to turn γ. The values of a and b keep changing, but |a|² and |b|² do not move at all. Measurements only see these probabilities, so all these (a, b) are the same physical state, and the point on the right stays still.</p></div>
+        <div class="note"><h3><span>2</span><b data-zh="为什么连成一个圆">Why it is a circle</b></h3><p data-zh="γ 从 0° 走到 360°，左边粉色的点沿彩色圆圈走一圈回到原地。这一圈都是同一个物理状态。">As γ goes from 0° to 360°, the pink point on the left travels once around the coloured circle and returns. Every point on that loop is the same physical state.</p></div>
+        <div class="note"><h3><span>3</span><b data-zh="一圈缩成一个点">A loop becomes a point</b></h3><p data-zh="右边每个点对应左边一个圆，颜色一一对应。看 <button class=link id=goRing>一圈纬线</button>：右边一个圆，左边拼成一个甜甜圈，任意两个圆都套在一起。再看 <button class=link id=goScatter>很多态</button>。">Each point on the right matches one circle on the left, with matching colours. Try a <button class="link" id="goRing">latitude ring</button>: a circle on the right becomes a doughnut of circles on the left, and every two of them are linked. Then try <button class="link" id="goScatter">many states</button>.</p></div>
+        <div class="note"><h3><span>4</span><b data-zh="球面为什么是二维的">Why the sphere is 2-dimensional</b></h3><p data-zh="“几维”说的是定位一个点要几个数。布洛赫球上只要经度、纬度两个数；左边还要多一个 γ。每圈压成一点，少一个数：3 − 1 = 2。">"Dimension" means how many numbers you need to locate a point. On the Bloch sphere two are enough, latitude and longitude; on the left you need γ as well. Squeezing each loop to a point removes one number: 3 − 1 = 2.</p></div>
+        <div class="note"><h3><span>5</span><b data-zh="相对相位有意义">Relative phase matters</b></h3><p data-zh="只有 a、b 一起转的整体相位没意义。它们之间的相位差 φ 是经度：|0⟩ + |1⟩ 和 |0⟩ − |1⟩ 在赤道上的两个相对的点，是不同的状态。">Only the phase that turns a and b together is meaningless. The phase difference φ between them is the longitude: |0⟩ + |1⟩ and |0⟩ − |1⟩ are opposite points on the equator and are different states.</p></div>
+        <div class="note"><h3><span>6</span><b data-zh="和视频的联系">The link to the video</b></h3><p data-zh="把 (a, b) 写成四元数 <em>a + b·j</em>，整体相位就是左乘 <em>cos γ + i sin γ</em>，正是视频里沿 i 轴拖动的乘法。视频里的黄线就是 <button class=link id=goNorth>|0⟩ 的纤维</button>，j–k 圆就是 <button class=link id=goSouth>|1⟩ 的纤维</button>。">Write (a, b) as the quaternion <em>a + b·j</em>. The global phase is then left multiplication by <em>cos γ + i sin γ</em>, exactly the multiplication you drag along the i axis in the video. The video's yellow line is the <button class="link" id="goNorth">fiber of |0⟩</button>, and the j–k circle is the <button class="link" id="goSouth">fiber of |1⟩</button>.</p></div>
       </div>
     </aside>
   </div>

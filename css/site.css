@@ -111,3 +111,13 @@ input[type=range] { width: 100%; accent-color: var(--accent); margin: 0; }
   .panel { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+
+/* language toggle */
+.langbtn { margin-left: auto; background: transparent; color: var(--fg); border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px; font-size: 13px; cursor: pointer; }
+.langbtn:hover { border-color: var(--accent); }
+html[lang="en"] .panel h1, html[lang="en"] .cap h2 { letter-spacing: -0.005em; }
+.pinkt { color: var(--pink); }
+.acc { color: var(--accent); font-weight: 500; }
+.fgt { color: var(--fg); }
+.sw-accent { background: var(--accent); }
+.sw-jk { background: linear-gradient(90deg, var(--cj) 50%, var(--ck) 50%); }

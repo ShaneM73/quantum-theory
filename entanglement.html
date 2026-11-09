@@ -1,13 +1,15 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>量子纠缠 · Entanglement</title>
+<title>Entanglement · Quantum Theory Labs</title>
+<meta name="title-zh" content="量子纠缠 · Quantum Theory Labs">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="css/site.css">
+<script defer src="js/i18n.js"></script>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
 <style>
 .ket { font: 20px var(--font-math); line-height: 1.35; word-break: break-word; }
@@ -28,50 +30,51 @@
   <header class="topbar">
     <a class="brand" href="index.html">Quantum Theory Labs</a>
     <nav class="nav">
-      <a href="quaternion.html">1 四元数</a>
-      <a href="hopf.html">2 霍普夫纤维</a>
-      <a href="gates.html">3 量子门</a>
-      <a href="entanglement.html" aria-current="page">4 纠缠</a>
+      <a href="quaternion.html" data-zh="1 四元数">1 Quaternions</a>
+      <a href="hopf.html" data-zh="2 霍普夫纤维">2 Hopf fibers</a>
+      <a href="gates.html" data-zh="3 量子门">3 Gates</a>
+      <a href="entanglement.html" aria-current="page" data-zh="4 纠缠">4 Entanglement</a>
       <a class="vr" href="vr.html">VR</a>
     </nav>
+    <button class="langbtn" data-lang-toggle>中文</button>
   </header>
   <div class="body">
     <div class="view" id="view">
       <div class="cap">
-        <h2>两个比特，两个布洛赫球</h2>
+        <h2 data-zh="两个比特，两个布洛赫球">Two qubits, two Bloch spheres</h2>
         <div class="sub" id="status"></div>
       </div>
-      <div class="foot">箭头长度 = 这个比特自己有多“确定”。纠缠越强，箭头越往球心缩。下面的柱子是 |00⟩…|11⟩ 的概率，颜色是相位。</div>
+      <div class="foot" data-zh="箭头长度 = 这个比特自己有多“确定”。纠缠越强，箭头越往球心缩。下面的柱子是 |00⟩…|11⟩ 的概率，颜色是相位。">Arrow length = how definite each qubit is on its own. The stronger the entanglement, the more the arrows shrink toward the centre. The bars below are the probabilities of |00⟩…|11⟩; their colour is the phase.</div>
     </div>
     <aside class="panel">
       <div>
-        <h1>量子纠缠</h1>
-        <p class="lede">两个比特要 4 个复数。纠缠态不能拆成“A 的状态 × B 的状态”，所以每个球上的箭头只剩一部分长度。</p>
+        <h1 data-zh="量子纠缠">Entanglement</h1>
+        <p class="lede" data-zh="两个比特要 4 个复数。纠缠态不能拆成“A 的状态 × B 的状态”，所以每个球上的箭头只剩一部分长度。">Two qubits need 4 complex numbers. An entangled state cannot be split into "state of A × state of B", so the arrow on each sphere keeps only part of its length.</p>
       </div>
       <div class="card">
-        <div class="label">现在的状态</div>
+        <div class="label" data-zh="现在的状态">Current state</div>
         <div class="ket" id="ket"></div>
         <div class="row mono" style="font-size:12px">
-          <span>纠缠度 C = <b id="conc" style="color:var(--pink)"></b></span>
+          <span><span data-zh="纠缠度">Entanglement</span> C = <b id="conc" class="pinkt"></b></span>
           <span class="qa">|r<sub>A</sub>| = <span id="lenA"></span></span>
           <span class="qb">|r<sub>B</sub>| = <span id="lenB"></span></span>
         </div>
       </div>
       <div class="group">
-        <div class="label">一步一步做贝尔态</div>
+        <div class="label" data-zh="一步一步做贝尔态">Build a Bell state step by step</div>
         <div class="row">
-          <button class="btn" id="bell">H 然后 CNOT</button>
-          <button class="btn ghost" id="reset">回到 |00⟩</button>
+          <button class="btn" id="bell" data-zh="H 然后 CNOT">H, then CNOT</button>
+          <button class="btn ghost" id="reset" data-zh="回到 |00⟩">Back to |00⟩</button>
         </div>
-        <div class="statusline" id="stepText">从 |00⟩ 开始。</div>
+        <div class="statusline" id="stepText" data-zh="从 |00⟩ 开始。">Start from |00⟩.</div>
       </div>
       <div class="group">
-        <div class="label">纠缠程度：先把 A 转 β，再 CNOT <output id="betaOut"></output></div>
+        <div class="label"><span data-zh="纠缠程度：先把 A 转 β，再 CNOT">Amount of entanglement: turn A by β, then CNOT</span> <output id="betaOut"></output></div>
         <input type="range" id="beta" min="0" max="180" step="1" value="0" aria-label="β">
-        <div class="statusline">得到 cos(β/2)|00⟩ + sin(β/2)|11⟩。β = 90° 时纠缠最强。</div>
+        <div class="statusline" data-zh="得到 cos(β/2)|00⟩ + sin(β/2)|11⟩。β = 90° 时纠缠最强。">This gives cos(β/2)|00⟩ + sin(β/2)|11⟩. β = 90° is the most entangled.</div>
       </div>
       <div class="group">
-        <div class="label">单独的门</div>
+        <div class="label" data-zh="单独的门">Individual gates</div>
         <div class="gates" id="gates" style="grid-template-columns:repeat(5,minmax(0,1fr))">
           <button class="gate" data-g="HA">H<small class="qa">A</small></button>
           <button class="gate" data-g="XA">X<small class="qa">A</small></button>
@@ -81,38 +84,38 @@
         </div>
       </div>
       <div class="group">
-        <div class="label"><span>测量方向（在 x–z 平面里）</span></div>
-        <div class="label"><span class="qa">A 的方向 θ<sub>A</sub></span><output id="taOut"></output></div>
+        <div class="label" data-zh="测量方向（在 x–z 平面里）">Measurement directions (in the x–z plane)</div>
+        <div class="label"><span class="qa"><span data-zh="A 的方向">Direction of A,</span> θ<sub>A</sub></span><output id="taOut"></output></div>
         <input type="range" id="ta" min="0" max="180" step="1" value="0" aria-label="θA">
-        <div class="label"><span class="qb">B 的方向 θ<sub>B</sub></span><output id="tbOut"></output></div>
+        <div class="label"><span class="qb"><span data-zh="B 的方向">Direction of B,</span> θ<sub>B</sub></span><output id="tbOut"></output></div>
         <input type="range" id="tb" min="0" max="180" step="1" value="0" aria-label="θB">
         <div class="row">
-          <button class="btn" id="once">测一次</button>
-          <button class="btn ghost" id="many">测 1000 次</button>
-          <button class="btn ghost" id="restore" disabled>恢复测量前</button>
+          <button class="btn" id="once" data-zh="测一次">Measure once</button>
+          <button class="btn ghost" id="many" data-zh="测 1000 次">Measure 1000×</button>
+          <button class="btn ghost" id="restore" disabled data-zh="恢复测量前">Restore</button>
         </div>
         <div class="result" id="result"></div>
         <table class="stats" id="stats" hidden>
-          <thead><tr><th>结果</th><th>++</th><th>+−</th><th>−+</th><th>−−</th><th>关联 E</th></tr></thead>
+          <thead><tr><th data-zh="结果">Settings</th><th>++</th><th>+−</th><th>−+</th><th>−−</th><th data-zh="关联 E">Correlation E</th></tr></thead>
           <tbody id="statsBody"></tbody>
         </table>
       </div>
       <div class="group">
-        <div class="label">贝尔不等式（CHSH）小游戏</div>
-        <button class="btn ghost" id="chsh">自动做 4 组 × 1000 次</button>
+        <div class="label" data-zh="贝尔不等式（CHSH）小游戏">Bell inequality (CHSH) game</div>
+        <button class="btn ghost" id="chsh" data-zh="自动做 4 组 × 1000 次">Run 4 settings × 1000 times</button>
         <div id="chshOut" hidden>
-          <div class="chsh" aria-label="S 值"><i id="chshBar"></i>
-            <div class="mark" style="left:50%"><span>经典上限 2</span></div>
-            <div class="mark" style="left:70.7%"><span>量子 2√2</span></div>
+          <div class="chsh" aria-label="S value" data-zh-aria="S 值"><i id="chshBar"></i>
+            <div class="mark" style="left:50%"><span data-zh="经典上限 2">classical limit 2</span></div>
+            <div class="mark" style="left:70.7%"><span data-zh="量子 2√2">quantum 2√2</span></div>
           </div>
           <div class="statusline" id="chshText"></div>
         </div>
       </div>
       <div class="notes">
-        <div class="note"><h3><span>1</span>H 和 CNOT 为什么能纠缠</h3><p>|00⟩ 经过 H<sub>A</sub> 变成 (|00⟩ + |10⟩)/√2，B 还一直是 0，没有纠缠。CNOT 分别作用在每一项：|00⟩ 不变，|10⟩ 变 |11⟩。结果 (|00⟩ + |11⟩)/√2。CNOT 把 A 的值“抄”给了 B，而 A 本身是 0 和 1 都有。</p></div>
-        <div class="note"><h3><span>2</span>箭头为什么缩短</h3><p>贝尔态整体完全确定，但单看 A 或 B，测 0 和 1 各一半，没有偏向任何方向，所以箭头缩成球心的一个点。拉 β 滑块看它慢慢缩进去。</p></div>
-        <div class="note"><h3><span>3</span>测量的关联</h3><p>两边方向一样时，贝尔态的结果永远相同。方向差 Δ 时，关联 E = cos Δ。测一次后两个箭头立刻跳到确定的位置，纠缠没了。</p></div>
-        <div class="note"><h3><span>4</span>贝尔不等式</h3><p>如果结果是事先“写好”的（局部隐变量），S = E(a,b) − E(a,b′) + E(a′,b) + E(a′,b′) 不超过 2。量子力学能到 2√2 ≈ 2.83。</p></div>
+        <div class="note"><h3><span>1</span><b data-zh="H 和 CNOT 为什么能纠缠">Why H and CNOT entangle</b></h3><p data-zh="|00⟩ 经过 H<sub>A</sub> 变成 (|00⟩ + |10⟩)/√2，B 还一直是 0，没有纠缠。CNOT 分别作用在每一项：|00⟩ 不变，|10⟩ 变 |11⟩。结果 (|00⟩ + |11⟩)/√2。CNOT 把 A 的值“抄”给了 B，而 A 本身是 0 和 1 都有。">H<sub>A</sub> turns |00⟩ into (|00⟩ + |10⟩)/√2. B is still 0, so nothing is entangled yet. CNOT then acts on each term separately: |00⟩ stays, |10⟩ becomes |11⟩. The result is (|00⟩ + |11⟩)/√2. CNOT copies the value of A onto B, while A itself is both 0 and 1.</p></div>
+        <div class="note"><h3><span>2</span><b data-zh="箭头为什么缩短">Why the arrows shrink</b></h3><p data-zh="贝尔态整体完全确定，但单看 A 或 B，测 0 和 1 各一半，没有偏向任何方向，所以箭头缩成球心的一个点。拉 β 滑块看它慢慢缩进去。">The Bell state as a whole is completely definite, but A or B alone gives 0 and 1 half the time each, with no preferred direction, so its arrow shrinks to a point at the centre. Drag the β slider to watch it shrink gradually.</p></div>
+        <div class="note"><h3><span>3</span><b data-zh="测量的关联">Measurement correlations</b></h3><p data-zh="两边方向一样时，贝尔态的结果永远相同。方向差 Δ 时，关联 E = cos Δ。测一次后两个箭头立刻跳到确定的位置，纠缠没了。">With the same direction on both sides, the Bell state always gives the same result. With directions differing by Δ, the correlation is E = cos Δ. After one measurement both arrows jump to definite positions and the entanglement is gone.</p></div>
+        <div class="note"><h3><span>4</span><b data-zh="贝尔不等式">Bell's inequality</b></h3><p data-zh="如果结果是事先“写好”的（局部隐变量），S = E(a,b) − E(a,b′) + E(a′,b) + E(a′,b′) 不超过 2。量子力学能到 2√2 ≈ 2.83。">If the results were written down in advance (local hidden variables), S = E(a,b) − E(a,b′) + E(a′,b) + E(a′,b′) could not exceed 2. Quantum mechanics reaches 2√2 ≈ 2.83.</p></div>
       </div>
     </aside>
   </div>

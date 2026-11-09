@@ -9,6 +9,7 @@ import { createBlochSphere } from './viz/bloch.js';
 import { createEntangle } from './viz/entangle.js';
 import { Button3D, buttonConsole, TextPanel } from './vr-ui.js';
 import { su2, matVec, blochOf, quatOfSU2, GATES, stateFromAngles, rotate3, cabs2, cfmt, cmul, cconj, cadd, nfmt, concurrence } from './qmath.js';
+import { L } from './lang.js';
 import { ket00, bellPath, bellCaption, betaState, cnot, ketString, dirXZ, measureOnce, chsh } from './entangleModel.js';
 
 const D2R = Math.PI / 180;
@@ -48,11 +49,11 @@ disc.rotation.x = -Math.PI / 2; disc.position.y = 0.002; scene.add(disc);
 
 if (navigator.xr && navigator.xr.isSessionSupported) {
   navigator.xr.isSessionSupported('immersive-vr').then(ok => {
-    $('xrNote').textContent = ok ? '' : '这个浏览器不支持 WebXR VR，可以先用鼠标浏览。头显里请用 Quest 浏览器等打开同一个网址。';
+    $('xrNote').textContent = ok ? '' : L('This browser does not support WebXR VR. You can still look around with the mouse. On a headset, open this same address in a WebXR browser such as the Quest Browser.', '这个浏览器不支持 WebXR VR，可以先用鼠标浏览。头显里请用 Quest 浏览器等打开同一个网址。');
     if (!ok) $('xrNote').classList.add('nosupport');
   }).catch(() => {});
 } else {
-  $('xrNote').textContent = '这个浏览器没有 WebXR。需要 HTTPS 和支持 WebXR 的浏览器才能进入 VR；现在可以用鼠标浏览。';
+  $('xrNote').textContent = L('This browser has no WebXR. VR needs HTTPS and a WebXR browser; for now you can look around with the mouse.', '这个浏览器没有 WebXR。需要 HTTPS 和支持 WebXR 的浏览器才能进入 VR；现在可以用鼠标浏览。');
   $('xrNote').classList.add('nosupport');
 }
 
@@ -118,11 +119,11 @@ function stationQuaternion() {
   const setT = t => qs.set({ theta: ((t % 360) + 360) % 360 });
   const modes = ['left', 'conj', 'right'], modeName = { left: 'q · p', conj: 'q p q⁻¹', right: 'p · q' };
   const axes = ['i', 'j', 'k'];
-  const bPlay = new Button3D('播放', () => { playing = !playing; bPlay.setLabel(playing ? '暂停' : '播放'); bPlay.setActive(playing); });
-  const bMode = new Button3D('q · p', () => { const m = modes[(modes.indexOf(qs.params.mode) + 1) % 3]; qs.set({ mode: m }); bMode.setLabel(modeName[m]); }, { w: 0.2, sub: '运算' });
-  const bAxis = new Button3D('i', () => { const a = axes[(axes.indexOf(qs.params.axis) + 1) % 3]; qs.set({ axis: a }); bAxis.setLabel(a); }, { w: 0.2, sub: '转轴 u' });
-  const bSlice = new Button3D('关', () => { qs.set({ showSlice: !qs.params.showSlice }); bSlice.setLabel(qs.params.showSlice ? '开' : '关'); bSlice.setActive(qs.params.showSlice); }, { w: 0.2, sub: '洋葱层 w=0.5' });
-  const bSurf = new Button3D('开', () => { qs.set({ showSurface: !qs.params.showSurface }); bSurf.setLabel(qs.params.showSurface ? '开' : '关'); }, { w: 0.2, sub: '球面' });
+  const bPlay = new Button3D(L('Play', '播放'), () => { playing = !playing; bPlay.setLabel(playing ? L('Pause', '暂停') : L('Play', '播放')); bPlay.setActive(playing); });
+  const bMode = new Button3D('q · p', () => { const m = modes[(modes.indexOf(qs.params.mode) + 1) % 3]; qs.set({ mode: m }); bMode.setLabel(modeName[m]); }, { w: 0.2, sub: L('operation', '运算') });
+  const bAxis = new Button3D('i', () => { const a = axes[(axes.indexOf(qs.params.axis) + 1) % 3]; qs.set({ axis: a }); bAxis.setLabel(a); }, { w: 0.2, sub: L('axis u', '转轴 u') });
+  const bSlice = new Button3D(L('Off', '关'), () => { qs.set({ showSlice: !qs.params.showSlice }); bSlice.setLabel(qs.params.showSlice ? L('On', '开') : L('Off', '关')); bSlice.setActive(qs.params.showSlice); }, { w: 0.2, sub: L('slice w = 0.5', '洋葱层 w=0.5') });
+  const bSurf = new Button3D(L('On', '开'), () => { qs.set({ showSurface: !qs.params.showSurface }); bSurf.setLabel(qs.params.showSurface ? L('On', '开') : L('Off', '关')); }, { w: 0.2, sub: L('surface', '球面') });
   addConsole(S, [
     [new Button3D('−15°', () => setT(qs.params.theta - 15)), bPlay, new Button3D('+15°', () => setT(qs.params.theta + 15)),
      new Button3D('90°', () => setT(90)), new Button3D('180°', () => setT(180)), new Button3D('360°', () => setT(0))],
@@ -131,7 +132,7 @@ function stationQuaternion() {
   tickers.push(dt => {
     if (playing) setT(qs.params.theta + dt * 25);
     qs.update();
-    info.set({ title: '1 · 四元数球', big: fq(qs.q()), body: `θ = ${qs.params.theta.toFixed(0)}°，运算 ${modeName[qs.params.mode]}\n${qs.status().text}\n\n把单位球乘以 q，再从 −1 投影。90° 时变平面，180° 形状复原但点都到了对面，360° 才回家。q p q⁻¹ 是三维旋转，角度翻倍。` });
+    info.set({ title: L('1 · Quaternion sphere', '1 · 四元数球'), big: fq(qs.q()), body: L(`θ = ${qs.params.theta.toFixed(0)}°, operation ${modeName[qs.params.mode]}\n${qs.status().text}\n\nMultiply the unit sphere by q, then project from −1. At 90° it becomes a plane, at 180° it has its shape back but every point is on the opposite side, and only at 360° is it home. q p q⁻¹ is a 3D rotation by twice the angle.`, `θ = ${qs.params.theta.toFixed(0)}°，运算 ${modeName[qs.params.mode]}\n${qs.status().text}\n\n把单位球乘以 q，再从 −1 投影。90° 时变平面，180° 形状复原但点都到了对面，360° 才回家。q p q⁻¹ 是三维旋转，角度翻倍。`) });
   });
 }
 
@@ -149,28 +150,28 @@ function stationHopf() {
   info.mesh.position.x = 1.18;
   let playing = true;
   const setP = p => H.set(p);
-  const bPlay = new Button3D('暂停', () => { playing = !playing; bPlay.setLabel(playing ? '暂停' : '播放'); bPlay.setActive(playing); }, { sub: '整体相位 γ' });
+  const bPlay = new Button3D(L('Pause', '暂停'), () => { playing = !playing; bPlay.setLabel(playing ? L('Pause', '暂停') : L('Play', '播放')); bPlay.setActive(playing); }, { sub: L('global phase γ', '整体相位 γ') });
   bPlay.setActive(true);
   const famBtns = {};
   const fam = f => { setP({ fam: f }); Object.entries(famBtns).forEach(([k, b]) => b.setActive(k === f)); };
-  famBtns.one = new Button3D('一个态', () => fam('one'), { w: 0.2 });
-  famBtns.ring = new Button3D('一圈纬线', () => fam('ring'), { w: 0.2 });
-  famBtns.scatter = new Button3D('很多态', () => fam('scatter'), { w: 0.2 });
+  famBtns.one = new Button3D(L('One state', '一个态'), () => fam('one'), { w: 0.2 });
+  famBtns.ring = new Button3D(L('Latitude ring', '一圈纬线'), () => fam('ring'), { w: 0.2 });
+  famBtns.scatter = new Button3D(L('Many states', '很多态'), () => fam('scatter'), { w: 0.2 });
   famBtns.one.setActive(true);
   const clamp = (x, lo, hi) => Math.max(lo, Math.min(hi, x));
   addConsole(S, [
     [new Button3D('θ −15°', () => setP({ th: clamp(H.params.th - 15, 0, 180) })), new Button3D('θ +15°', () => setP({ th: clamp(H.params.th + 15, 0, 180) })),
      new Button3D('φ −30°', () => setP({ ph: (H.params.ph + 330) % 360 })), new Button3D('φ +30°', () => setP({ ph: (H.params.ph + 30) % 360 })), bPlay],
     [famBtns.one, famBtns.ring, famBtns.scatter,
-     new Button3D('|0⟩', () => { fam('one'); setP({ th: 0, ph: 0 }); }, { sub: '的纤维' }), new Button3D('|1⟩', () => { fam('one'); setP({ th: 180, ph: 0 }); }, { sub: '的纤维' })],
+     new Button3D('|0⟩', () => { fam('one'); setP({ th: 0, ph: 0 }); }, { sub: L('fiber', '的纤维') }), new Button3D('|1⟩', () => { fam('one'); setP({ th: 180, ph: 0 }); }, { sub: L('fiber', '的纤维') })],
   ], 0.05);
   tickers.push(dt => {
     if (playing) setP({ ga: (H.params.ga + dt * 40) % 360 });
     H.update();
     const s = H.amplitudes(), pa = cabs2(s[0]);
-    info.set({ title: '2 · 霍普夫纤维', big: `γ = ${H.params.ga.toFixed(0)}°`,
+    info.set({ title: L('2 · Hopf fibers', '2 · 霍普夫纤维'), big: `γ = ${H.params.ga.toFixed(0)}°`,
       body: `a = ${cfmt(s[0])}\nb = ${cfmt(s[1])}\n|a|² = ${pa.toFixed(3)}　|b|² = ${(1 - pa).toFixed(3)}\n\n` +
-        'γ 在转，a、b 在变，概率不变：物理上是同一个态。左边粉色点绕一整圈 = 右边布洛赫球上一个点。每圈缩成一点：3 − 1 = 2 维。' });
+        L('γ turns, a and b change, the probabilities do not: physically it is the same state. One full loop of the pink point on the left = one point on the Bloch sphere on the right. Squeezing each loop to a point: 3 − 1 = 2 dimensions.', 'γ 在转，a、b 在变，概率不变：物理上是同一个态。左边粉色点绕一整圈 = 右边布洛赫球上一个点。每圈缩成一点：3 − 1 = 2 维。') });
   });
 }
 
@@ -195,8 +196,8 @@ function stationGates() {
   addConsole(S, [
     [new Button3D('|0⟩', () => reset(0, 0), { w: 0.12 }), new Button3D('|+⟩', () => reset(Math.PI/2, 0), { w: 0.12 }),
      gate('X'), gate('Y'), gate('Z'), gate('H'), gate('S'), gate('T')],
-    [new Button3D('360°', () => run([0,1,0], 2*Math.PI, '绕 y 轴 360°', Math.PI/1.4), { w: 0.24, sub: '绕 y 轴转' }),
-     new Button3D('720°', () => run([0,1,0], 4*Math.PI, '绕 y 轴 720°', Math.PI/1.4), { w: 0.24, sub: '绕 y 轴转' })],
+    [new Button3D('360°', () => run([0,1,0], 2*Math.PI, 'y360', Math.PI/1.4), { w: 0.24, sub: L('about the y axis', '绕 y 轴转') }),
+     new Button3D('720°', () => run([0,1,0], 4*Math.PI, 'y720', Math.PI/1.4), { w: 0.24, sub: L('about the y axis', '绕 y 轴转') })],
   ]);
   tickers.push(dt => {
     if (st.anim) {
@@ -217,13 +218,13 @@ function stationGates() {
     const q = quatOfSU2(su2(st.axis, st.alpha));
     const ov = cadd(cmul(cconj(st.base[0]), psi[0]), cmul(cconj(st.base[1]), psi[1]));
     const ad = st.alpha / D2R;
-    let msg = '点一个门看箭头怎么转。每个门都是一个单位四元数 q = cos(α/2) + n sin(α/2)。';
-    if (st.anim && st.last.length === 1) msg = GATES[st.last].note + '（去掉整体相位）。';
-    else if (Math.abs(ad - 360) < 1) msg = '转了 360°：箭头回到原处，但 q = −1，状态多了一个负号（a、b 都变号）。';
-    else if (Math.abs(ad - 720) < 1) msg = '转了 720°：q 回到 +1，这次真正复原。q 转一圈 = 球转两圈。';
-    else if (ad > 1) msg = `球上转 α = ${ad.toFixed(0)}°，四元数里写 α/2 = ${(ad/2).toFixed(0)}°。`;
-    info.set({ title: '3 · 量子门 = 旋转', big: fq(q),
-      body: `${msg}\n\na = ${cfmt(psi[0])}\nb = ${cfmt(psi[1])}\n和转之前比：${cfmt(ov)}\nP(0) = ${cabs2(psi[0]).toFixed(2)}　P(1) = ${cabs2(psi[1]).toFixed(2)}` });
+    let msg = L('Press a gate and watch the arrow turn. Every gate is a unit quaternion q = cos(α/2) + n sin(α/2).', '点一个门看箭头怎么转。每个门都是一个单位四元数 q = cos(α/2) + n sin(α/2)。');
+    if (st.anim && st.last.length === 1) msg = L(GATES[st.last].note.en + ' (ignoring a global phase).', GATES[st.last].note.zh + '（去掉整体相位）。');
+    else if (Math.abs(ad - 360) < 1) msg = L('Turned 360°: the arrow is back, but q = −1 and the state has an extra minus sign (a and b both flip).', '转了 360°：箭头回到原处，但 q = −1，状态多了一个负号（a、b 都变号）。');
+    else if (Math.abs(ad - 720) < 1) msg = L('Turned 720°: q is back to +1, truly restored. One turn of q = two turns of the sphere.', '转了 720°：q 回到 +1，这次真正复原。q 转一圈 = 球转两圈。');
+    else if (ad > 1) msg = L(`The sphere turns α = ${ad.toFixed(0)}°; the quaternion uses α/2 = ${(ad/2).toFixed(0)}°.`, `球上转 α = ${ad.toFixed(0)}°，四元数里写 α/2 = ${(ad/2).toFixed(0)}°。`);
+    info.set({ title: L('3 · Gates = rotations', '3 · 量子门 = 旋转'), big: fq(q),
+      body: `${msg}\n\na = ${cfmt(psi[0])}\nb = ${cfmt(psi[1])}\n${L('compared with before', '和转之前比')}: ${cfmt(ov)}\nP(0) = ${cabs2(psi[0]).toFixed(2)}　P(1) = ${cabs2(psi[1]).toFixed(2)}` });
   });
 }
 
@@ -239,27 +240,27 @@ function stationEntangle() {
   const st = { psi: ket00(), saved: null, anim: null, beta: 0, ta: 0, tb: 0, note: bellCaption(0), result: '', chsh: '' };
   const setPsi = (psi, keep = false) => { st.psi = psi; if (!keep) { st.saved = null; st.result = ''; } };
   const angles = [0, 45, 90, 135];
-  const bA = new Button3D('0°', () => { st.ta = angles[(angles.indexOf(st.ta) + 1) % 4]; bA.setLabel(st.ta + '°'); }, { sub: 'A 测量方向' });
-  const bB = new Button3D('0°', () => { st.tb = angles[(angles.indexOf(st.tb) + 1) % 4]; bB.setLabel(st.tb + '°'); }, { sub: 'B 测量方向' });
-  const beta = d => { st.anim = null; st.beta = Math.max(0, Math.min(180, st.beta + d)); setPsi(betaState(st.beta * D2R)); st.note = `先把 A 转 β = ${st.beta}°，再 CNOT。β = 90° 纠缠最强。`; };
+  const bA = new Button3D('0°', () => { st.ta = angles[(angles.indexOf(st.ta) + 1) % 4]; bA.setLabel(st.ta + '°'); }, { sub: L('A direction', 'A 测量方向') });
+  const bB = new Button3D('0°', () => { st.tb = angles[(angles.indexOf(st.tb) + 1) % 4]; bB.setLabel(st.tb + '°'); }, { sub: L('B direction', 'B 测量方向') });
+  const beta = d => { st.anim = null; st.beta = Math.max(0, Math.min(180, st.beta + d)); setPsi(betaState(st.beta * D2R)); st.note = L(`Turn A by β = ${st.beta}°, then CNOT. β = 90° gives the most entanglement.`, `先把 A 转 β = ${st.beta}°，再 CNOT。β = 90° 纠缠最强。`); };
   addConsole(S, [
     [new Button3D('|00⟩', () => { st.anim = null; st.beta = 0; setPsi(ket00()); st.note = bellCaption(0); st.chsh = ''; }),
-     new Button3D('贝尔态', () => { st.beta = 0; setPsi(ket00()); st.anim = { u: 0, pause: 0 }; st.chsh = ''; }, { w: 0.2, sub: 'H 然后 CNOT' }),
+     new Button3D(L('Bell state', '贝尔态'), () => { st.beta = 0; setPsi(ket00()); st.anim = { u: 0, pause: 0 }; st.chsh = ''; }, { w: 0.2, sub: L('H then CNOT', 'H 然后 CNOT') }),
      new Button3D('β −15°', () => beta(-15)), new Button3D('β +15°', () => beta(15)),
-     new Button3D('CNOT', () => { st.anim = null; setPsi(cnot(st.psi)); st.note = 'CNOT：A 是 1 的那一项里翻转 B。'; })],
+     new Button3D('CNOT', () => { st.anim = null; setPsi(cnot(st.psi)); st.note = L('CNOT: flips B in the term where A is 1.', 'CNOT：A 是 1 的那一项里翻转 B。'); })],
     [bA, bB,
-     new Button3D('测一次', () => {
+     new Button3D(L('Measure', '测一次'), () => {
        const base = st.saved || st.psi;
        const m = measureOnce(base, st.ta * D2R, st.tb * D2R);
        const s = i => (i ? '−' : '+');
        setPsi(m.psi, true); st.saved = base;
-       st.result = `测量结果：A ${s(m.ia)}，B ${s(m.ib)}${m.ia === m.ib ? '（相同）' : '（不同）'}。箭头跳回球面，纠缠被用掉了。`;
+       st.result = L(`Result: A ${s(m.ia)}, B ${s(m.ib)} ${m.ia === m.ib ? '(same)' : '(different)'}. The arrows jump back to the sphere; the entanglement is used up.`, `测量结果：A ${s(m.ia)}，B ${s(m.ib)}${m.ia === m.ib ? '（相同）' : '（不同）'}。箭头跳回球面，纠缠被用掉了。`);
      }),
-     new Button3D('恢复', () => { if (st.saved) { setPsi(st.saved); } }, { sub: '测量前' }),
+     new Button3D(L('Restore', '恢复'), () => { if (st.saved) { setPsi(st.saved); } }, { sub: L('pre-measurement', '测量前') }),
      new Button3D('CHSH', () => {
        const r = chsh(st.saved || st.psi, 1000);
-       st.chsh = `CHSH：S = ${r.S.toFixed(2)}（经典上限 2，量子最多 2√2 ≈ 2.83）${Math.abs(r.S) > 2.05 ? '，超过了经典上限！' : ''}`;
-     }, { sub: '4×1000 次' })],
+       st.chsh = L(`CHSH: S = ${r.S.toFixed(2)} (classical limit 2, quantum up to 2√2 ≈ 2.83)${Math.abs(r.S) > 2.05 ? '. Above the classical limit!' : ''}`, `CHSH：S = ${r.S.toFixed(2)}（经典上限 2，量子最多 2√2 ≈ 2.83）${Math.abs(r.S) > 2.05 ? '，超过了经典上限！' : ''}`);
+     }, { sub: L('4 × 1000 runs', '4×1000 次') })],
   ]);
   tickers.push(dt => {
     if (st.anim) {
@@ -277,8 +278,8 @@ function stationEntangle() {
     E.setMeasure(dirXZ(st.ta * D2R), dirXZ(st.tb * D2R));
     E.tick(dt);
     const C = Math.min(1, concurrence(st.psi));
-    info.set({ title: '4 · 量子纠缠', big: ketString(st.psi),
-      body: `纠缠度 C = ${C.toFixed(2)}\n${st.note}\n${st.result}\n${st.chsh}\n\n箭头长度 = 单个比特有多确定。纠缠越强，箭头越往球心缩。白色虚线是测量方向。` });
+    info.set({ title: L('4 · Entanglement', '4 · 量子纠缠'), big: ketString(st.psi),
+      body: `${L('Entanglement C', '纠缠度 C')} = ${C.toFixed(2)}\n${st.note}\n${st.result}\n${st.chsh}\n\n${L('Arrow length = how definite each qubit is on its own. The more entangled, the more the arrows shrink toward the centre. Dashed white lines are the measurement directions.', '箭头长度 = 单个比特有多确定。纠缠越强，箭头越往球心缩。白色虚线是测量方向。')}` });
   });
 }
 
@@ -363,7 +364,7 @@ fontsReady().then(() => {
   stationEntangle();
 
   // arrows on the floor pointing at each station
-  const labelsRing = ['1 四元数', '2 霍普夫', '3 量子门', '4 纠缠'];
+  const labelsRing = L(['1 Quaternions', '2 Hopf fibers', '3 Gates', '4 Entanglement'], ['1 四元数', '2 霍普夫', '3 量子门', '4 纠缠']);
   labelsRing.forEach((t, n) => {
     const p = new TextPanel(0.6, 0.12, { title: t, titleSize: 0.07, bg: 'rgba(0,0,0,0)', mathTitle: false, titleColor: COLORS.muted });
     p.set({});

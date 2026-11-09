@@ -5,6 +5,8 @@ Interactive 3D labs that go from quaternions to quantum entanglement, plus a Web
 
 **Live site:** https://shanem73.github.io/quantum-theory/
 
+English by default. Every page has a **中文** button in the top bar; the choice is remembered across pages. Link straight to Chinese with `?lang=zh` (e.g. `index.html?lang=zh`).
+
 ## Labs
 
 | Page | Topic | What you can do |
@@ -34,6 +36,7 @@ quaternion.html  hopf.html  gates.html  entanglement.html  vr.html
 css/site.css          shared styles
 js/qmath.js           quaternions, complex numbers, SU(2), one- and two-qubit math
 js/entangleModel.js   Bell-state path, measurement sampling, CHSH
+js/i18n.js, js/lang.js language switch (HTML uses data-zh attributes; scripts use L(en, zh))
 js/three-kit.js       three.js helpers (stage, labels, arrows, dynamic lines)
 js/viz/               reusable 3D scenes: quatSphere, hopf, bloch, entangle
 js/labs/              page controllers for the desktop labs

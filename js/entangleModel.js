@@ -2,6 +2,7 @@
 import {
   su2, applyOne, cnot, ket00, measBasis, jointProbs, correlation, sampleJoint, productState, cabs2, carg, matVec,
 } from './qmath.js';
+import { L } from './lang.js';
 
 const r = Math.SQRT1_2;
 export const Hm = [[[r,0],[r,0]],[[r,0],[-r,0]]];
@@ -21,11 +22,11 @@ export function bellPath(u) {
   return u <= 1 ? a : ctrlRy(a, Math.PI * (u - 1));
 }
 export function bellCaption(u) {
-  if (u <= 0) return '从 |00⟩ 开始：两个箭头都指向北极，各自完全确定。';
-  if (u < 1) return '第 1 步：H 作用在 A 上，A 的箭头从 |0⟩ 转向赤道。B 不动。';
-  if (u === 1) return '第 1 步完成：(|00⟩ + |10⟩)/√2。A 在赤道上，B 还是 0，还没有纠缠。';
-  if (u < 2) return '第 2 步：CNOT。A 是 1 的那一项里，B 被翻转……两个箭头一起往球心缩。';
-  return '完成：(|00⟩ + |11⟩)/√2。两个箭头都缩成球心的点：整体确定，单看每个都是完全随机的。';
+  if (u <= 0) return L('Start from |00⟩: both arrows point to the north pole. Each qubit is completely definite.', '从 |00⟩ 开始：两个箭头都指向北极，各自完全确定。');
+  if (u < 1) return L('Step 1: H on A. The arrow of A turns from |0⟩ toward the equator. B does not move.', '第 1 步：H 作用在 A 上，A 的箭头从 |0⟩ 转向赤道。B 不动。');
+  if (u === 1) return L('Step 1 done: (|00⟩ + |10⟩)/√2. A is on the equator, B is still 0. No entanglement yet.', '第 1 步完成：(|00⟩ + |10⟩)/√2。A 在赤道上，B 还是 0，还没有纠缠。');
+  if (u < 2) return L('Step 2: CNOT. In the term where A is 1, B gets flipped, and both arrows shrink toward the centre together.', '第 2 步：CNOT。A 是 1 的那一项里，B 被翻转……两个箭头一起往球心缩。');
+  return L('Done: (|00⟩ + |11⟩)/√2. Both arrows have shrunk to the centre: the pair is definite, but each qubit alone is completely random.', '完成：(|00⟩ + |11⟩)/√2。两个箭头都缩成球心的点：整体确定，单看每个都是完全随机的。');
 }
 
 export function ketString(psi) {

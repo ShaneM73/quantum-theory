@@ -89,12 +89,12 @@ export const matMul = (A, B) => [0, 1].map(i => [0, 1].map(j => cadd(cmul(A[i][0
 const R2 = Math.SQRT1_2;
 // Named gates as rotations (axis on the Bloch sphere, angle). Each equals the textbook gate up to a global phase.
 export const GATES = {
-  X: { axis: [1,0,0], angle: Math.PI,   phase: '−i', note: 'X = 绕 x 轴转 180°' },
-  Y: { axis: [0,1,0], angle: Math.PI,   phase: '−i', note: 'Y = 绕 y 轴转 180°' },
-  Z: { axis: [0,0,1], angle: Math.PI,   phase: '−i', note: 'Z = 绕 z 轴转 180°' },
-  H: { axis: [R2,0,R2], angle: Math.PI, phase: '−i', note: 'H = 绕 (x+z)/√2 轴转 180°' },
-  S: { axis: [0,0,1], angle: Math.PI/2, phase: 'e^{−iπ/4}', note: 'S = 绕 z 轴转 90°' },
-  T: { axis: [0,0,1], angle: Math.PI/4, phase: 'e^{−iπ/8}', note: 'T = 绕 z 轴转 45°' },
+  X: { axis: [1,0,0], angle: Math.PI,   phase: '−i', note: { en: 'X = rotate 180° about x', zh: 'X = 绕 x 轴转 180°' } },
+  Y: { axis: [0,1,0], angle: Math.PI,   phase: '−i', note: { en: 'Y = rotate 180° about y', zh: 'Y = 绕 y 轴转 180°' } },
+  Z: { axis: [0,0,1], angle: Math.PI,   phase: '−i', note: { en: 'Z = rotate 180° about z', zh: 'Z = 绕 z 轴转 180°' } },
+  H: { axis: [R2,0,R2], angle: Math.PI, phase: '−i', note: { en: 'H = rotate 180° about (x+z)/√2', zh: 'H = 绕 (x+z)/√2 轴转 180°' } },
+  S: { axis: [0,0,1], angle: Math.PI/2, phase: 'e^{−iπ/4}', note: { en: 'S = rotate 90° about z', zh: 'S = 绕 z 轴转 90°' } },
+  T: { axis: [0,0,1], angle: Math.PI/4, phase: 'e^{−iπ/8}', note: { en: 'T = rotate 45° about z', zh: 'T = 绕 z 轴转 45°' } },
 };
 
 // Eigenstates of n·σ for a measurement direction given by Bloch angles.
