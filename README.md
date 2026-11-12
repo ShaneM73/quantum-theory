@@ -13,10 +13,10 @@ Background: **Dark** (default) or **Light**, from the Background menu next to th
 
 | Page | Topic | What you can do |
 | --- | --- | --- |
-| [`quaternion.html`](quaternion.html) | 四元数球 · Quaternion sphere | Multiply the unit sphere of pure quaternions by *q*, stereographically projected from −1 (as in 3Blue1Brown's video). Drag the point 1 along the axis, see the sphere turn into a plane at 90°, flip at 180°, return at 360°. Compare *q·p*, *p·q* and *q p q⁻¹* (rotation by 2θ). Onion slices at fixed real part *w*. |
-| [`hopf.html`](hopf.html) | 霍普夫纤维 · Hopf fibration & Bloch sphere | A qubit (a, b) is a point on S³. Turning the global phase moves it around a circle (a fiber) while probabilities stay fixed. Each Bloch-sphere point ↔ one circle; rings of states make linked tori. Counts dimensions: 3 − 1 = 2. |
-| [`gates.html`](gates.html) | 量子门 · Gates as rotations | X, Y, Z, H, S, T animated as Bloch-sphere rotations, each shown as its unit quaternion cos(α/2) + n sin(α/2). Free rotation up to 720°: at 360° the arrow is back but q = −1 and both amplitudes flip sign. |
-| [`entanglement.html`](entanglement.html) | 量子纠缠 · Entanglement | Step-by-step H + CNOT into a Bell state; reduced Bloch vectors shrink to the centre as entanglement grows (slider β). Measure along chosen directions, collect statistics, and run a CHSH test (S ≈ 2√2 > 2). |
+| [`quaternion.html`](quaternion.html) | Quaternion sphere · Esfera de cuaterniones | Multiply the unit sphere of pure quaternions by *q*, stereographically projected from −1 (as in 3Blue1Brown's video). Drag the point 1 along the axis, see the sphere turn into a plane at 90°, flip at 180°, return at 360°. Compare *q·p*, *p·q* and *q p q⁻¹* (rotation by 2θ). Onion slices at fixed real part *w*. |
+| [`hopf.html`](hopf.html) | Hopf fibration & Bloch sphere · Fibras de Hopf | A qubit (a, b) is a point on S³. Turning the global phase moves it around a circle (a fiber) while probabilities stay fixed. Each Bloch-sphere point ↔ one circle; rings of states make linked tori. Counts dimensions: 3 − 1 = 2. |
+| [`gates.html`](gates.html) | Gates as rotations · Puertas cuánticas | X, Y, Z, H, S, T animated as Bloch-sphere rotations, each shown as its unit quaternion cos(α/2) + n sin(α/2). Free rotation up to 720°: at 360° the arrow is back but q = −1 and both amplitudes flip sign. |
+| [`entanglement.html`](entanglement.html) | Entanglement · Entrelazamiento | Step-by-step H + CNOT into a Bell state; reduced Bloch vectors shrink to the centre as entanglement grows (slider β). Measure along chosen directions, collect statistics, and run a CHSH test (S ≈ 2√2 > 2). |
 | [`vr.html`](vr.html) | VR | All four labs as stations in a ring around you, operated with controller rays and 3D buttons. Works with mouse on desktop. |
 
 ## VR controls
