@@ -1,7 +1,7 @@
-# Quantum Theory Labs · 量子理论实验室
+# Quantum Theory Labs · Laboratorios de teoría cuántica
 
 Interactive 3D labs that go from quaternions to quantum entanglement, plus a WebXR VR version.
-从四元数到量子纠缠的一组 3D 交互实验，以及一个 WebXR 虚拟现实版本。
+Laboratorios 3D interactivos que van de los cuaterniones al entrelazamiento cuántico, con una versión de realidad virtual WebXR.
 
 **Live site:** https://shanem73.github.io/quantum-theory/
 
