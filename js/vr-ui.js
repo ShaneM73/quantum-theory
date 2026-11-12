@@ -81,7 +81,7 @@ export function buttonConsole(rows, { gap = 0.018, tilt = -0.55 } = {}) {
   return group;
 }
 
-// Wrapped text (works for Chinese: breaks between any characters, prefers spaces for Latin).
+// Wrapped text: breaks at spaces between words (and between characters in scripts without spaces).
 function wrap(g, text, maxW) {
   const lines = [];
   for (const para of String(text).split('\n')) {

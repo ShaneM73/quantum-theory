@@ -50,9 +50,7 @@ export function solidMaterial(color, glow = 1) {
 }
 
 export const MATH_FONT = 'Newsreader, Georgia, "Times New Roman", serif';
-export const UI_FONT = document.documentElement.getAttribute('data-lang') === 'ja'
-  ? '"IBM Plex Sans", "Hiragino Sans", "Yu Gothic", "Meiryo", "Noto Sans CJK JP", system-ui, sans-serif'
-  : '"IBM Plex Sans", "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", system-ui, sans-serif';
+export const UI_FONT = '"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif';
 
 export const fontsReady = () =>
   (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).catch(() => {});

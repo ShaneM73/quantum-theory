@@ -4,9 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Entanglement · Quantum Theory Labs</title>
-<meta name="title-zh" content="量子纠缠 · Quantum Theory Labs">
 <meta name="title-es" content="Entrelazamiento · Quantum Theory Labs">
-<meta name="title-ja" content="量子もつれ · Quantum Theory Labs">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -32,56 +30,56 @@
   <header class="topbar">
     <a class="brand" href="index.html">Quantum Theory Labs</a>
     <nav class="nav">
-      <a href="quaternion.html" data-zh="1 四元数" data-es="1 Cuaterniones" data-ja="1 四元数">1 Quaternions</a>
-      <a href="hopf.html" data-zh="2 霍普夫纤维" data-es="2 Fibras de Hopf" data-ja="2 ホップファイバー">2 Hopf fibers</a>
-      <a href="gates.html" data-zh="3 量子门" data-es="3 Puertas" data-ja="3 量子ゲート">3 Gates</a>
-      <a href="entanglement.html" aria-current="page" data-zh="4 纠缠" data-es="4 Entrelazamiento" data-ja="4 もつれ">4 Entanglement</a>
+      <a href="quaternion.html" data-es="1 Cuaterniones">1 Quaternions</a>
+      <a href="hopf.html" data-es="2 Fibras de Hopf">2 Hopf fibers</a>
+      <a href="gates.html" data-es="3 Puertas">3 Gates</a>
+      <a href="entanglement.html" aria-current="page" data-es="4 Entrelazamiento">4 Entanglement</a>
       <a class="vr" href="vr.html">VR</a>
     </nav>
-    <div class="prefs"><select class="langsel" data-theme-select aria-label="Background" data-zh-aria="背景" data-es-aria="Fondo" data-ja-aria="背景">
-      <option value="dark" data-zh="深色背景" data-es="Fondo oscuro" data-ja="暗い背景">Dark background</option><option value="light" data-zh="浅色背景" data-es="Fondo claro" data-ja="明るい背景">Light background</option>
+    <div class="prefs"><select class="langsel" data-theme-select aria-label="Background" data-es-aria="Fondo">
+      <option value="dark" data-es="Fondo oscuro">Dark background</option><option value="light" data-es="Fondo claro">Light background</option>
     </select>
     <select class="langsel" data-lang-select aria-label="Language">
-      <option value="en">English</option><option value="zh">中文</option><option value="es">Español</option><option value="ja">日本語</option>
+      <option value="en">English</option><option value="es">Español</option>
     </select></div>
   </header>
   <div class="body">
     <div class="view" id="view">
       <div class="cap">
-        <h2 data-zh="两个比特，两个布洛赫球" data-es="Dos cúbits, dos esferas de Bloch" data-ja="2 つの量子ビット、2 つのブロッホ球">Two qubits, two Bloch spheres</h2>
+        <h2 data-es="Dos cúbits, dos esferas de Bloch">Two qubits, two Bloch spheres</h2>
         <div class="sub" id="status"></div>
       </div>
-      <div class="foot" data-zh="箭头长度 = 这个比特自己有多“确定”。纠缠越强，箭头越往球心缩。下面的柱子是 |00⟩…|11⟩ 的概率，颜色是相位。" data-es="Longitud de la flecha = cuán definido es cada cúbit por sí solo. Cuanto más fuerte el entrelazamiento, más se encogen las flechas hacia el centro. Las barras de abajo son las probabilidades de |00⟩…|11⟩; su color es la fase." data-ja="矢印の長さ = それぞれの量子ビットが単独でどれだけ「確定」しているか。もつれが強いほど矢印は中心へ縮みます。下の棒は |00⟩…|11⟩ の確率で、色は位相を表します。">Arrow length = how definite each qubit is on its own. The stronger the entanglement, the more the arrows shrink toward the centre. The bars below are the probabilities of |00⟩…|11⟩; their colour is the phase.</div>
+      <div class="foot" data-es="Longitud de la flecha = cuán definido es cada cúbit por sí solo. Cuanto más fuerte el entrelazamiento, más se encogen las flechas hacia el centro. Las barras de abajo son las probabilidades de |00⟩…|11⟩; su color es la fase.">Arrow length = how definite each qubit is on its own. The stronger the entanglement, the more the arrows shrink toward the centre. The bars below are the probabilities of |00⟩…|11⟩; their colour is the phase.</div>
     </div>
     <aside class="panel">
       <div>
-        <h1 data-zh="量子纠缠" data-es="Entrelazamiento" data-ja="量子もつれ">Entanglement</h1>
-        <p class="lede" data-zh="两个比特要 4 个复数。纠缠态不能拆成“A 的状态 × B 的状态”，所以每个球上的箭头只剩一部分长度。" data-es="Dos cúbits necesitan 4 números complejos. Un estado entrelazado no se puede separar en «estado de A × estado de B», así que la flecha de cada esfera conserva solo parte de su longitud." data-ja="2 つの量子ビットには 4 つの複素数が必要です。もつれた状態は「A の状態 × B の状態」に分けられないため、各球の矢印は長さの一部しか残りません。">Two qubits need 4 complex numbers. An entangled state cannot be split into "state of A × state of B", so the arrow on each sphere keeps only part of its length.</p>
+        <h1 data-es="Entrelazamiento">Entanglement</h1>
+        <p class="lede" data-es="Dos cúbits necesitan 4 números complejos. Un estado entrelazado no se puede separar en «estado de A × estado de B», así que la flecha de cada esfera conserva solo parte de su longitud.">Two qubits need 4 complex numbers. An entangled state cannot be split into "state of A × state of B", so the arrow on each sphere keeps only part of its length.</p>
       </div>
       <div class="card">
-        <div class="label" data-zh="现在的状态" data-es="Estado actual" data-ja="現在の状態">Current state</div>
+        <div class="label" data-es="Estado actual">Current state</div>
         <div class="ket" id="ket"></div>
         <div class="row mono" style="font-size:12px">
-          <span><span data-zh="纠缠度" data-es="Entrelazamiento" data-ja="もつれ度">Entanglement</span> C = <b id="conc" class="pinkt"></b></span>
+          <span><span data-es="Entrelazamiento">Entanglement</span> C = <b id="conc" class="pinkt"></b></span>
           <span class="qa">|r<sub>A</sub>| = <span id="lenA"></span></span>
           <span class="qb">|r<sub>B</sub>| = <span id="lenB"></span></span>
         </div>
       </div>
       <div class="group">
-        <div class="label" data-zh="一步一步做贝尔态" data-es="Construye un estado de Bell paso a paso" data-ja="ベル状態を一歩ずつ作る">Build a Bell state step by step</div>
+        <div class="label" data-es="Construye un estado de Bell paso a paso">Build a Bell state step by step</div>
         <div class="row">
-          <button class="btn" id="bell" data-zh="H 然后 CNOT" data-es="H y luego CNOT" data-ja="H のあと CNOT">H, then CNOT</button>
-          <button class="btn ghost" id="reset" data-zh="回到 |00⟩" data-es="Volver a |00⟩" data-ja="|00⟩ に戻す">Back to |00⟩</button>
+          <button class="btn" id="bell" data-es="H y luego CNOT">H, then CNOT</button>
+          <button class="btn ghost" id="reset" data-es="Volver a |00⟩">Back to |00⟩</button>
         </div>
-        <div class="statusline" id="stepText" data-zh="从 |00⟩ 开始。" data-es="Empieza desde |00⟩." data-ja="|00⟩ から始めます。">Start from |00⟩.</div>
+        <div class="statusline" id="stepText" data-es="Empieza desde |00⟩.">Start from |00⟩.</div>
       </div>
       <div class="group">
-        <div class="label"><span data-zh="纠缠程度：先把 A 转 β，再 CNOT" data-es="Cantidad de entrelazamiento: gira A un ángulo β y luego CNOT" data-ja="もつれの度合い：A を β 回してから CNOT">Amount of entanglement: turn A by β, then CNOT</span> <output id="betaOut"></output></div>
+        <div class="label"><span data-es="Cantidad de entrelazamiento: gira A un ángulo β y luego CNOT">Amount of entanglement: turn A by β, then CNOT</span> <output id="betaOut"></output></div>
         <input type="range" id="beta" min="0" max="180" step="1" value="0" aria-label="β">
-        <div class="statusline" data-zh="得到 cos(β/2)|00⟩ + sin(β/2)|11⟩。β = 90° 时纠缠最强。" data-es="Así se obtiene cos(β/2)|00⟩ + sin(β/2)|11⟩. Con β = 90° el entrelazamiento es máximo." data-ja="cos(β/2)|00⟩ + sin(β/2)|11⟩ が得られます。β = 90° でもつれが最大になります。">This gives cos(β/2)|00⟩ + sin(β/2)|11⟩. β = 90° is the most entangled.</div>
+        <div class="statusline" data-es="Así se obtiene cos(β/2)|00⟩ + sin(β/2)|11⟩. Con β = 90° el entrelazamiento es máximo.">This gives cos(β/2)|00⟩ + sin(β/2)|11⟩. β = 90° is the most entangled.</div>
       </div>
       <div class="group">
-        <div class="label" data-zh="单独的门" data-es="Puertas individuales" data-ja="個別のゲート">Individual gates</div>
+        <div class="label" data-es="Puertas individuales">Individual gates</div>
         <div class="gates" id="gates" style="grid-template-columns:repeat(5,minmax(0,1fr))">
           <button class="gate" data-g="HA">H<small class="qa">A</small></button>
           <button class="gate" data-g="XA">X<small class="qa">A</small></button>
@@ -91,38 +89,38 @@
         </div>
       </div>
       <div class="group">
-        <div class="label" data-zh="测量方向（在 x–z 平面里）" data-es="Direcciones de medida (en el plano x–z)" data-ja="測定方向（x–z 平面内）">Measurement directions (in the x–z plane)</div>
-        <div class="label"><span class="qa"><span data-zh="A 的方向" data-es="Dirección de A," data-ja="A の方向">Direction of A,</span> θ<sub>A</sub></span><output id="taOut"></output></div>
+        <div class="label" data-es="Direcciones de medida (en el plano x–z)">Measurement directions (in the x–z plane)</div>
+        <div class="label"><span class="qa"><span data-es="Dirección de A,">Direction of A,</span> θ<sub>A</sub></span><output id="taOut"></output></div>
         <input type="range" id="ta" min="0" max="180" step="1" value="0" aria-label="θA">
-        <div class="label"><span class="qb"><span data-zh="B 的方向" data-es="Dirección de B," data-ja="B の方向">Direction of B,</span> θ<sub>B</sub></span><output id="tbOut"></output></div>
+        <div class="label"><span class="qb"><span data-es="Dirección de B,">Direction of B,</span> θ<sub>B</sub></span><output id="tbOut"></output></div>
         <input type="range" id="tb" min="0" max="180" step="1" value="0" aria-label="θB">
         <div class="row">
-          <button class="btn" id="once" data-zh="测一次" data-es="Medir una vez" data-ja="1 回測定">Measure once</button>
-          <button class="btn ghost" id="many" data-zh="测 1000 次" data-es="Medir 1000×" data-ja="1000 回測定">Measure 1000×</button>
-          <button class="btn ghost" id="restore" disabled data-zh="恢复测量前" data-es="Restaurar" data-ja="測定前に戻す">Restore</button>
+          <button class="btn" id="once" data-es="Medir una vez">Measure once</button>
+          <button class="btn ghost" id="many" data-es="Medir 1000×">Measure 1000×</button>
+          <button class="btn ghost" id="restore" disabled data-es="Restaurar">Restore</button>
         </div>
         <div class="result" id="result"></div>
         <table class="stats" id="stats" hidden>
-          <thead><tr><th data-zh="结果" data-es="Ajustes" data-ja="設定">Settings</th><th>++</th><th>+−</th><th>−+</th><th>−−</th><th data-zh="关联 E" data-es="Correlación E" data-ja="相関 E">Correlation E</th></tr></thead>
+          <thead><tr><th data-es="Ajustes">Settings</th><th>++</th><th>+−</th><th>−+</th><th>−−</th><th data-es="Correlación E">Correlation E</th></tr></thead>
           <tbody id="statsBody"></tbody>
         </table>
       </div>
       <div class="group">
-        <div class="label" data-zh="贝尔不等式（CHSH）小游戏" data-es="Juego de la desigualdad de Bell (CHSH)" data-ja="ベルの不等式（CHSH）ゲーム">Bell inequality (CHSH) game</div>
-        <button class="btn ghost" id="chsh" data-zh="自动做 4 组 × 1000 次" data-es="Ejecutar 4 ajustes × 1000 veces" data-ja="4 通り × 1000 回を自動実行">Run 4 settings × 1000 times</button>
+        <div class="label" data-es="Juego de la desigualdad de Bell (CHSH)">Bell inequality (CHSH) game</div>
+        <button class="btn ghost" id="chsh" data-es="Ejecutar 4 ajustes × 1000 veces">Run 4 settings × 1000 times</button>
         <div id="chshOut" hidden>
-          <div class="chsh" aria-label="S value" data-zh-aria="S 值" data-es-aria="valor de S" data-ja-aria="S の値"><i id="chshBar"></i>
-            <div class="mark" style="left:50%"><span data-zh="经典上限 2" data-es="límite clásico 2" data-ja="古典的上限 2">classical limit 2</span></div>
-            <div class="mark" style="left:70.7%"><span data-zh="量子 2√2" data-es="cuántico 2√2" data-ja="量子 2√2">quantum 2√2</span></div>
+          <div class="chsh" aria-label="S value" data-es-aria="valor de S"><i id="chshBar"></i>
+            <div class="mark" style="left:50%"><span data-es="límite clásico 2">classical limit 2</span></div>
+            <div class="mark" style="left:70.7%"><span data-es="cuántico 2√2">quantum 2√2</span></div>
           </div>
           <div class="statusline" id="chshText"></div>
         </div>
       </div>
       <div class="notes">
-        <div class="note"><h3><span>1</span><b data-zh="H 和 CNOT 为什么能纠缠" data-es="Por qué H y CNOT entrelazan" data-ja="H と CNOT でもつれる理由">Why H and CNOT entangle</b></h3><p data-zh="|00⟩ 经过 H<sub>A</sub> 变成 (|00⟩ + |10⟩)/√2，B 还一直是 0，没有纠缠。CNOT 分别作用在每一项：|00⟩ 不变，|10⟩ 变 |11⟩。结果 (|00⟩ + |11⟩)/√2。CNOT 把 A 的值“抄”给了 B，而 A 本身是 0 和 1 都有。" data-es="H<sub>A</sub> convierte |00⟩ en (|00⟩ + |10⟩)/√2. B sigue siendo 0, así que aún no hay entrelazamiento. Luego CNOT actúa sobre cada término por separado: |00⟩ se queda igual y |10⟩ pasa a |11⟩. El resultado es (|00⟩ + |11⟩)/√2. CNOT copia el valor de A en B, mientras A es a la vez 0 y 1." data-ja="H<sub>A</sub> で |00⟩ は (|00⟩ + |10⟩)/√2 になります。B はまだ 0 のままなので、もつれはありません。次に CNOT が各項に別々に働き、|00⟩ はそのまま、|10⟩ は |11⟩ になります。結果は (|00⟩ + |11⟩)/√2。CNOT は A の値を B に「コピー」しますが、A 自身は 0 と 1 の両方なのです。">H<sub>A</sub> turns |00⟩ into (|00⟩ + |10⟩)/√2. B is still 0, so nothing is entangled yet. CNOT then acts on each term separately: |00⟩ stays, |10⟩ becomes |11⟩. The result is (|00⟩ + |11⟩)/√2. CNOT copies the value of A onto B, while A itself is both 0 and 1.</p></div>
-        <div class="note"><h3><span>2</span><b data-zh="箭头为什么缩短" data-es="Por qué se encogen las flechas" data-ja="矢印が縮む理由">Why the arrows shrink</b></h3><p data-zh="贝尔态整体完全确定，但单看 A 或 B，测 0 和 1 各一半，没有偏向任何方向，所以箭头缩成球心的一个点。拉 β 滑块看它慢慢缩进去。" data-es="El estado de Bell en conjunto está totalmente definido, pero A o B por separado dan 0 y 1 la mitad de las veces, sin dirección preferida, así que su flecha se encoge a un punto en el centro. Mueve el control β para verlo encogerse poco a poco." data-ja="ベル状態は全体としては完全に確定していますが、A や B を単独で見ると 0 と 1 が半々で、どの方向にも偏らないため、矢印は中心の 1 点に縮みます。β スライダーを動かして、少しずつ縮む様子を見てください。">The Bell state as a whole is completely definite, but A or B alone gives 0 and 1 half the time each, with no preferred direction, so its arrow shrinks to a point at the centre. Drag the β slider to watch it shrink gradually.</p></div>
-        <div class="note"><h3><span>3</span><b data-zh="测量的关联" data-es="Correlaciones de medida" data-ja="測定の相関">Measurement correlations</b></h3><p data-zh="两边方向一样时，贝尔态的结果永远相同。方向差 Δ 时，关联 E = cos Δ。测一次后两个箭头立刻跳到确定的位置，纠缠没了。" data-es="Con la misma dirección en ambos lados, el estado de Bell siempre da el mismo resultado. Si las direcciones difieren en Δ, la correlación es E = cos Δ. Tras una medida, las dos flechas saltan a posiciones definidas y el entrelazamiento desaparece." data-ja="両側で同じ方向なら、ベル状態の結果は必ず一致します。方向が Δ ずれると相関は E = cos Δ。1 回測定すると 2 本の矢印はすぐに確定した位置へ飛び、もつれは消えます。">With the same direction on both sides, the Bell state always gives the same result. With directions differing by Δ, the correlation is E = cos Δ. After one measurement both arrows jump to definite positions and the entanglement is gone.</p></div>
-        <div class="note"><h3><span>4</span><b data-zh="贝尔不等式" data-es="La desigualdad de Bell" data-ja="ベルの不等式">Bell's inequality</b></h3><p data-zh="如果结果是事先“写好”的（局部隐变量），S = E(a,b) − E(a,b′) + E(a′,b) + E(a′,b′) 不超过 2。量子力学能到 2√2 ≈ 2.83。" data-es="Si los resultados estuvieran escritos de antemano (variables ocultas locales), S = E(a,b) − E(a,b′) + E(a′,b) + E(a′,b′) no podría superar 2. La mecánica cuántica llega a 2√2 ≈ 2,83." data-ja="もし結果があらかじめ「書き込まれて」いたら（局所的な隠れた変数）、S = E(a,b) − E(a,b′) + E(a′,b) + E(a′,b′) は 2 を超えられません。量子力学では 2√2 ≈ 2.83 に達します。">If the results were written down in advance (local hidden variables), S = E(a,b) − E(a,b′) + E(a′,b) + E(a′,b′) could not exceed 2. Quantum mechanics reaches 2√2 ≈ 2.83.</p></div>
+        <div class="note"><h3><span>1</span><b data-es="Por qué H y CNOT entrelazan">Why H and CNOT entangle</b></h3><p data-es="H<sub>A</sub> convierte |00⟩ en (|00⟩ + |10⟩)/√2. B sigue siendo 0, así que aún no hay entrelazamiento. Luego CNOT actúa sobre cada término por separado: |00⟩ se queda igual y |10⟩ pasa a |11⟩. El resultado es (|00⟩ + |11⟩)/√2. CNOT copia el valor de A en B, mientras A es a la vez 0 y 1.">H<sub>A</sub> turns |00⟩ into (|00⟩ + |10⟩)/√2. B is still 0, so nothing is entangled yet. CNOT then acts on each term separately: |00⟩ stays, |10⟩ becomes |11⟩. The result is (|00⟩ + |11⟩)/√2. CNOT copies the value of A onto B, while A itself is both 0 and 1.</p></div>
+        <div class="note"><h3><span>2</span><b data-es="Por qué se encogen las flechas">Why the arrows shrink</b></h3><p data-es="El estado de Bell en conjunto está totalmente definido, pero A o B por separado dan 0 y 1 la mitad de las veces, sin dirección preferida, así que su flecha se encoge a un punto en el centro. Mueve el control β para verlo encogerse poco a poco.">The Bell state as a whole is completely definite, but A or B alone gives 0 and 1 half the time each, with no preferred direction, so its arrow shrinks to a point at the centre. Drag the β slider to watch it shrink gradually.</p></div>
+        <div class="note"><h3><span>3</span><b data-es="Correlaciones de medida">Measurement correlations</b></h3><p data-es="Con la misma dirección en ambos lados, el estado de Bell siempre da el mismo resultado. Si las direcciones difieren en Δ, la correlación es E = cos Δ. Tras una medida, las dos flechas saltan a posiciones definidas y el entrelazamiento desaparece.">With the same direction on both sides, the Bell state always gives the same result. With directions differing by Δ, the correlation is E = cos Δ. After one measurement both arrows jump to definite positions and the entanglement is gone.</p></div>
+        <div class="note"><h3><span>4</span><b data-es="La desigualdad de Bell">Bell's inequality</b></h3><p data-es="Si los resultados estuvieran escritos de antemano (variables ocultas locales), S = E(a,b) − E(a,b′) + E(a′,b) + E(a′,b′) no podría superar 2. La mecánica cuántica llega a 2√2 ≈ 2,83.">If the results were written down in advance (local hidden variables), S = E(a,b) − E(a,b′) + E(a′,b) + E(a′,b′) could not exceed 2. Quantum mechanics reaches 2√2 ≈ 2.83.</p></div>
       </div>
     </aside>
   </div>

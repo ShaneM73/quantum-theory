@@ -16,15 +16,13 @@
   --pressed: #232b38; --track: #222a36; --chip-hover: #3a4558;
   --hud: rgba(20, 25, 34, 0.9);
   --font-math: "Newsreader", Georgia, "Times New Roman", serif;
-  --font-ui: "IBM Plex Sans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", system-ui, sans-serif;
-  --font-ui-ja: "IBM Plex Sans", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", "Noto Sans CJK JP", system-ui, sans-serif;
+  --font-ui: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
   color-scheme: dark;
 }
 * { box-sizing: border-box; }
 html, body { height: 100%; margin: 0; }
 body { background: var(--bg); color: var(--fg); font: 14px/1.5 var(--font-ui); }
-html[lang="ja"] { --font-ui: var(--font-ui-ja); }
 
 /* Light background, for screenshots and printed figures. Chosen from the Background menu (data-theme="light"). */
 html[data-theme="light"] {

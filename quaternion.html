@@ -4,9 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Quaternion Sphere · Quantum Theory Labs</title>
-<meta name="title-zh" content="四元数球 · Quantum Theory Labs">
 <meta name="title-es" content="Esfera de cuaterniones · Quantum Theory Labs">
-<meta name="title-ja" content="四元数の球 · Quantum Theory Labs">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -19,17 +17,17 @@
   <header class="topbar">
     <a class="brand" href="index.html">Quantum Theory Labs</a>
     <nav class="nav">
-      <a href="quaternion.html" aria-current="page" data-zh="1 四元数" data-es="1 Cuaterniones" data-ja="1 四元数">1 Quaternions</a>
-      <a href="hopf.html" data-zh="2 霍普夫纤维" data-es="2 Fibras de Hopf" data-ja="2 ホップファイバー">2 Hopf fibers</a>
-      <a href="gates.html" data-zh="3 量子门" data-es="3 Puertas" data-ja="3 量子ゲート">3 Gates</a>
-      <a href="entanglement.html" data-zh="4 纠缠" data-es="4 Entrelazamiento" data-ja="4 もつれ">4 Entanglement</a>
+      <a href="quaternion.html" aria-current="page" data-es="1 Cuaterniones">1 Quaternions</a>
+      <a href="hopf.html" data-es="2 Fibras de Hopf">2 Hopf fibers</a>
+      <a href="gates.html" data-es="3 Puertas">3 Gates</a>
+      <a href="entanglement.html" data-es="4 Entrelazamiento">4 Entanglement</a>
       <a class="vr" href="vr.html">VR</a>
     </nav>
-    <div class="prefs"><select class="langsel" data-theme-select aria-label="Background" data-zh-aria="背景" data-es-aria="Fondo" data-ja-aria="背景">
-      <option value="dark" data-zh="深色背景" data-es="Fondo oscuro" data-ja="暗い背景">Dark background</option><option value="light" data-zh="浅色背景" data-es="Fondo claro" data-ja="明るい背景">Light background</option>
+    <div class="prefs"><select class="langsel" data-theme-select aria-label="Background" data-es-aria="Fondo">
+      <option value="dark" data-es="Fondo oscuro">Dark background</option><option value="light" data-es="Fondo claro">Light background</option>
     </select>
     <select class="langsel" data-lang-select aria-label="Language">
-      <option value="en">English</option><option value="zh">中文</option><option value="es">Español</option><option value="ja">日本語</option>
+      <option value="en">English</option><option value="es">Español</option>
     </select></div>
   </header>
   <div class="body">
@@ -38,15 +36,15 @@
         <div class="qline" id="qline"></div>
         <div class="sub" id="status"></div>
       </div>
-      <div class="foot" data-zh="拖动画面旋转 · 滚轮缩放 · 抓住<b class=pinkt>粉色的点</b>沿轴拖动 q" data-es="Arrastra para orbitar · rueda para acercar · agarra el <b class=pinkt>punto rosa</b> para deslizar q por el eje" data-ja="ドラッグで回転 · ホイールでズーム · <b class=pinkt>ピンクの点</b>をつかんで軸に沿って q を動かす">Drag to orbit · scroll to zoom · grab the <b class="pinkt">pink dot</b> to slide q along the axis</div>
+      <div class="foot" data-es="Arrastra para orbitar · rueda para acercar · agarra el <b class=pinkt>punto rosa</b> para deslizar q por el eje">Drag to orbit · scroll to zoom · grab the <b class="pinkt">pink dot</b> to slide q along the axis</div>
     </div>
     <aside class="panel">
       <div>
-        <h1 data-zh="四元数球" data-es="Esfera de cuaterniones" data-ja="四元数の球">Quaternion sphere</h1>
-        <p class="lede" data-zh="纯虚四元数 <span class=math>xi + yj + zk</span> 组成的单位球，乘以 <span class=math>q</span>，再从 −1 立体投影到三维。和 3Blue1Brown 视频里的演示一样。" data-es="La esfera unidad de cuaterniones puros <span class=math>xi + yj + zk</span>, multiplicada por <span class=math>q</span> y proyectada estereográficamente desde −1 en 3D, como en el video de 3Blue1Brown." data-ja="純虚四元数 <span class=math>xi + yj + zk</span> からなる単位球に <span class=math>q</span> を掛け、−1 から 3 次元へ立体射影します。3Blue1Brown の動画と同じデモです。">The unit sphere of pure quaternions <span class="math">xi + yj + zk</span>, multiplied by <span class="math">q</span>, then stereographically projected from −1 into 3D, as in the 3Blue1Brown video.</p>
+        <h1 data-es="Esfera de cuaterniones">Quaternion sphere</h1>
+        <p class="lede" data-es="La esfera unidad de cuaterniones puros <span class=math>xi + yj + zk</span>, multiplicada por <span class=math>q</span> y proyectada estereográficamente desde −1 en 3D, como en el video de 3Blue1Brown.">The unit sphere of pure quaternions <span class="math">xi + yj + zk</span>, multiplied by <span class="math">q</span>, then stereographically projected from −1 into 3D, as in the 3Blue1Brown video.</p>
       </div>
       <div class="group">
-        <div class="label" data-zh="转轴 u" data-es="Eje de rotación u" data-ja="回転軸 u">Rotation axis u</div>
+        <div class="label" data-es="Eje de rotación u">Rotation axis u</div>
         <div class="seg" id="axisSeg">
           <button class="m" data-v="i" aria-pressed="true">i</button>
           <button class="m" data-v="j" aria-pressed="false">j</button>
@@ -55,7 +53,7 @@
         </div>
       </div>
       <div class="group">
-        <div class="label"><span data-zh="q 的角度 θ" data-es="Ángulo θ de q" data-ja="q の角度 θ">Angle θ of q</span> <output id="thetaOut"></output></div>
+        <div class="label"><span data-es="Ángulo θ de q">Angle θ of q</span> <output id="thetaOut"></output></div>
         <input type="range" id="theta" min="0" max="360" step="0.5" value="45" aria-label="θ">
         <div class="row">
           <div class="chips" id="presets">
@@ -63,12 +61,12 @@
             <button class="chip" data-t="90">90°</button><button class="chip" data-t="135">135°</button>
             <button class="chip" data-t="180">180°</button><button class="chip" data-t="270">270°</button>
           </div>
-          <button class="btn" id="play" data-zh="播放" data-es="Reproducir" data-ja="再生">Play</button>
+          <button class="btn" id="play" data-es="Reproducir">Play</button>
         </div>
         <div class="muted">q = cos θ + u sin θ</div>
       </div>
       <div class="group">
-        <div class="label" data-zh="运算" data-es="Operación" data-ja="演算">Operation</div>
+        <div class="label" data-es="Operación">Operation</div>
         <div class="seg" id="modeSeg">
           <button data-v="left" aria-pressed="true">q · p</button>
           <button data-v="right" aria-pressed="false">p · q</button>
@@ -76,26 +74,26 @@
         </div>
       </div>
       <div class="group">
-        <div class="label" data-zh="显示" data-es="Mostrar" data-ja="表示">Show</div>
+        <div class="label" data-es="Mostrar">Show</div>
         <div class="toggles">
-          <label><input type="checkbox" id="tSurf" checked> <span data-zh="球面" data-es="Superficie de la esfera" data-ja="球面">Sphere surface</span></label>
-          <label><input type="checkbox" id="tGrid" checked> <span data-zh="球面网格" data-es="Líneas de la malla" data-ja="球面のグリッド">Sphere grid lines</span></label>
-          <label><input type="checkbox" id="tCircle" checked><span class="swatch sw-accent"></span> <span data-zh="经过 1 和 u 的圆（黄线）" data-es="Círculo por 1 y u (línea amarilla)" data-ja="1 と u を通る円（黄色の線）">Circle through 1 and u (yellow line)</span></label>
-          <label><input type="checkbox" id="tPerp" checked><span class="swatch sw-jk"></span> <span data-zh="垂直于 u 的圆" data-es="Círculo perpendicular a u" data-ja="u に垂直な円">Circle perpendicular to u</span></label>
-          <label><input type="checkbox" id="tImgs" checked> <span data-zh="i、j、k 被送到哪里" data-es="Adónde van i, j, k" data-ja="i、j、k の行き先">Where i, j, k land</span></label>
-          <label><input type="checkbox" id="tSlice"> <span data-zh="实部 w 固定的切片（洋葱层）" data-es="Corte con parte real w fija (capas de cebolla)" data-ja="実部 w を固定した切り口（玉ねぎの層）">Slice at fixed real part w (onion layers)</span></label>
+          <label><input type="checkbox" id="tSurf" checked> <span data-es="Superficie de la esfera">Sphere surface</span></label>
+          <label><input type="checkbox" id="tGrid" checked> <span data-es="Líneas de la malla">Sphere grid lines</span></label>
+          <label><input type="checkbox" id="tCircle" checked><span class="swatch sw-accent"></span> <span data-es="Círculo por 1 y u (línea amarilla)">Circle through 1 and u (yellow line)</span></label>
+          <label><input type="checkbox" id="tPerp" checked><span class="swatch sw-jk"></span> <span data-es="Círculo perpendicular a u">Circle perpendicular to u</span></label>
+          <label><input type="checkbox" id="tImgs" checked> <span data-es="Adónde van i, j, k">Where i, j, k land</span></label>
+          <label><input type="checkbox" id="tSlice"> <span data-es="Corte con parte real w fija (capas de cebolla)">Slice at fixed real part w (onion layers)</span></label>
         </div>
       </div>
       <div class="group" id="sliceGroup" hidden>
-        <div class="label"><span data-zh="切片 w" data-es="Corte w" data-ja="切り口 w">Slice w</span> <output id="wOut">0.50</output></div>
+        <div class="label"><span data-es="Corte w">Slice w</span> <output id="wOut">0.50</output></div>
         <input type="range" id="w" min="-0.98" max="0.99" step="0.01" value="0.5" aria-label="w">
-        <div class="muted" data-zh="实部为 w 的单位四元数组成半径 √(1−w²) 的球。投影后（乘之前）半径是 √((1−w)/(1+w))。" data-es="Los cuaterniones unitarios con parte real w forman una esfera de radio √(1−w²). Proyectada (antes de multiplicar), su radio es √((1−w)/(1+w))." data-ja="実部が w の単位四元数は半径 √(1−w²) の球をなします。投影すると（掛ける前）、半径は √((1−w)/(1+w)) です。">Unit quaternions with real part w form a sphere of radius √(1−w²). Projected (before multiplying), its radius is √((1−w)/(1+w)).</div>
+        <div class="muted" data-es="Los cuaterniones unitarios con parte real w forman una esfera de radio √(1−w²). Proyectada (antes de multiplicar), su radio es √((1−w)/(1+w)).">Unit quaternions with real part w form a sphere of radius √(1−w²). Projected (before multiplying), its radius is √((1−w)/(1+w)).</div>
       </div>
       <div class="notes">
-        <div class="note"><h3><span>1</span><b data-zh="投影" data-es="La proyección" data-ja="射影">The projection</b></h3><p data-zh="单位四元数 <em>w + xi + yj + zk</em> 落在 (x, y, z)/(1 + w)。1 在原点，−1 在无穷远，w = 0 的点正好在单位球面上。" data-es="Un cuaternión unitario <em>w + xi + yj + zk</em> cae en (x, y, z)/(1 + w). Así 1 está en el origen, −1 en el infinito y los puntos con w = 0 quedan justo sobre la esfera unidad." data-ja="単位四元数 <em>w + xi + yj + zk</em> は (x, y, z)/(1 + w) に写ります。1 は原点、−1 は無限遠、w = 0 の点はちょうど単位球面上にあります。">A unit quaternion <em>w + xi + yj + zk</em> lands at (x, y, z)/(1 + w). So 1 sits at the origin, −1 is at infinity, and points with w = 0 lie exactly on the unit sphere.</p></div>
-        <div class="note"><h3><span>2</span><b data-zh="变成平面" data-es="Se convierte en un plano" data-ja="平面になる">Becoming a plane</b></h3><p data-zh="q · p 模式下，θ = 90° 时 q = i，球上的 i 被乘成 i·i = −1，飞到无穷远，球就被撑成一张平面。" data-es="En el modo q · p, con θ = 90° tenemos q = i. El punto i de la esfera pasa a i·i = −1, sale al infinito y la esfera se estira hasta ser un plano." data-ja="q · p モードで θ = 90° のとき q = i です。球上の i は i·i = −1 になって無限遠へ飛び、球は平面に引き伸ばされます。">In q · p mode, at θ = 90° we have q = i. The point i on the sphere becomes i·i = −1, flies off to infinity, and the sphere is stretched into a flat plane.</p></div>
-        <div class="note"><h3><span>3</span><b data-zh="180° 和 360°" data-es="180° frente a 360°" data-ja="180° と 360°">180° versus 360°</b></h3><p data-zh="θ = 180° 时 q = −1，球的形状复原，但每个点都到了正对面，粉色的 1 在无穷远。360° 才真正回家。" data-es="Con θ = 180°, q = −1. La esfera recupera su forma, pero cada punto se ha ido al lado opuesto y el punto rosa 1 está en el infinito. Solo a 360° todo vuelve de verdad a casa." data-ja="θ = 180° では q = −1。球の形は戻りますが、すべての点が反対側へ移り、ピンクの 1 は無限遠にあります。360° で初めて本当に元の位置に戻ります。">At θ = 180°, q = −1. The sphere has its shape back, but every point has moved to the opposite side and the pink point 1 is at infinity. Only at 360° is everything truly home.</p></div>
-        <div class="note"><h3><span>4</span><b data-zh="三维旋转" data-es="Rotaciones en 3D" data-ja="3 次元の回転">3D rotations</b></h3><p data-zh="切到 q p q⁻¹：左乘让两个平面一起转，右乘 q⁻¹ 把 1–u 平面转回去，另一个平面再多转一次。结果是绕 u 转 <b>2θ</b>，这就是角度减半的来历。" data-es="Cambia a q p q⁻¹. Multiplicar por la izquierda gira dos planos a la vez; multiplicar por q⁻¹ a la derecha devuelve el plano 1–u y gira el otro plano una vez más. El resultado es una rotación de <b>2θ</b> alrededor de u: de ahí sale el ángulo mitad." data-ja="q p q⁻¹ に切り替えてみましょう。左から掛けると 2 つの平面が同時に回り、右から q⁻¹ を掛けると 1–u 平面は元に戻り、もう一方の平面はさらに回ります。結果は u のまわりの <b>2θ</b> 回転。これが角度が半分になる理由です。">Switch to q p q⁻¹. Multiplying on the left turns two planes at once; multiplying by q⁻¹ on the right turns the 1–u plane back and turns the other plane once more. The result is a rotation by <b>2θ</b> about u, which is where the half angle comes from.</p></div>
+        <div class="note"><h3><span>1</span><b data-es="La proyección">The projection</b></h3><p data-es="Un cuaternión unitario <em>w + xi + yj + zk</em> cae en (x, y, z)/(1 + w). Así 1 está en el origen, −1 en el infinito y los puntos con w = 0 quedan justo sobre la esfera unidad.">A unit quaternion <em>w + xi + yj + zk</em> lands at (x, y, z)/(1 + w). So 1 sits at the origin, −1 is at infinity, and points with w = 0 lie exactly on the unit sphere.</p></div>
+        <div class="note"><h3><span>2</span><b data-es="Se convierte en un plano">Becoming a plane</b></h3><p data-es="En el modo q · p, con θ = 90° tenemos q = i. El punto i de la esfera pasa a i·i = −1, sale al infinito y la esfera se estira hasta ser un plano.">In q · p mode, at θ = 90° we have q = i. The point i on the sphere becomes i·i = −1, flies off to infinity, and the sphere is stretched into a flat plane.</p></div>
+        <div class="note"><h3><span>3</span><b data-es="180° frente a 360°">180° versus 360°</b></h3><p data-es="Con θ = 180°, q = −1. La esfera recupera su forma, pero cada punto se ha ido al lado opuesto y el punto rosa 1 está en el infinito. Solo a 360° todo vuelve de verdad a casa.">At θ = 180°, q = −1. The sphere has its shape back, but every point has moved to the opposite side and the pink point 1 is at infinity. Only at 360° is everything truly home.</p></div>
+        <div class="note"><h3><span>4</span><b data-es="Rotaciones en 3D">3D rotations</b></h3><p data-es="Cambia a q p q⁻¹. Multiplicar por la izquierda gira dos planos a la vez; multiplicar por q⁻¹ a la derecha devuelve el plano 1–u y gira el otro plano una vez más. El resultado es una rotación de <b>2θ</b> alrededor de u: de ahí sale el ángulo mitad.">Switch to q p q⁻¹. Multiplying on the left turns two planes at once; multiplying by q⁻¹ on the right turns the 1–u plane back and turns the other plane once more. The result is a rotation by <b>2θ</b> about u, which is where the half angle comes from.</p></div>
       </div>
     </aside>
   </div>

@@ -4,9 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Hopf Fibers · Quantum Theory Labs</title>
-<meta name="title-zh" content="霍普夫纤维 · Quantum Theory Labs">
 <meta name="title-es" content="Fibras de Hopf · Quantum Theory Labs">
-<meta name="title-ja" content="ホップファイバー · Quantum Theory Labs">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -19,78 +17,78 @@
   <header class="topbar">
     <a class="brand" href="index.html">Quantum Theory Labs</a>
     <nav class="nav">
-      <a href="quaternion.html" data-zh="1 四元数" data-es="1 Cuaterniones" data-ja="1 四元数">1 Quaternions</a>
-      <a href="hopf.html" aria-current="page" data-zh="2 霍普夫纤维" data-es="2 Fibras de Hopf" data-ja="2 ホップファイバー">2 Hopf fibers</a>
-      <a href="gates.html" data-zh="3 量子门" data-es="3 Puertas" data-ja="3 量子ゲート">3 Gates</a>
-      <a href="entanglement.html" data-zh="4 纠缠" data-es="4 Entrelazamiento" data-ja="4 もつれ">4 Entanglement</a>
+      <a href="quaternion.html" data-es="1 Cuaterniones">1 Quaternions</a>
+      <a href="hopf.html" aria-current="page" data-es="2 Fibras de Hopf">2 Hopf fibers</a>
+      <a href="gates.html" data-es="3 Puertas">3 Gates</a>
+      <a href="entanglement.html" data-es="4 Entrelazamiento">4 Entanglement</a>
       <a class="vr" href="vr.html">VR</a>
     </nav>
-    <div class="prefs"><select class="langsel" data-theme-select aria-label="Background" data-zh-aria="背景" data-es-aria="Fondo" data-ja-aria="背景">
-      <option value="dark" data-zh="深色背景" data-es="Fondo oscuro" data-ja="暗い背景">Dark background</option><option value="light" data-zh="浅色背景" data-es="Fondo claro" data-ja="明るい背景">Light background</option>
+    <div class="prefs"><select class="langsel" data-theme-select aria-label="Background" data-es-aria="Fondo">
+      <option value="dark" data-es="Fondo oscuro">Dark background</option><option value="light" data-es="Fondo claro">Light background</option>
     </select>
     <select class="langsel" data-lang-select aria-label="Language">
-      <option value="en">English</option><option value="zh">中文</option><option value="es">Español</option><option value="ja">日本語</option>
+      <option value="en">English</option><option value="es">Español</option>
     </select></div>
   </header>
   <div class="body two">
     <div class="view" id="left">
       <div class="cap">
-        <h2 data-zh="超球面 S³（从 −1 投影）" data-es="La 3-esfera S³ (proyectada desde −1)" data-ja="超球面 S³（−1 から射影）">The 3-sphere S³ (projected from −1)</h2>
-        <div class="sub" data-zh="每个 (a, b) 是这里的一个点。加上整体相位，它沿一个<b>圆</b>转动：这就是一根“纤维”。" data-es="Cada (a, b) es un punto aquí. Añadir una fase global lo mueve alrededor de un <b>círculo</b>: ese círculo es una «fibra»." data-ja="それぞれの (a, b) はここでの 1 点です。グローバル位相を加えると<b>円</b>に沿って動きます。この円が「ファイバー」です。">Each (a, b) is a point here. Adding a global phase moves it around a <b>circle</b>: that circle is a "fiber".</div>
+        <h2 data-es="La 3-esfera S³ (proyectada desde −1)">The 3-sphere S³ (projected from −1)</h2>
+        <div class="sub" data-es="Cada (a, b) es un punto aquí. Añadir una fase global lo mueve alrededor de un <b>círculo</b>: ese círculo es una «fibra».">Each (a, b) is a point here. Adding a global phase moves it around a <b>circle</b>: that circle is a "fiber".</div>
       </div>
-      <div class="foot" data-zh="<span class=big>3</span>个数才能定位：<b>θ</b>、<b>φ</b>，再加整体相位 <b>γ</b>" data-es="<span class=big>3</span> números para ubicar un punto: <b>θ</b>, <b>φ</b> y la fase global <b>γ</b>" data-ja="点を決めるのに <span class=big>3</span> つの数が必要：<b>θ</b>、<b>φ</b>、そしてグローバル位相 <b>γ</b>"><span class="big">3</span> numbers to locate a point: <b>θ</b>, <b>φ</b>, plus the global phase <b>γ</b></div>
+      <div class="foot" data-es="<span class=big>3</span> números para ubicar un punto: <b>θ</b>, <b>φ</b> y la fase global <b>γ</b>"><span class="big">3</span> numbers to locate a point: <b>θ</b>, <b>φ</b>, plus the global phase <b>γ</b></div>
     </div>
     <div class="view" id="right">
       <div class="cap">
-        <h2 data-zh="布洛赫球 S²" data-es="La esfera de Bloch S²" data-ja="ブロッホ球 S²">The Bloch sphere S²</h2>
-        <div class="sub" data-zh="左边整整一圈，在这里只是<b>一个点</b>。拖动彩色的点换一个量子态。" data-es="Un círculo entero de la izquierda es aquí <b>un solo punto</b>. Arrastra el punto de color para elegir otro estado." data-ja="左側の円 1 周分が、ここでは<b>たった 1 点</b>です。色付きの点をドラッグして別の状態を選べます。">A whole loop on the left is just <b>one point</b> here. Drag the coloured point to pick another state.</div>
+        <h2 data-es="La esfera de Bloch S²">The Bloch sphere S²</h2>
+        <div class="sub" data-es="Un círculo entero de la izquierda es aquí <b>un solo punto</b>. Arrastra el punto de color para elegir otro estado.">A whole loop on the left is just <b>one point</b> here. Drag the coloured point to pick another state.</div>
       </div>
-      <div class="foot" data-zh="<span class=big>2</span>个数就够：<b>θ</b>（纬度）、<b>φ</b>（经度）" data-es="Bastan <span class=big>2</span> números: <b>θ</b> (latitud) y <b>φ</b> (longitud)" data-ja="<span class=big>2</span> つの数で十分：<b>θ</b>（緯度）と <b>φ</b>（経度）"><span class="big">2</span> numbers are enough: <b>θ</b> (latitude) and <b>φ</b> (longitude)</div>
+      <div class="foot" data-es="Bastan <span class=big>2</span> números: <b>θ</b> (latitud) y <b>φ</b> (longitud)"><span class="big">2</span> numbers are enough: <b>θ</b> (latitude) and <b>φ</b> (longitude)</div>
     </div>
     <aside class="panel">
       <div>
-        <h1 data-zh="霍普夫纤维与布洛赫球" data-es="Fibras de Hopf y la esfera de Bloch" data-ja="ホップファイバーとブロッホ球">Hopf fibers and the Bloch sphere</h1>
-        <p class="lede" data-zh="一个量子比特 a|0⟩ + b|1⟩，满足 |a|² + |b|² = 1。左边是它在四维里的样子，右边是物理上真正不同的状态。" data-es="Un cúbit a|0⟩ + b|1⟩ con |a|² + |b|² = 1. A la izquierda, cómo se ve en cuatro dimensiones; a la derecha, los estados que son físicamente distintos." data-ja="量子ビット a|0⟩ + b|1⟩（|a|² + |b|² = 1）。左は 4 次元での姿、右は物理的に本当に異なる状態です。">A qubit a|0⟩ + b|1⟩ with |a|² + |b|² = 1. On the left is how it looks in four dimensions; on the right are the states that are physically different.</p>
+        <h1 data-es="Fibras de Hopf y la esfera de Bloch">Hopf fibers and the Bloch sphere</h1>
+        <p class="lede" data-es="Un cúbit a|0⟩ + b|1⟩ con |a|² + |b|² = 1. A la izquierda, cómo se ve en cuatro dimensiones; a la derecha, los estados que son físicamente distintos.">A qubit a|0⟩ + b|1⟩ with |a|² + |b|² = 1. On the left is how it looks in four dimensions; on the right are the states that are physically different.</p>
       </div>
       <div class="group">
-        <div class="label"><span data-zh="θ（离 |0⟩ 多远）" data-es="θ (distancia a |0⟩)" data-ja="θ（|0⟩ からの離れ具合）">θ (how far from |0⟩)</span><output id="thOut"></output></div>
+        <div class="label"><span data-es="θ (distancia a |0⟩)">θ (how far from |0⟩)</span><output id="thOut"></output></div>
         <input type="range" id="th" min="0" max="180" step="0.5" value="60" aria-label="θ">
-        <div class="label"><span data-zh="φ（相对相位）" data-es="φ (fase relativa)" data-ja="φ（相対位相）">φ (relative phase)</span><output id="phOut"></output></div>
+        <div class="label"><span data-es="φ (fase relativa)">φ (relative phase)</span><output id="phOut"></output></div>
         <input type="range" id="ph" min="0" max="360" step="0.5" value="40" aria-label="φ">
       </div>
       <div class="group">
-        <div class="label"><span data-zh="整体相位 γ（同时乘到 a 和 b 上）" data-es="Fase global γ (multiplica a y b a la vez)" data-ja="グローバル位相 γ（a と b に同時に掛かる）">Global phase γ (multiplies a and b together)</span><output id="gaOut"></output></div>
+        <div class="label"><span data-es="Fase global γ (multiplica a y b a la vez)">Global phase γ (multiplies a and b together)</span><output id="gaOut"></output></div>
         <div class="row" style="flex-wrap:nowrap">
           <input type="range" id="ga" min="0" max="360" step="0.5" value="0" aria-label="γ">
-          <button class="btn" id="play" data-zh="播放" data-es="Reproducir" data-ja="再生">Play</button>
+          <button class="btn" id="play" data-es="Reproducir">Play</button>
         </div>
       </div>
       <div class="card" aria-live="polite">
         <div class="amp">
           <span class="nm">a</span><span id="aVal"></span>
           <span></span><span class="bar"><i id="aBar"></i></span>
-          <span></span><span class="muted" style="font-size:12px"><span data-zh="测到 0 的概率" data-es="Probabilidad de medir 0," data-ja="0 を測定する確率">Probability of measuring 0,</span> |a|² = <b id="aP" class="acc"></b></span>
+          <span></span><span class="muted" style="font-size:12px"><span data-es="Probabilidad de medir 0,">Probability of measuring 0,</span> |a|² = <b id="aP" class="acc"></b></span>
           <span class="nm">b</span><span id="bVal"></span>
           <span></span><span class="bar"><i id="bBar"></i></span>
-          <span></span><span class="muted" style="font-size:12px"><span data-zh="测到 1 的概率" data-es="Probabilidad de medir 1," data-ja="1 を測定する確率">Probability of measuring 1,</span> |b|² = <b id="bP" class="acc"></b></span>
+          <span></span><span class="muted" style="font-size:12px"><span data-es="Probabilidad de medir 1,">Probability of measuring 1,</span> |b|² = <b id="bP" class="acc"></b></span>
         </div>
         <div class="mono muted" style="font-size:12px" id="r4"></div>
       </div>
       <div class="group">
-        <div class="label" data-zh="要画几根纤维" data-es="Fibras que dibujar" data-ja="描くファイバーの数">Fibers to draw</div>
+        <div class="label" data-es="Fibras que dibujar">Fibers to draw</div>
         <div class="seg" id="famSeg">
-          <button data-v="one" aria-pressed="true" data-zh="一个态" data-es="Un estado" data-ja="1 つの状態">One state</button>
-          <button data-v="ring" aria-pressed="false" data-zh="一圈纬线" data-es="Anillo de latitud" data-ja="緯線 1 周">Latitude ring</button>
-          <button data-v="scatter" aria-pressed="false" data-zh="很多态" data-es="Muchos estados" data-ja="たくさんの状態">Many states</button>
+          <button data-v="one" aria-pressed="true" data-es="Un estado">One state</button>
+          <button data-v="ring" aria-pressed="false" data-es="Anillo de latitud">Latitude ring</button>
+          <button data-v="scatter" aria-pressed="false" data-es="Muchos estados">Many states</button>
         </div>
       </div>
       <div class="notes">
-        <div class="note"><h3><span>1</span><b data-zh="“物理上同一个状态”" data-es="«Físicamente el mismo estado»" data-ja="「物理的に同じ状態」">"Physically the same state"</b></h3><p data-zh="按“播放”转动 γ。a 和 b 的数值一直在变，但 |a|² 和 |b|² 完全不动。测量只看得到概率，所以这些 (a, b) 是同一个物理状态，右边的点也不动。" data-es="Pulsa Reproducir para girar γ. Los valores de a y b cambian sin parar, pero |a|² y |b|² no se mueven nada. Las medidas solo ven esas probabilidades, así que todos esos (a, b) son el mismo estado físico, y el punto de la derecha se queda quieto." data-ja="「再生」を押して γ を回します。a と b の値は変わり続けますが、|a|² と |b|² はまったく変わりません。測定で分かるのは確率だけなので、これらの (a, b) はすべて同じ物理状態で、右側の点も動きません。">Press Play to turn γ. The values of a and b keep changing, but |a|² and |b|² do not move at all. Measurements only see these probabilities, so all these (a, b) are the same physical state, and the point on the right stays still.</p></div>
-        <div class="note"><h3><span>2</span><b data-zh="为什么连成一个圆" data-es="Por qué es un círculo" data-ja="なぜ円になるのか">Why it is a circle</b></h3><p data-zh="γ 从 0° 走到 360°，左边粉色的点沿彩色圆圈走一圈回到原地。这一圈都是同一个物理状态。" data-es="Cuando γ va de 0° a 360°, el punto rosa de la izquierda da una vuelta completa al círculo de color y regresa. Todos los puntos de esa vuelta son el mismo estado físico." data-ja="γ が 0° から 360° まで進むと、左のピンクの点は色付きの円を 1 周して元に戻ります。この 1 周上の点はすべて同じ物理状態です。">As γ goes from 0° to 360°, the pink point on the left travels once around the coloured circle and returns. Every point on that loop is the same physical state.</p></div>
-        <div class="note"><h3><span>3</span><b data-zh="一圈缩成一个点" data-es="Un círculo se vuelve un punto" data-ja="円が 1 点に縮む">A loop becomes a point</b></h3><p data-zh="右边每个点对应左边一个圆，颜色一一对应。看 <button class=link id=goRing>一圈纬线</button>：右边一个圆，左边拼成一个甜甜圈，任意两个圆都套在一起。再看 <button class=link id=goScatter>很多态</button>。" data-es="Cada punto de la derecha corresponde a un círculo de la izquierda, con el mismo color. Prueba un <button class=link id=goRing>anillo de latitud</button>: un círculo a la derecha se convierte en una rosquilla de círculos a la izquierda, y cada par de ellos está enlazado. Luego prueba <button class=link id=goScatter>muchos estados</button>." data-ja="右の各点は左の 1 つの円に対応し、色も一致します。<button class=link id=goRing>緯線 1 周</button>を試すと、右の円が左ではドーナツ状の円の集まりになり、どの 2 つの円も互いに絡み合っています。次は<button class=link id=goScatter>たくさんの状態</button>も試してください。">Each point on the right matches one circle on the left, with matching colours. Try a <button class="link" id="goRing">latitude ring</button>: a circle on the right becomes a doughnut of circles on the left, and every two of them are linked. Then try <button class="link" id="goScatter">many states</button>.</p></div>
-        <div class="note"><h3><span>4</span><b data-zh="球面为什么是二维的" data-es="Por qué la esfera es bidimensional" data-ja="球面が 2 次元である理由">Why the sphere is 2-dimensional</b></h3><p data-zh="“几维”说的是定位一个点要几个数。布洛赫球上只要经度、纬度两个数；左边还要多一个 γ。每圈压成一点，少一个数：3 − 1 = 2。" data-es="«Dimensión» significa cuántos números hacen falta para ubicar un punto. En la esfera de Bloch bastan dos, latitud y longitud; a la izquierda también hace falta γ. Al reducir cada círculo a un punto se quita un número: 3 − 1 = 2." data-ja="「次元」とは、点の位置を決めるのに必要な数の個数のことです。ブロッホ球では緯度と経度の 2 つで足り、左ではさらに γ が要ります。各円を 1 点に縮めると数が 1 つ減ります：3 − 1 = 2。">"Dimension" means how many numbers you need to locate a point. On the Bloch sphere two are enough, latitude and longitude; on the left you need γ as well. Squeezing each loop to a point removes one number: 3 − 1 = 2.</p></div>
-        <div class="note"><h3><span>5</span><b data-zh="相对相位有意义" data-es="La fase relativa sí importa" data-ja="相対位相には意味がある">Relative phase matters</b></h3><p data-zh="只有 a、b 一起转的整体相位没意义。它们之间的相位差 φ 是经度：|0⟩ + |1⟩ 和 |0⟩ − |1⟩ 在赤道上的两个相对的点，是不同的状态。" data-es="Solo la fase que gira a y b juntos no tiene significado. La diferencia de fase φ entre ellos es la longitud: |0⟩ + |1⟩ y |0⟩ − |1⟩ son puntos opuestos del ecuador y son estados distintos." data-ja="意味がないのは a と b を一緒に回すグローバル位相だけです。両者の位相差 φ は経度にあたり、|0⟩ + |1⟩ と |0⟩ − |1⟩ は赤道上の反対側の点で、異なる状態です。">Only the phase that turns a and b together is meaningless. The phase difference φ between them is the longitude: |0⟩ + |1⟩ and |0⟩ − |1⟩ are opposite points on the equator and are different states.</p></div>
-        <div class="note"><h3><span>6</span><b data-zh="和视频的联系" data-es="La relación con el video" data-ja="動画とのつながり">The link to the video</b></h3><p data-zh="把 (a, b) 写成四元数 <em>a + b·j</em>，整体相位就是左乘 <em>cos γ + i sin γ</em>，正是视频里沿 i 轴拖动的乘法。视频里的黄线就是 <button class=link id=goNorth>|0⟩ 的纤维</button>，j–k 圆就是 <button class=link id=goSouth>|1⟩ 的纤维</button>。" data-es="Escribe (a, b) como el cuaternión <em>a + b·j</em>. La fase global es entonces multiplicar por la izquierda por <em>cos γ + i sin γ</em>, justo la multiplicación que arrastras por el eje i en el video. La línea amarilla del video es la <button class=link id=goNorth>fibra de |0⟩</button>, y el círculo j–k es la <button class=link id=goSouth>fibra de |1⟩</button>." data-ja="(a, b) を四元数 <em>a + b·j</em> と書くと、グローバル位相は <em>cos γ + i sin γ</em> を左から掛けることになり、動画で i 軸に沿ってドラッグしていた掛け算そのものです。動画の黄色の線は <button class=link id=goNorth>|0⟩ のファイバー</button>、j–k の円は <button class=link id=goSouth>|1⟩ のファイバー</button>です。">Write (a, b) as the quaternion <em>a + b·j</em>. The global phase is then left multiplication by <em>cos γ + i sin γ</em>, exactly the multiplication you drag along the i axis in the video. The video's yellow line is the <button class="link" id="goNorth">fiber of |0⟩</button>, and the j–k circle is the <button class="link" id="goSouth">fiber of |1⟩</button>.</p></div>
+        <div class="note"><h3><span>1</span><b data-es="«Físicamente el mismo estado»">"Physically the same state"</b></h3><p data-es="Pulsa Reproducir para girar γ. Los valores de a y b cambian sin parar, pero |a|² y |b|² no se mueven nada. Las medidas solo ven esas probabilidades, así que todos esos (a, b) son el mismo estado físico, y el punto de la derecha se queda quieto.">Press Play to turn γ. The values of a and b keep changing, but |a|² and |b|² do not move at all. Measurements only see these probabilities, so all these (a, b) are the same physical state, and the point on the right stays still.</p></div>
+        <div class="note"><h3><span>2</span><b data-es="Por qué es un círculo">Why it is a circle</b></h3><p data-es="Cuando γ va de 0° a 360°, el punto rosa de la izquierda da una vuelta completa al círculo de color y regresa. Todos los puntos de esa vuelta son el mismo estado físico.">As γ goes from 0° to 360°, the pink point on the left travels once around the coloured circle and returns. Every point on that loop is the same physical state.</p></div>
+        <div class="note"><h3><span>3</span><b data-es="Un círculo se vuelve un punto">A loop becomes a point</b></h3><p data-es="Cada punto de la derecha corresponde a un círculo de la izquierda, con el mismo color. Prueba un <button class=link id=goRing>anillo de latitud</button>: un círculo a la derecha se convierte en una rosquilla de círculos a la izquierda, y cada par de ellos está enlazado. Luego prueba <button class=link id=goScatter>muchos estados</button>.">Each point on the right matches one circle on the left, with matching colours. Try a <button class="link" id="goRing">latitude ring</button>: a circle on the right becomes a doughnut of circles on the left, and every two of them are linked. Then try <button class="link" id="goScatter">many states</button>.</p></div>
+        <div class="note"><h3><span>4</span><b data-es="Por qué la esfera es bidimensional">Why the sphere is 2-dimensional</b></h3><p data-es="«Dimensión» significa cuántos números hacen falta para ubicar un punto. En la esfera de Bloch bastan dos, latitud y longitud; a la izquierda también hace falta γ. Al reducir cada círculo a un punto se quita un número: 3 − 1 = 2.">"Dimension" means how many numbers you need to locate a point. On the Bloch sphere two are enough, latitude and longitude; on the left you need γ as well. Squeezing each loop to a point removes one number: 3 − 1 = 2.</p></div>
+        <div class="note"><h3><span>5</span><b data-es="La fase relativa sí importa">Relative phase matters</b></h3><p data-es="Solo la fase que gira a y b juntos no tiene significado. La diferencia de fase φ entre ellos es la longitud: |0⟩ + |1⟩ y |0⟩ − |1⟩ son puntos opuestos del ecuador y son estados distintos.">Only the phase that turns a and b together is meaningless. The phase difference φ between them is the longitude: |0⟩ + |1⟩ and |0⟩ − |1⟩ are opposite points on the equator and are different states.</p></div>
+        <div class="note"><h3><span>6</span><b data-es="La relación con el video">The link to the video</b></h3><p data-es="Escribe (a, b) como el cuaternión <em>a + b·j</em>. La fase global es entonces multiplicar por la izquierda por <em>cos γ + i sin γ</em>, justo la multiplicación que arrastras por el eje i en el video. La línea amarilla del video es la <button class=link id=goNorth>fibra de |0⟩</button>, y el círculo j–k es la <button class=link id=goSouth>fibra de |1⟩</button>.">Write (a, b) as the quaternion <em>a + b·j</em>. The global phase is then left multiplication by <em>cos γ + i sin γ</em>, exactly the multiplication you drag along the i axis in the video. The video's yellow line is the <button class="link" id="goNorth">fiber of |0⟩</button>, and the j–k circle is the <button class="link" id="goSouth">fiber of |1⟩</button>.</p></div>
       </div>
     </aside>
   </div>

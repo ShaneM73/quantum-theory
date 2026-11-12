@@ -5,9 +5,9 @@ Interactive 3D labs that go from quaternions to quantum entanglement, plus a Web
 
 **Live site:** https://shanem73.github.io/quantum-theory/
 
-Languages: **English** (default), **中文**, **Español**, **日本語**, from the language menu in the top bar of every page. The choice is remembered across pages. Link straight to a language with `?lang=zh`, `?lang=es` or `?lang=ja`.
+Languages: **English** (default) and **Español**, from the language menu in the top bar of every page. The choice is remembered across pages. Link straight to Spanish with `?lang=es`.
 
-Background: **Dark** (default) or **Light**, from the Background menu next to the language menu. Light gives a bright, print-friendly look for screenshots, papers and proposals; the dark version is unchanged. Link straight to it with `?theme=light` (combine with a language: `?lang=es&theme=light`).
+Background: **Dark** (default) or **Light**, from the Background menu next to the language menu. Light gives a bright, print-friendly look for screenshots, papers and proposals. Link straight to it with `?theme=light` (combine with a language: `?lang=es&theme=light`).
 
 ## Labs
 
@@ -56,7 +56,7 @@ css/site.css          shared styles
 js/qmath.js           quaternions, complex numbers, SU(2), one- and two-qubit math
 js/entangleModel.js   Bell-state path, measurement sampling, CHSH
 js/i18n.js, js/lang.js language and background switch (theme: <html data-theme>, COLORS in three-kit.js)
-                       (HTML uses data-zh / data-es / data-ja; scripts use L(en, zh, es, ja))
+                       (HTML uses data-es attributes; scripts use L(en, es))
 js/three-kit.js       three.js helpers (stage, labels, arrows, dynamic lines)
 js/viz/               reusable 3D scenes: quatSphere, hopf, bloch, entangle
 js/labs/              page controllers for the desktop labs

@@ -65,19 +65,11 @@ disc.rotation.x = -Math.PI / 2; disc.position.y = 0.002; scene.add(disc);
 
 if (navigator.xr && navigator.xr.isSessionSupported) {
   navigator.xr.isSessionSupported('immersive-vr').then(ok => {
-    $('xrNote').textContent = ok ? '' : L(
-      'This browser does not support WebXR VR. You can still look around with the mouse. On a headset, open this same address in a WebXR browser such as the Quest Browser.',
-      '这个浏览器不支持 WebXR VR，可以先用鼠标浏览。头显里请用 Quest 浏览器等打开同一个网址。',
-      'Este navegador no admite WebXR VR. Aun así puedes mirar alrededor con el ratón. En un visor, abre esta misma dirección en un navegador con WebXR, como Quest Browser.',
-      'このブラウザは WebXR VR に対応していません。マウスで見回すことはできます。ヘッドセットでは Quest ブラウザなど WebXR 対応ブラウザで同じアドレスを開いてください。');
+    $('xrNote').textContent = ok ? '' : L('This browser does not support WebXR VR. You can still look around with the mouse. On a headset, open this same address in a WebXR browser such as the Quest Browser.', 'Este navegador no admite WebXR VR. Aun así puedes mirar alrededor con el ratón. En un visor, abre esta misma dirección en un navegador con WebXR, como Quest Browser.');
     if (!ok) $('xrNote').classList.add('nosupport');
   }).catch(() => {});
 } else {
-  $('xrNote').textContent = L(
-    'This browser has no WebXR. VR needs HTTPS and a WebXR browser; for now you can look around with the mouse.',
-    '这个浏览器没有 WebXR。需要 HTTPS 和支持 WebXR 的浏览器才能进入 VR；现在可以用鼠标浏览。',
-    'Este navegador no tiene WebXR. La VR necesita HTTPS y un navegador con WebXR; por ahora puedes mirar con el ratón.',
-    'このブラウザには WebXR がありません。VR には HTTPS と WebXR 対応ブラウザが必要です。今はマウスで見回せます。');
+  $('xrNote').textContent = L('This browser has no WebXR. VR needs HTTPS and a WebXR browser; for now you can look around with the mouse.', 'Este navegador no tiene WebXR. La VR necesita HTTPS y un navegador con WebXR; por ahora puedes mirar con el ratón.');
   $('xrNote').classList.add('nosupport');
 }
 
@@ -167,8 +159,8 @@ function applyClips() {
   }
 }
 const fq = (q) => `q = ${nfmt(q[0])} ${q[1] < -0.005 ? '−' : '+'} ${Math.abs(q[1]).toFixed(2)}i ${q[2] < -0.005 ? '−' : '+'} ${Math.abs(q[2]).toFixed(2)}j ${q[3] < -0.005 ? '−' : '+'} ${Math.abs(q[3]).toFixed(2)}k`;
-const PLAY = L('Play', '播放', 'Reproducir', '再生'), PAUSE = L('Pause', '暂停', 'Pausa', '一時停止');
-const ON = L('On', '开', 'Sí', 'オン'), OFF = L('Off', '关', 'No', 'オフ');
+const PLAY = L('Play', 'Reproducir'), PAUSE = L('Pause', 'Pausa');
+const ON = L('On', 'Sí'), OFF = L('Off', 'No');
 
 // ---------- station 1: quaternion sphere ----------
 function stationQuaternion() {
@@ -184,13 +176,13 @@ function stationQuaternion() {
   const axes = ['i', 'j', 'k'];
   const bPlay = new Button3D(PLAY, () => { playing = !playing; bPlay.setLabel(playing ? PAUSE : PLAY); bPlay.setActive(playing); });
   const bMode = new Button3D('q · p', () => { const m = modes[(modes.indexOf(qs.params.mode) + 1) % 3]; qs.set({ mode: m }); bMode.setLabel(modeName[m]); },
-    { w: 0.2, sub: L('operation', '运算', 'operación', '演算') });
+    { w: 0.2, sub: L('operation', 'operación') });
   const bAxis = new Button3D('i', () => { const a = axes[(axes.indexOf(qs.params.axis) + 1) % 3]; qs.set({ axis: a }); bAxis.setLabel(a); },
-    { w: 0.2, sub: L('axis u', '转轴 u', 'eje u', '回転軸 u') });
+    { w: 0.2, sub: L('axis u', 'eje u') });
   const bSlice = new Button3D(OFF, () => { qs.set({ showSlice: !qs.params.showSlice }); bSlice.setLabel(qs.params.showSlice ? ON : OFF); bSlice.setActive(qs.params.showSlice); },
-    { w: 0.2, sub: L('slice w = 0.5', '洋葱层 w=0.5', 'corte w = 0,5', '切り口 w = 0.5') });
+    { w: 0.2, sub: L('slice w = 0.5', 'corte w = 0,5') });
   const bSurf = new Button3D(ON, () => { qs.set({ showSurface: !qs.params.showSurface }); bSurf.setLabel(qs.params.showSurface ? ON : OFF); },
-    { w: 0.2, sub: L('surface', '球面', 'superficie', '球面') });
+    { w: 0.2, sub: L('surface', 'superficie') });
   addConsole(st, [
     [new Button3D('−15°', () => setT(qs.params.theta - 15)), bPlay, new Button3D('+15°', () => setT(qs.params.theta + 15)),
      new Button3D('90°', () => setT(90)), new Button3D('180°', () => setT(180)), new Button3D('360°', () => setT(0))],
@@ -200,12 +192,8 @@ function stationQuaternion() {
     if (playing) setT(qs.params.theta + dt * 25);
     qs.update();
     const th = qs.params.theta.toFixed(0), mn = modeName[qs.params.mode], s = qs.status().text;
-    info.set({ title: L('1 · Quaternion sphere', '1 · 四元数球', '1 · Esfera de cuaterniones', '1 · 四元数の球'), big: fq(qs.q()),
-      body: L(
-        `θ = ${th}°, operation ${mn}\n${s}\n\nMultiply the unit sphere by q, then project from −1. At 90° it becomes a plane, at 180° it has its shape back but every point is on the opposite side, and only at 360° is it home. q p q⁻¹ is a 3D rotation by twice the angle.`,
-        `θ = ${th}°，运算 ${mn}\n${s}\n\n把单位球乘以 q，再从 −1 投影。90° 时变平面，180° 形状复原但点都到了对面，360° 才回家。q p q⁻¹ 是三维旋转，角度翻倍。`,
-        `θ = ${th}°, operación ${mn}\n${s}\n\nMultiplica la esfera unidad por q y proyecta desde −1. A 90° se vuelve un plano, a 180° recupera su forma pero cada punto está en el lado opuesto, y solo a 360° vuelve a casa. q p q⁻¹ es una rotación 3D del doble del ángulo.`,
-        `θ = ${th}°、演算 ${mn}\n${s}\n\n単位球に q を掛けて −1 から射影します。90° で平面になり、180° で形は戻るものの各点は反対側にあり、360° で初めて元に戻ります。q p q⁻¹ は角度が 2 倍の 3 次元回転です。`) });
+    info.set({ title: L('1 · Quaternion sphere', '1 · Esfera de cuaterniones'), big: fq(qs.q()),
+      body: L(`θ = ${th}°, operation ${mn}\n${s}\n\nMultiply the unit sphere by q, then project from −1. At 90° it becomes a plane, at 180° it has its shape back but every point is on the opposite side, and only at 360° is it home. q p q⁻¹ is a 3D rotation by twice the angle.`, `θ = ${th}°, operación ${mn}\n${s}\n\nMultiplica la esfera unidad por q y proyecta desde −1. A 90° se vuelve un plano, a 180° recupera su forma pero cada punto está en el lado opuesto, y solo a 360° vuelve a casa. q p q⁻¹ es una rotación 3D del doble del ángulo.`) });
   });
 }
 
@@ -221,15 +209,15 @@ function stationHopf() {
   let playing = true;
   const setP = p => H.set(p);
   const bPlay = new Button3D(PAUSE, () => { playing = !playing; bPlay.setLabel(playing ? PAUSE : PLAY); bPlay.setActive(playing); },
-    { sub: L('global phase γ', '整体相位 γ', 'fase global γ', 'グローバル位相 γ') });
+    { sub: L('global phase γ', 'fase global γ') });
   bPlay.setActive(true);
   const famBtns = {};
   const fam = f => { setP({ fam: f }); Object.entries(famBtns).forEach(([k, b]) => b.setActive(k === f)); };
-  famBtns.one = new Button3D(L('One state', '一个态', 'Un estado', '1 つの状態'), () => fam('one'), { w: 0.2 });
-  famBtns.ring = new Button3D(L('Latitude ring', '一圈纬线', 'Anillo de latitud', '緯線 1 周'), () => fam('ring'), { w: 0.2 });
-  famBtns.scatter = new Button3D(L('Many states', '很多态', 'Muchos estados', 'たくさんの状態'), () => fam('scatter'), { w: 0.2 });
+  famBtns.one = new Button3D(L('One state', 'Un estado'), () => fam('one'), { w: 0.2 });
+  famBtns.ring = new Button3D(L('Latitude ring', 'Anillo de latitud'), () => fam('ring'), { w: 0.2 });
+  famBtns.scatter = new Button3D(L('Many states', 'Muchos estados'), () => fam('scatter'), { w: 0.2 });
   famBtns.one.setActive(true);
-  const fiber = L('fiber', '的纤维', 'fibra', 'のファイバー');
+  const fiber = L('fiber', 'fibra');
   addConsole(st, [
     [new Button3D('θ −15°', () => setP({ th: clamp(H.params.th - 15, 0, 180) })), new Button3D('θ +15°', () => setP({ th: clamp(H.params.th + 15, 0, 180) })),
      new Button3D('φ −30°', () => setP({ ph: (H.params.ph + 330) % 360 })), new Button3D('φ +30°', () => setP({ ph: (H.params.ph + 30) % 360 })), bPlay],
@@ -241,12 +229,8 @@ function stationHopf() {
     if (playing) setP({ ga: (H.params.ga + dt * 40) % 360 });
     H.update();
     const s = H.amplitudes(), pa = cabs2(s[0]);
-    info.set({ title: L('2 · Hopf fibers', '2 · 霍普夫纤维', '2 · Fibras de Hopf', '2 · ホップファイバー'), big: `γ = ${H.params.ga.toFixed(0)}°`,
-      body: `a = ${cfmt(s[0])}\nb = ${cfmt(s[1])}\n|a|² = ${pa.toFixed(3)}　|b|² = ${(1 - pa).toFixed(3)}\n\n` + L(
-        'γ turns, a and b change, the probabilities do not: physically it is the same state. One full loop of the pink point on the left = one point on the Bloch sphere on the right. Squeezing each loop to a point: 3 − 1 = 2 dimensions.',
-        'γ 在转，a、b 在变，概率不变：物理上是同一个态。左边粉色点绕一整圈 = 右边布洛赫球上一个点。每圈缩成一点：3 − 1 = 2 维。',
-        'γ gira, a y b cambian, las probabilidades no: físicamente es el mismo estado. Una vuelta completa del punto rosa a la izquierda = un punto de la esfera de Bloch a la derecha. Al reducir cada vuelta a un punto: 3 − 1 = 2 dimensiones.',
-        'γ が回ると a と b は変わりますが、確率は変わりません：物理的には同じ状態です。左のピンクの点の 1 周 = 右のブロッホ球上の 1 点。各周を 1 点に縮めると 3 − 1 = 2 次元。') });
+    info.set({ title: L('2 · Hopf fibers', '2 · Fibras de Hopf'), big: `γ = ${H.params.ga.toFixed(0)}°`,
+      body: `a = ${cfmt(s[0])}\nb = ${cfmt(s[1])}\n|a|² = ${pa.toFixed(3)}　|b|² = ${(1 - pa).toFixed(3)}\n\n` + L('γ turns, a and b change, the probabilities do not: physically it is the same state. One full loop of the pink point on the left = one point on the Bloch sphere on the right. Squeezing each loop to a point: 3 − 1 = 2 dimensions.', 'γ gira, a y b cambian, las probabilidades no: físicamente es el mismo estado. Una vuelta completa del punto rosa a la izquierda = un punto de la esfera de Bloch a la derecha. Al reducir cada vuelta a un punto: 3 − 1 = 2 dimensiones.') });
   });
 }
 
@@ -267,7 +251,7 @@ function stationGates() {
   };
   const reset = (th, ph) => { g.anim = null; g.base = stateFromAngles(th, ph); g.alpha = 0; g.last = ''; };
   const gate = n => new Button3D(n, () => run(GATES[n].axis, GATES[n].angle, n), { w: 0.12 });
-  const aboutY = L('about the y axis', '绕 y 轴转', 'alrededor de y', 'y 軸のまわり');
+  const aboutY = L('about the y axis', 'alrededor de y');
   addConsole(st, [
     [new Button3D('|0⟩', () => reset(0, 0), { w: 0.12 }), new Button3D('|+⟩', () => reset(Math.PI/2, 0), { w: 0.12 }),
      gate('X'), gate('Y'), gate('Z'), gate('H'), gate('S'), gate('T')],
@@ -290,23 +274,13 @@ function stationGates() {
     const q = quatOfSU2(su2(g.axis, g.alpha));
     const ov = cadd(cmul(cconj(g.base[0]), psi[0]), cmul(cconj(g.base[1]), psi[1]));
     const ad = g.alpha / D2R, a0 = ad.toFixed(0), a2 = (ad / 2).toFixed(0);
-    let msg = L('Press a gate and watch the arrow turn. Every gate is a unit quaternion q = cos(α/2) + n sin(α/2).',
-      '点一个门看箭头怎么转。每个门都是一个单位四元数 q = cos(α/2) + n sin(α/2)。',
-      'Pulsa una puerta y mira cómo gira la flecha. Cada puerta es un cuaternión unitario q = cos(α/2) + n sin(α/2).',
-      'ゲートを押して矢印の回転を見てください。どのゲートも単位四元数 q = cos(α/2) + n sin(α/2) です。');
-    if (g.anim && g.last.length === 1) { const n = GATES[g.last].note; msg = L(n.en + ' (ignoring a global phase).', n.zh + '（去掉整体相位）。', n.es + ' (salvo una fase global).', n.ja + '（グローバル位相を除く）。'); }
-    else if (Math.abs(ad - 360) < 1) msg = L('Turned 360°: the arrow is back, but q = −1 and the state has an extra minus sign (a and b both flip).',
-      '转了 360°：箭头回到原处，但 q = −1，状态多了一个负号（a、b 都变号）。',
-      'Giro de 360°: la flecha vuelve, pero q = −1 y el estado tiene un signo menos de más (a y b cambian de signo).',
-      '360° 回転：矢印は戻りましたが q = −1 で、状態にマイナス符号が 1 つ付きました（a と b が両方反転）。');
-    else if (Math.abs(ad - 720) < 1) msg = L('Turned 720°: q is back to +1, truly restored. One turn of q = two turns of the sphere.',
-      '转了 720°：q 回到 +1，这次真正复原。q 转一圈 = 球转两圈。',
-      'Giro de 720°: q vuelve a +1 y todo se recupera de verdad. Una vuelta de q = dos vueltas de la esfera.',
-      '720° 回転：q は +1 に戻り、本当に元通りです。q の 1 回転 = 球の 2 回転。');
-    else if (ad > 1) msg = L(`The sphere turns α = ${a0}°; the quaternion uses α/2 = ${a2}°.`, `球上转 α = ${a0}°，四元数里写 α/2 = ${a2}°。`,
-      `La esfera gira α = ${a0}°; el cuaternión usa α/2 = ${a2}°.`, `球は α = ${a0}° 回転し、四元数では α/2 = ${a2}° を使います。`);
-    info.set({ title: L('3 · Gates = rotations', '3 · 量子门 = 旋转', '3 · Puertas = rotaciones', '3 · ゲート = 回転'), big: fq(q),
-      body: `${msg}\n\na = ${cfmt(psi[0])}\nb = ${cfmt(psi[1])}\n${L('compared with before', '和转之前比', 'comparado con antes', '回転前との比較')}: ${cfmt(ov)}\nP(0) = ${cabs2(psi[0]).toFixed(2)}　P(1) = ${cabs2(psi[1]).toFixed(2)}` });
+    let msg = L('Press a gate and watch the arrow turn. Every gate is a unit quaternion q = cos(α/2) + n sin(α/2).', 'Pulsa una puerta y mira cómo gira la flecha. Cada puerta es un cuaternión unitario q = cos(α/2) + n sin(α/2).');
+    if (g.anim && g.last.length === 1) { const n = GATES[g.last].note; msg = L(n.en + ' (ignoring a global phase).', n.es + ' (salvo una fase global).'); }
+    else if (Math.abs(ad - 360) < 1) msg = L('Turned 360°: the arrow is back, but q = −1 and the state has an extra minus sign (a and b both flip).', 'Giro de 360°: la flecha vuelve, pero q = −1 y el estado tiene un signo menos de más (a y b cambian de signo).');
+    else if (Math.abs(ad - 720) < 1) msg = L('Turned 720°: q is back to +1, truly restored. One turn of q = two turns of the sphere.', 'Giro de 720°: q vuelve a +1 y todo se recupera de verdad. Una vuelta de q = dos vueltas de la esfera.');
+    else if (ad > 1) msg = L(`The sphere turns α = ${a0}°; the quaternion uses α/2 = ${a2}°.`, `La esfera gira α = ${a0}°; el cuaternión usa α/2 = ${a2}°.`);
+    info.set({ title: L('3 · Gates = rotations', '3 · Puertas = rotaciones'), big: fq(q),
+      body: `${msg}\n\na = ${cfmt(psi[0])}\nb = ${cfmt(psi[1])}\n${L('compared with before', 'comparado con antes')}: ${cfmt(ov)}\nP(0) = ${cabs2(psi[0]).toFixed(2)}　P(1) = ${cabs2(psi[1]).toFixed(2)}` });
   });
 }
 
@@ -320,38 +294,31 @@ function stationEntangle() {
   const e = { psi: ket00(), saved: null, anim: null, beta: 0, ta: 0, tb: 0, note: bellCaption(0), result: '', chsh: '' };
   const setPsi = (psi, keep = false) => { e.psi = psi; if (!keep) { e.saved = null; e.result = ''; } };
   const angles = [0, 45, 90, 135];
-  const bA = new Button3D('0°', () => { e.ta = angles[(angles.indexOf(e.ta) + 1) % 4]; bA.setLabel(e.ta + '°'); }, { sub: L('A direction', 'A 测量方向', 'dirección A', 'A の方向') });
-  const bB = new Button3D('0°', () => { e.tb = angles[(angles.indexOf(e.tb) + 1) % 4]; bB.setLabel(e.tb + '°'); }, { sub: L('B direction', 'B 测量方向', 'dirección B', 'B の方向') });
+  const bA = new Button3D('0°', () => { e.ta = angles[(angles.indexOf(e.ta) + 1) % 4]; bA.setLabel(e.ta + '°'); }, { sub: L('A direction', 'dirección A') });
+  const bB = new Button3D('0°', () => { e.tb = angles[(angles.indexOf(e.tb) + 1) % 4]; bB.setLabel(e.tb + '°'); }, { sub: L('B direction', 'dirección B') });
   const beta = d => {
     e.anim = null; e.beta = clamp(e.beta + d, 0, 180); setPsi(betaState(e.beta * D2R));
-    e.note = L(`Turn A by β = ${e.beta}°, then CNOT. β = 90° gives the most entanglement.`, `先把 A 转 β = ${e.beta}°，再 CNOT。β = 90° 纠缠最强。`,
-      `Gira A un ángulo β = ${e.beta}° y luego CNOT. β = 90° da el máximo entrelazamiento.`, `A を β = ${e.beta}° 回してから CNOT。β = 90° でもつれが最大です。`);
+    e.note = L(`Turn A by β = ${e.beta}°, then CNOT. β = 90° gives the most entanglement.`, `Gira A un ángulo β = ${e.beta}° y luego CNOT. β = 90° da el máximo entrelazamiento.`);
   };
   addConsole(st, [
     [new Button3D('|00⟩', () => { e.anim = null; e.beta = 0; setPsi(ket00()); e.note = bellCaption(0); e.chsh = ''; }),
-     new Button3D(L('Bell state', '贝尔态', 'Estado de Bell', 'ベル状態'), () => { e.beta = 0; setPsi(ket00()); e.anim = { u: 0, pause: 0 }; e.chsh = ''; },
-       { w: 0.2, sub: L('H then CNOT', 'H 然后 CNOT', 'H y luego CNOT', 'H のあと CNOT') }),
+     new Button3D(L('Bell state', 'Estado de Bell'), () => { e.beta = 0; setPsi(ket00()); e.anim = { u: 0, pause: 0 }; e.chsh = ''; },
+       { w: 0.2, sub: L('H then CNOT', 'H y luego CNOT') }),
      new Button3D('β −15°', () => beta(-15)), new Button3D('β +15°', () => beta(15)),
-     new Button3D('CNOT', () => { e.anim = null; setPsi(cnot(e.psi)); e.note = L('CNOT: flips B in the term where A is 1.', 'CNOT：A 是 1 的那一项里翻转 B。', 'CNOT: invierte B en el término donde A es 1.', 'CNOT：A が 1 の項で B を反転します。'); })],
+     new Button3D('CNOT', () => { e.anim = null; setPsi(cnot(e.psi)); e.note = L('CNOT: flips B in the term where A is 1.', 'CNOT: invierte B en el término donde A es 1.'); })],
     [bA, bB,
-     new Button3D(L('Measure', '测一次', 'Medir', '測定'), () => {
+     new Button3D(L('Measure', 'Medir'), () => {
        const base = e.saved || e.psi;
        const m = measureOnce(base, e.ta * D2R, e.tb * D2R);
        const s = i => (i ? '−' : '+'), same = m.ia === m.ib;
        setPsi(m.psi, true); e.saved = base;
-       e.result = L(`Result: A ${s(m.ia)}, B ${s(m.ib)} ${same ? '(same)' : '(different)'}. The arrows jump back to the sphere; the entanglement is used up.`,
-         `测量结果：A ${s(m.ia)}，B ${s(m.ib)}${same ? '（相同）' : '（不同）'}。箭头跳回球面，纠缠被用掉了。`,
-         `Resultado: A ${s(m.ia)}, B ${s(m.ib)} ${same ? '(iguales)' : '(distintos)'}. Las flechas vuelven a la esfera; el entrelazamiento se ha gastado.`,
-         `結果：A ${s(m.ia)}、B ${s(m.ib)}${same ? '（同じ）' : '（異なる）'}。矢印は球面に戻り、もつれは使い切られました。`);
+       e.result = L(`Result: A ${s(m.ia)}, B ${s(m.ib)} ${same ? '(same)' : '(different)'}. The arrows jump back to the sphere; the entanglement is used up.`, `Resultado: A ${s(m.ia)}, B ${s(m.ib)} ${same ? '(iguales)' : '(distintos)'}. Las flechas vuelven a la esfera; el entrelazamiento se ha gastado.`);
      }),
-     new Button3D(L('Restore', '恢复', 'Restaurar', '戻す'), () => { if (e.saved) setPsi(e.saved); }, { sub: L('pre-measurement', '测量前', 'antes de medir', '測定前') }),
+     new Button3D(L('Restore', 'Restaurar'), () => { if (e.saved) setPsi(e.saved); }, { sub: L('pre-measurement', 'antes de medir') }),
      new Button3D('CHSH', () => {
        const r = chsh(e.saved || e.psi, 1000), S2 = r.S.toFixed(2), over = Math.abs(r.S) > 2.05;
-       e.chsh = L(`CHSH: S = ${S2} (classical limit 2, quantum up to 2√2 ≈ 2.83)${over ? '. Above the classical limit!' : ''}`,
-         `CHSH：S = ${S2}（经典上限 2，量子最多 2√2 ≈ 2.83）${over ? '，超过了经典上限！' : ''}`,
-         `CHSH: S = ${S2} (límite clásico 2, cuántico hasta 2√2 ≈ 2,83)${over ? '. ¡Supera el límite clásico!' : ''}`,
-         `CHSH：S = ${S2}（古典的上限 2、量子では最大 2√2 ≈ 2.83）${over ? '。古典的上限を超えました！' : ''}`);
-     }, { sub: L('4 × 1000 runs', '4×1000 次', '4 × 1000 veces', '4 × 1000 回') })],
+       e.chsh = L(`CHSH: S = ${S2} (classical limit 2, quantum up to 2√2 ≈ 2.83)${over ? '. Above the classical limit!' : ''}`, `CHSH: S = ${S2} (límite clásico 2, cuántico hasta 2√2 ≈ 2,83)${over ? '. ¡Supera el límite clásico!' : ''}`);
+     }, { sub: L('4 × 1000 runs', '4 × 1000 veces') })],
   ]);
   tickers.push(dt => {
     if (e.anim) {
@@ -369,12 +336,8 @@ function stationEntangle() {
     E.setMeasure(dirXZ(e.ta * D2R), dirXZ(e.tb * D2R));
     E.tick(dt);
     const C = Math.min(1, concurrence(e.psi));
-    info.set({ title: L('4 · Entanglement', '4 · 量子纠缠', '4 · Entrelazamiento', '4 · 量子もつれ'), big: ketString(e.psi),
-      body: `${L('Entanglement C', '纠缠度 C', 'Entrelazamiento C', 'もつれ度 C')} = ${C.toFixed(2)}\n${e.note}\n${e.result}\n${e.chsh}\n\n` + L(
-        'Arrow length = how definite each qubit is on its own. The more entangled, the more the arrows shrink toward the centre. Dashed white lines are the measurement directions.',
-        '箭头长度 = 单个比特有多确定。纠缠越强，箭头越往球心缩。白色虚线是测量方向。',
-        'Longitud de la flecha = cuán definido es cada cúbit por sí solo. Cuanto más entrelazado, más se encogen hacia el centro. Las líneas blancas discontinuas son las direcciones de medida.',
-        '矢印の長さ = 各量子ビットが単独でどれだけ確定しているか。もつれが強いほど中心へ縮みます。白い破線は測定方向です。') });
+    info.set({ title: L('4 · Entanglement', '4 · Entrelazamiento'), big: ketString(e.psi),
+      body: `${L('Entanglement C', 'Entrelazamiento C')} = ${C.toFixed(2)}\n${e.note}\n${e.result}\n${e.chsh}\n\n` + L('Arrow length = how definite each qubit is on its own. The more entangled, the more the arrows shrink toward the centre. Dashed white lines are the measurement directions.', 'Longitud de la flecha = cuán definido es cada cúbit por sí solo. Cuanto más entrelazado, más se encogen hacia el centro. Las líneas blancas discontinuas son las direcciones de medida.') });
   });
 }
 
@@ -618,14 +581,10 @@ function controllerHover() {
 }
 
 // help card on the left controller
-const HELP = L(
-  'Trigger: press a button\nGrip: grab and move / turn the model you point at; grip with both hands to resize\nRight stick ↑↓: bring the station closer / push it away; ←→: rotate the model\nLeft stick: move the station left / right / up / down\nA / B: zoom the model in / out\nX: reset this station · Y: hide this card',
-  '扳机：按按钮\n握把：抓住你指着的模型来移动、旋转；双手握住可缩放\n右摇杆 ↑↓：把站点拉近 / 推远；←→：旋转模型\n左摇杆：左右、上下移动站点\nA / B：放大 / 缩小模型\nX：重置这个站点 · Y：隐藏这张卡片',
-  'Gatillo: pulsar un botón\nAgarre: toma el modelo al que apuntas para moverlo y girarlo; con las dos manos cambias su tamaño\nStick derecho ↑↓: acercar / alejar la estación; ←→: girar el modelo\nStick izquierdo: mover la estación a izquierda / derecha / arriba / abajo\nA / B: ampliar / reducir el modelo\nX: restablecer esta estación · Y: ocultar esta tarjeta',
-  'トリガー：ボタンを押す\nグリップ：指しているモデルをつかんで移動・回転。両手でつかむと拡大縮小\n右スティック ↑↓：ステーションを近づける / 遠ざける、←→：モデルを回転\n左スティック：ステーションを左右・上下に移動\nA / B：モデルを拡大 / 縮小\nX：このステーションをリセット · Y：このカードを隠す');
+const HELP = L('Trigger: press a button\nGrip: grab and move / turn the model you point at; grip with both hands to resize\nRight stick ↑↓: bring the station closer / push it away; ←→: rotate the model\nLeft stick: move the station left / right / up / down\nA / B: zoom the model in / out\nX: reset this station · Y: hide this card', 'Gatillo: pulsar un botón\nAgarre: toma el modelo al que apuntas para moverlo y girarlo; con las dos manos cambias su tamaño\nStick derecho ↑↓: acercar / alejar la estación; ←→: girar el modelo\nStick izquierdo: mover la estación a izquierda / derecha / arriba / abajo\nA / B: ampliar / reducir el modelo\nX: restablecer esta estación · Y: ocultar esta tarjeta');
 function attachHelp(grip) {
   if (helpPanel) return;
-  helpPanel = new TextPanel(0.3, 0.27, { title: L('Controls', '操作', 'Controles', '操作方法'), titleSize: 0.022, size: 0.0135, px: 2000, mathTitle: false });
+  helpPanel = new TextPanel(0.3, 0.27, { title: L('Controls', 'Controles'), titleSize: 0.022, size: 0.0135, px: 2000, mathTitle: false });
   helpPanel.set({ body: HELP });
   helpPanel.mesh.position.set(0, 0.06, -0.2);
   helpPanel.mesh.rotation.x = -0.9;
@@ -640,10 +599,7 @@ fontsReady().then(() => {
   stationEntangle();
 
   // labels on the floor pointing at each station
-  L(['1 Quaternions', '2 Hopf fibers', '3 Gates', '4 Entanglement'],
-    ['1 四元数', '2 霍普夫', '3 量子门', '4 纠缠'],
-    ['1 Cuaterniones', '2 Fibras de Hopf', '3 Puertas', '4 Entrelazamiento'],
-    ['1 四元数', '2 ホップファイバー', '3 量子ゲート', '4 量子もつれ']).forEach((t, n) => {
+  L(['1 Quaternions', '2 Hopf fibers', '3 Gates', '4 Entanglement'], ['1 Cuaterniones', '2 Fibras de Hopf', '3 Puertas', '4 Entrelazamiento']).forEach((t, n) => {
     const p = new TextPanel(0.7, 0.12, { title: t, titleSize: 0.065, bg: 'rgba(0,0,0,0)', mathTitle: false, titleColor: COLORS.muted });
     p.set({});
     const a = n * 90 * D2R;

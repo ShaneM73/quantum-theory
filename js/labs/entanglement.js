@@ -23,10 +23,10 @@ function render() {
   $('lenA').textContent = len(reducedBloch(st.psi, 0)).toFixed(2);
   $('lenB').textContent = len(reducedBloch(st.psi, 1)).toFixed(2);
   $('status').innerHTML = st.measured
-    ? L('<b>After measuring</b>: both arrows jumped onto their measurement directions (up or down) and are back on the sphere. The measurement used up the entanglement.', '<b>测量之后</b>：两个箭头跳到了测量方向上（向上或向下），重新顶在球面上。纠缠被测量“用掉”了。', '<b>Tras medir</b>: las dos flechas saltaron a sus direcciones de medida (arriba o abajo) y vuelven a tocar la esfera. La medida gastó el entrelazamiento.', '<b>測定後</b>：2 本の矢印は測定方向（上か下）へ飛び、再び球面に届いています。もつれは測定で「使い切られ」ました。')
-    : C > 0.98 ? L('<b>Maximally entangled</b>: both arrows have shrunk to the centre. The pair is completely definite, each qubit alone is completely random.', '<b>最大纠缠</b>：两个箭头都缩成了球心的点。整体完全确定，单看每个比特完全随机。', '<b>Entrelazamiento máximo</b>: las dos flechas se han encogido hasta el centro. El par está totalmente definido; cada cúbit por sí solo es completamente aleatorio.', '<b>最大のもつれ</b>：2 本の矢印はどちらも中心の点に縮みました。全体は完全に確定していますが、各量子ビットを単独で見ると完全にランダムです。')
-    : C > 0.02 ? L(`<b>Partly entangled</b> (C = ${C.toFixed(2)}): the arrows are shorter.`, `<b>部分纠缠</b>（C = ${C.toFixed(2)}）：箭头缩短了一些。`, `<b>Entrelazamiento parcial</b> (C = ${C.toFixed(2)}): las flechas son más cortas.`, `<b>部分的なもつれ</b>（C = ${C.toFixed(2)}）：矢印が少し短くなっています。`)
-    : L('<b>Not entangled</b>: both arrows reach the sphere. Each qubit has its own definite state.', '<b>没有纠缠</b>：两个箭头都顶在球面上，每个比特各有确定的状态。', '<b>Sin entrelazamiento</b>: las dos flechas llegan a la esfera. Cada cúbit tiene su propio estado definido.', '<b>もつれなし</b>：2 本の矢印はどちらも球面に届いています。各量子ビットはそれぞれ確定した状態です。');
+    ? L('<b>After measuring</b>: both arrows jumped onto their measurement directions (up or down) and are back on the sphere. The measurement used up the entanglement.', '<b>Tras medir</b>: las dos flechas saltaron a sus direcciones de medida (arriba o abajo) y vuelven a tocar la esfera. La medida gastó el entrelazamiento.')
+    : C > 0.98 ? L('<b>Maximally entangled</b>: both arrows have shrunk to the centre. The pair is completely definite, each qubit alone is completely random.', '<b>Entrelazamiento máximo</b>: las dos flechas se han encogido hasta el centro. El par está totalmente definido; cada cúbit por sí solo es completamente aleatorio.')
+    : C > 0.02 ? L(`<b>Partly entangled</b> (C = ${C.toFixed(2)}): the arrows are shorter.`, `<b>Entrelazamiento parcial</b> (C = ${C.toFixed(2)}): las flechas son más cortas.`)
+    : L('<b>Not entangled</b>: both arrows reach the sphere. Each qubit has its own definite state.', '<b>Sin entrelazamiento</b>: las dos flechas llegan a la esfera. Cada cúbit tiene su propio estado definido.');
   $('restore').disabled = !st.saved;
 }
 function setPsi(psi, { keepSaved = false } = {}) {
@@ -50,7 +50,7 @@ fontsReady().then(() => {
     st.anim = null;
     $('betaOut').textContent = deg(e.target.value);
     setPsi(betaState(+e.target.value * D2R));
-    $('stepText').textContent = L('β controls how much entanglement there is.', '用 β 控制纠缠多少。', 'β controla cuánto entrelazamiento hay.', 'β でもつれの量を調節します。');
+    $('stepText').textContent = L('β controls how much entanglement there is.', 'β controla cuánto entrelazamiento hay.');
   });
   $('betaOut').textContent = '0°';
   $('gates').addEventListener('click', e => {
@@ -70,7 +70,7 @@ fontsReady().then(() => {
     const m = measureOnce(base, +$('ta').value * D2R, +$('tb').value * D2R);
     st.saved = base; st.measured = true;
     const s = i => (i === 0 ? '+' : '−');
-    $('result').innerHTML = `${L('Result:', '结果：', 'Resultado:', '結果：')} <span class="qa">A ${s(m.ia)}</span>　<span class="qb">B ${s(m.ib)}</span>　${m.ia === m.ib ? L('(same)', '（相同）', '(iguales)', '（同じ）') : L('(different)', '（不同）', '(distintos)', '（異なる）')}`;
+    $('result').innerHTML = `${L('Result:', 'Resultado:')} <span class="qa">A ${s(m.ia)}</span>　<span class="qb">B ${s(m.ib)}</span>　${m.ia === m.ib ? L('(same)', '(iguales)') : L('(different)', '(distintos)')}`;
     setPsi(m.psi, { keepSaved: true });
   });
   $('restore').addEventListener('click', () => { if (st.saved) setPsi(st.saved); });
@@ -89,9 +89,9 @@ fontsReady().then(() => {
     const r = chsh(base, 1000);
     $('chshOut').hidden = false;
     $('chshBar').style.width = Math.min(100, Math.max(0, Math.abs(r.S) / 4 * 100)) + '%';
-    const verdict = Math.abs(r.S) > 2.05 ? L('Above the classical limit of 2: answers written down in advance cannot explain this.', '超过了经典上限 2：不能用“事先写好的答案”解释。', 'Supera el límite clásico de 2: unas respuestas escritas de antemano no pueden explicarlo.', '古典的上限 2 を超えました：あらかじめ書き込まれた答えでは説明できません。') : L('Not above 2. Try making a Bell state first.', '没有超过 2。试试先做贝尔态。', 'No supera 2. Prueba primero a construir un estado de Bell.', '2 を超えていません。先にベル状態を作ってみましょう。');
-    $('chshText').innerHTML = `S = <b>${r.S.toFixed(2)}</b> ${L('(A uses 0°/90°, B uses 45°/135°).', '（A 用 0°/90°，B 用 45°/135°）。', '(A usa 0°/90°, B usa 45°/135°).', '（A は 0°/90°、B は 45°/135°）。')} ${verdict}<br>` +
-      r.rows.map(x => `E(${x.a}°, ${x.b}°) = ${x.E.toFixed(2)}`).join(L(', ', '，', ', ', '、'));
+    const verdict = Math.abs(r.S) > 2.05 ? L('Above the classical limit of 2: answers written down in advance cannot explain this.', 'Supera el límite clásico de 2: unas respuestas escritas de antemano no pueden explicarlo.') : L('Not above 2. Try making a Bell state first.', 'No supera 2. Prueba primero a construir un estado de Bell.');
+    $('chshText').innerHTML = `S = <b>${r.S.toFixed(2)}</b> ${L('(A uses 0°/90°, B uses 45°/135°).', '(A usa 0°/90°, B usa 45°/135°).')} ${verdict}<br>` +
+      r.rows.map(x => `E(${x.a}°, ${x.b}°) = ${x.E.toFixed(2)}`).join(L(', ', ', '));
   });
 });
 

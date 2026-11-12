@@ -2,12 +2,12 @@
 // Classic script, load with `defer` before the page's module script.
 //
 // Language: English by default; others from ?lang=xx or a remembered choice. Elements keep English
-// as their content and carry translations in data-zh / data-es / data-ja (innerHTML), plus
-// data-xx-aria and data-xx-title for attributes, and <meta name="title-xx">.
+// as their content and carry the Spanish in data-es (innerHTML), plus data-es-aria and
+// data-es-title for attributes, and <meta name="title-es">.
 // Theme: 'dark' by default; 'light' (bright background for screenshots and figures) from
 // ?theme=light or a remembered choice. Sets <html data-theme>.
 (function () {
-  var LANGS = { en: 'en', zh: 'zh-CN', es: 'es', ja: 'ja' };
+  var LANGS = { en: 'en', es: 'es' };
   var THEMES = { dark: 1, light: 1 };
   var root = document.documentElement;
   var params = new URLSearchParams(location.search);

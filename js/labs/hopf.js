@@ -15,7 +15,7 @@ function readout() {
   const pa = cabs2(s[0]), pb = cabs2(s[1]);
   $('aP').textContent = pa.toFixed(3); $('bP').textContent = pb.toFixed(3);
   $('aBar').style.width = pa*100 + '%'; $('bBar').style.width = pb*100 + '%';
-  $('r4').textContent = tr('4D point (w, x, y, z) = (', '四维坐标 (w, x, y, z) = (', 'Punto 4D (w, x, y, z) = (', '4 次元座標 (w, x, y, z) = (') + r4OfState(s).map(x => (Math.abs(x) < 0.005 ? 0 : x).toFixed(2)).join(', ') + ')';
+  $('r4').textContent = tr('4D point (w, x, y, z) = (', 'Punto 4D (w, x, y, z) = (') + r4OfState(s).map(x => (Math.abs(x) < 0.005 ? 0 : x).toFixed(2)).join(', ') + ')';
   $('thOut').textContent = deg(H.params.th); $('phOut').textContent = deg(H.params.ph); $('gaOut').textContent = deg(H.params.ga);
 }
 function set(p) {
@@ -29,7 +29,7 @@ fontsReady().then(() => {
   L.scene.add(H.s3); R.scene.add(H.bloch.group);
   readout();
   ['th', 'ph', 'ga'].forEach(k => $(k).addEventListener('input', e => set({ [k]: +e.target.value })));
-  $('play').addEventListener('click', () => { playing = !playing; $('play').textContent = playing ? tr('Pause', '暂停', 'Pausa', '一時停止') : tr('Play', '播放', 'Reproducir', '再生'); });
+  $('play').addEventListener('click', () => { playing = !playing; $('play').textContent = playing ? tr('Pause', 'Pausa') : tr('Play', 'Reproducir'); });
   setFam = segmented('famSeg', v => set({ fam: v }));
   const fam = v => { setFam(v); set({ fam: v }); };
   $('goRing').addEventListener('click', () => fam('ring'));

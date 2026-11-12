@@ -22,11 +22,11 @@ export function bellPath(u) {
   return u <= 1 ? a : ctrlRy(a, Math.PI * (u - 1));
 }
 export function bellCaption(u) {
-  if (u <= 0) return L('Start from |00⟩: both arrows point to the north pole. Each qubit is completely definite.', '从 |00⟩ 开始：两个箭头都指向北极，各自完全确定。', 'Empieza desde |00⟩: las dos flechas apuntan al polo norte. Cada cúbit está totalmente definido.', '|00⟩ から始めます：2 本の矢印はどちらも北極を指し、各量子ビットは完全に確定しています。');
-  if (u < 1) return L('Step 1: H on A. The arrow of A turns from |0⟩ toward the equator. B does not move.', '第 1 步：H 作用在 A 上，A 的箭头从 |0⟩ 转向赤道。B 不动。', 'Paso 1: H sobre A. La flecha de A gira de |0⟩ hacia el ecuador. B no se mueve.', 'ステップ 1：A に H を作用させます。A の矢印は |0⟩ から赤道へ向かって回ります。B は動きません。');
-  if (u === 1) return L('Step 1 done: (|00⟩ + |10⟩)/√2. A is on the equator, B is still 0. No entanglement yet.', '第 1 步完成：(|00⟩ + |10⟩)/√2。A 在赤道上，B 还是 0，还没有纠缠。', 'Paso 1 hecho: (|00⟩ + |10⟩)/√2. A está en el ecuador y B sigue en 0. Aún no hay entrelazamiento.', 'ステップ 1 完了：(|00⟩ + |10⟩)/√2。A は赤道上、B はまだ 0 で、もつれはまだありません。');
-  if (u < 2) return L('Step 2: CNOT. In the term where A is 1, B gets flipped, and both arrows shrink toward the centre together.', '第 2 步：CNOT。A 是 1 的那一项里，B 被翻转……两个箭头一起往球心缩。', 'Paso 2: CNOT. En el término donde A es 1, B se invierte, y las dos flechas se encogen juntas hacia el centro.', 'ステップ 2：CNOT。A が 1 の項で B が反転し、2 本の矢印が一緒に中心へ縮んでいきます。');
-  return L('Done: (|00⟩ + |11⟩)/√2. Both arrows have shrunk to the centre: the pair is definite, but each qubit alone is completely random.', '完成：(|00⟩ + |11⟩)/√2。两个箭头都缩成球心的点：整体确定，单看每个都是完全随机的。', 'Hecho: (|00⟩ + |11⟩)/√2. Las dos flechas se han encogido hasta el centro: el par está definido, pero cada cúbit solo es completamente aleatorio.', '完成：(|00⟩ + |11⟩)/√2。2 本の矢印は中心の点に縮みました。全体は確定していますが、各量子ビットを単独で見ると完全にランダムです。');
+  if (u <= 0) return L('Start from |00⟩: both arrows point to the north pole. Each qubit is completely definite.', 'Empieza desde |00⟩: las dos flechas apuntan al polo norte. Cada cúbit está totalmente definido.');
+  if (u < 1) return L('Step 1: H on A. The arrow of A turns from |0⟩ toward the equator. B does not move.', 'Paso 1: H sobre A. La flecha de A gira de |0⟩ hacia el ecuador. B no se mueve.');
+  if (u === 1) return L('Step 1 done: (|00⟩ + |10⟩)/√2. A is on the equator, B is still 0. No entanglement yet.', 'Paso 1 hecho: (|00⟩ + |10⟩)/√2. A está en el ecuador y B sigue en 0. Aún no hay entrelazamiento.');
+  if (u < 2) return L('Step 2: CNOT. In the term where A is 1, B gets flipped, and both arrows shrink toward the centre together.', 'Paso 2: CNOT. En el término donde A es 1, B se invierte, y las dos flechas se encogen juntas hacia el centro.');
+  return L('Done: (|00⟩ + |11⟩)/√2. Both arrows have shrunk to the centre: the pair is definite, but each qubit alone is completely random.', 'Hecho: (|00⟩ + |11⟩)/√2. Las dos flechas se han encogido hasta el centro: el par está definido, pero cada cúbit solo es completamente aleatorio.');
 }
 
 export function ketString(psi) {
